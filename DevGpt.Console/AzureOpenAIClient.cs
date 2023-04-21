@@ -12,10 +12,15 @@ namespace DevGpt.Console
 
         public async Task<string> CompletePrompt(IList<ChatMessage> chatMessages)
         {
-            
+
+            // get environment variable 'DevGpt_AzureKey'
+            var azureKey = Environment.GetEnvironmentVariable("DevGpt_AzureKey",EnvironmentVariableTarget.User);
+            var uri = Environment.GetEnvironmentVariable("DevGpt_AzureUri",EnvironmentVariableTarget.User);
+
+
             OpenAIClient client = new OpenAIClient(
-                new Uri("https://martijnopenaieastus.openai.azure.com/"),
-                new AzureKeyCredential("5e7191ba6fac4765b7f9096b61f7aa4a"));
+                new Uri(uri),
+                new AzureKeyCredential(azureKey));
 
             // ### If streaming is selected
             var chatCompletionsOptions = new ChatCompletionsOptions()

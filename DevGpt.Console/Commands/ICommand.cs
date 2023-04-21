@@ -1,15 +1,16 @@
 ﻿public interface ICommand
 {
-    string Arguments { get; }
+    string[] Arguments { get; }
     string Description { get; }
     string Name { get; }
-    string Execute(string path);
+    string Execute(string[] args);
 }
 
 public static class CommandExtensions
 {
     public static string GetHelp(this ICommand command)
     {
-        return $"\"{command.Name}\" args: \"{command.Arguments}\" - {command.Description}";
+        var arguments = string.Join(",",command.Arguments.Select(arg=>$"\"{arg}\""));
+        return $"\"{command.Name}\" args: \"{arguments}\" - {command.Description}";
     }
 }

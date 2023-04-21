@@ -8,10 +8,11 @@ namespace DevGpt.Console.Commands
 {
     public class ReadFileCommand : ICommand
     {
-        public string Execute(string path)
+        public string Execute(params string[] args)
         {
             try
             {
+                var path = args[0];
                 return $"{Name} of '{path}' returned '{File.ReadAllText(path)}'";
 
             }
@@ -24,7 +25,7 @@ namespace DevGpt.Console.Commands
         public string Name => "read_file";
         public string Description => "reads a file";
 
-        public string Arguments => "path";
+        public string[] Arguments => new[] { "path" };
 
     }
 }

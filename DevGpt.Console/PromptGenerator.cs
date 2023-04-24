@@ -45,7 +45,8 @@ namespace DevGpt.Console
                                          "      {\r\n   \"text\": \"thought\",\r\n    " +
                                          "              \"reasoning\": \"reasoning\",\r\n    " +
                                          "              \"plan\": \"- short bulleted\\\\n- list that conveys\\\\n- long-term plan\",\r\n    " +
-                                         "              \"criticism\": \"constructive self-criticism\",        \r\n    \"speak\": \"thoughts summary to say to user\"\r\n     },\r\n    \"command\": {\r\n        \"name\": \"command name\",\r\n        \"args\": [\"arg1\",\"arg2\",..]\r\n    }\r\n}\r\n         \r\nEnsure the response can be parsed by Python json.loads'";
+                                         "              \"criticism\": \"constructive self-criticism\",        \r\n    " +
+                                         "\"speak\": \"thoughts summary to say to user\"\r\n     },\r\n    \"command\": {\r\n        \"name\": \"command name\",\r\n        \"args\": [\"arg1\",\"arg2\",..]\r\n    }\r\n}\r\n         \r\nEnsure the response can be parsed by Python json.loads'";
    
         public string GetFullPrompt(IList<ICommand> commands)
         {

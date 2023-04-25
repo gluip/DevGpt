@@ -1,2 +1,2 @@
 # DevGpt
-DevGpt is heavily inspired by Auto-GPT. This is however c# in stead of python
+DevGpt is heavily inspired on Auto-GPT. This is however c# in stead of python. Written by AI for AI

@@ -16,7 +16,8 @@ namespace DevGpt.Console
                                          "1. read the calculator class in ./SampleConsole/Calculator.cs\r\n" +
                                          "2. Write unit tests to the calculator class using xunit\r\n" +
                                          "3. Write the unit tests to a file in the ./Sampleconsole.Tests folder in your workspace\r\n" +
-                                         "4. Shut down\r\n\r\n" +
+                                         "4  Make sure all tests pass using dotnet test\r\n" +
+                                         "5. Shut down\r\n\r\n" +
                                          "Constraints:\r\n" +
                                          "1. ~4000 word limit for short term memory. Your short term memory is short, so immediately save important information to files.\r\n" +
                                          "2. If you are unsure how you previously did something or want to recall past events, thinking about similar events will help you remember.\r\n" +

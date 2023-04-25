@@ -12,16 +12,33 @@ namespace DevGpt.Console.Services
         public string CleanJsonResponse(string content)
         {
             // regex select text between quotes
-            
-            var regex = new Regex("\"([\\s\\S]*?)\"",RegexOptions.Multiline);
+
+            var regex = new Regex("\"([\\s\\S]*?)\"", RegexOptions.Multiline);
             var matches = regex.Matches(content);
             foreach (Match match in matches)
             {
                 var value = match.Value;
-                if (value.Contains("\r\n") )
+                if (value.Contains("\r\n"))
                 {
                     var newValue = value.Replace("\r\n", "\\r\\n");
                     content = content.Replace(value, newValue);
+                }
+            }
+
+            return content;
+        }
+
+        public string BalanceBraces(string content)
+        {
+            var jsonWithoutData = Regex.Replace(content,"\"([\\s\\S]*?)\"", "\"\"");
+            var leftBraces = jsonWithoutData.Count(x => x == '{');
+            var rightBraces = jsonWithoutData.Count(x => x == '}');
+            var difference = leftBraces - rightBraces;
+            if (difference > 0)
+            {
+                for (int i = 0; i < difference; i++)
+                {
+                    content += "}";
                 }
             }
 

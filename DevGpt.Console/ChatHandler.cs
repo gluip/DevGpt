@@ -19,7 +19,7 @@ namespace DevGpt.Console
                 ConsoleColor.Green : message.Role == ChatRole.Assistant ?
                 ConsoleColor.Red:
                 ConsoleColor.White;
-            System.Console.WriteLine(message.Role+ message.Content);
+            System.Console.WriteLine(message.Role + ":" + message.Content);
         }
 
     }

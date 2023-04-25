@@ -4,18 +4,20 @@ namespace MyApp;
 
 internal class CommandExecutor
 {
-    public static string Execute(string commandName, string[] args)
+    private readonly IList<ICommand> _commands;
+
+    public CommandExecutor(IList<ICommand> commands)
     {
-        switch (commandName)
+        _commands = commands;
+    }
+    public string Execute(string commandName, string[] args)
+    {
+        var command = _commands.FirstOrDefault(c => c.Name == commandName);
+        if (command == null)
         {
-            case "read_file":
-                return new ReadFileCommand().Execute(args);
-            case "write_file":
-                return new WriteFileCommand().Execute(args);
-            case "search_files":
-                return new SearchFilesCommand().Execute(args);
-            default:
-                return $"Command {commandName} not found. ";
+            return $"command {commandName} not found";
         }
+        return command.Execute(args);
+        
     }
 }

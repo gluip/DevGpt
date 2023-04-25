@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "DevGpt.Console": {
+      "commandName": "Project",
+      "workingDirectory": "C:\\DevGpt"
+    }
+  }
+}

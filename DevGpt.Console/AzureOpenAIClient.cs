@@ -1,5 +1,6 @@
 ﻿using Azure.AI.OpenAI;
 using Azure;
+using DevGpt.Console.Logging;
 
 
 namespace DevGpt.Console
@@ -40,7 +41,9 @@ namespace DevGpt.Console
                 deploymentOrModelName: "gpt35",
                 chatCompletionsOptions);
 
-            return completions.Value.Choices[0].Message.Content;
+            var messageContent = completions.Value.Choices[0].Message.Content;
+            Logger.LogReply(messageContent);
+            return messageContent;
 
 
         }

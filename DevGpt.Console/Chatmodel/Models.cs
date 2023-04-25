@@ -6,8 +6,6 @@ using System.Threading.Tasks;
 
 namespace DevGpt.Console.Chatmodel
 {
-    internal class Models
-    {
         public class Command
         {
             public string name { get; set; }
@@ -30,5 +28,5 @@ namespace DevGpt.Console.Chatmodel
         }
 
 
-    }
+    
 }

@@ -12,6 +12,13 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Remove="SampleConsole.Tests\sample.txt" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="SampleConsole.Tests\sample.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="SampleConsole\Calculator.cs">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>

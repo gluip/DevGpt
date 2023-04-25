@@ -26,7 +26,7 @@ namespace DevGpt.Console
             var chatCompletionsOptions = new ChatCompletionsOptions()
             {
                 Temperature = (float)0.5,
-                MaxTokens = 500,
+                MaxTokens = 1500,
                 NucleusSamplingFactor = (float)0.95,
                 FrequencyPenalty = 0,
                 PresencePenalty = 0,

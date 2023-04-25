@@ -14,7 +14,7 @@ public class SearchFilesCommand : ICommand
             var path = args[0];
             var searchPattern = args[1];
             var files = Directory.GetFiles(path, searchPattern).Select(f=>Path.GetFullPath(f));
-            return $"{Name} of '{path}' pattern '{searchPattern}' returned '{string.Join(",", files)}'";
+            return $"the command {Name} of '{path}' pattern '{searchPattern}' returned '{string.Join(",", files)}'";
         }
         catch (Exception ex)
         {

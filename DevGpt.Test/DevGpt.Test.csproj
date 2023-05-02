@@ -14,6 +14,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Remove="Services\apologies.txt" />
     <None Remove="Services\BadResponse.json" />
     <None Remove="Services\Sample.json" />
   </ItemGroup>
@@ -36,6 +37,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <EmbeddedResource Include="Services\apologies.txt" />
     <EmbeddedResource Include="Services\BadResponse.json" />
     <EmbeddedResource Include="Services\Sample.json" />
   </ItemGroup>

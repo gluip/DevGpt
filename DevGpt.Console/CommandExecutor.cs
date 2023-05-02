@@ -1,4 +1,5 @@
-﻿using DevGpt.Console.Commands;
+﻿using DevGpt.Console;
+using DevGpt.Console.Commands;
 
 namespace MyApp;
 
@@ -15,7 +16,8 @@ internal class CommandExecutor
         var command = _commands.FirstOrDefault(c => c.Name == commandName);
         if (command == null)
         {
-            return $"command {commandName} not found";
+            var commands = new PromptGenerator().GetCommandsText(_commands);
+            return $"command {commandName} not found. Please make sure you use on the following commands.\r\n{commands}";
         }
         return command.Execute(args);
         

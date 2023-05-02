@@ -21,7 +21,8 @@ namespace MyApp // Note: actual namespace depends on the project name.
                 new WriteFileCommand(),
                 new SearchFilesCommand(),
                 new ShutDownCommand(),
-                new ExecuteShellCommand()
+                new ExecuteShellCommand(),
+                new DotnetAddReferenceCommand()
             };
 
             var client = new AzureOpenAIClient();
@@ -39,9 +40,10 @@ namespace MyApp // Note: actual namespace depends on the project name.
            
             while (true)
             {
-                var asistantReplyText = await client.CompletePrompt(chatHandler.Messages);
-                 
-                var cleanedReplyText = _responseCleaner.CleanJsonResponse(asistantReplyText);
+                var assistantReplyText = await client.CompletePrompt(chatHandler.Messages);
+                
+                assistantReplyText = _responseCleaner.GetTextBetweenBraces(assistantReplyText);
+                var cleanedReplyText = _responseCleaner.CleanJsonResponse(assistantReplyText);
                 var balancedText = _responseCleaner.BalanceBraces(cleanedReplyText);
 
                 chatHandler.AddMessage(new ChatMessage(ChatRole.Assistant, balancedText));
@@ -51,6 +53,15 @@ namespace MyApp // Note: actual namespace depends on the project name.
                 WriteReply(asistantReply);
                 if (asistantReply.command != null)
                 {
+                    //check if command exists
+                    if (!commands.Any(c => c.Name == asistantReply.command.name))
+                    {
+                        chatHandler.AddMessage(new ChatMessage(ChatRole.User, $"Command '{asistantReply.command}' not found. Proceed to formulate a concrete command."));
+                        continue;
+                    }
+                    
+
+
                     //prompt user in a y/n question
                     Console.WriteLine($"Do you want to execute {asistantReply.command.name} ? (y/n)");
                     var response = Console.ReadLine();
@@ -74,15 +85,12 @@ namespace MyApp // Note: actual namespace depends on the project name.
                     chatHandler.AddMessage(new ChatMessage(ChatRole.User, result));
                 }
             }
-            
-
-
         }
 
         private static void WriteReply(AssitantReply asistantReply)
         {
             //write reply using colors
-            Console.ForegroundColor = ConsoleColor.Green;
+            Console.ForegroundColor = ConsoleColor.White;
             Console.WriteLine(asistantReply.thoughts.text);
             Console.ForegroundColor = ConsoleColor.White;
             Console.WriteLine(asistantReply.thoughts.reasoning);
@@ -97,7 +105,7 @@ namespace MyApp // Note: actual namespace depends on the project name.
             if (asistantReply.command != null)
             {
                 Console.WriteLine("Command: " + asistantReply.command.name);
-                Console.WriteLine("Args: "+ string.Join(",",asistantReply.command.args));
+                Console.WriteLine("Args: "+ string.Join(" ",asistantReply.command.args));
             }
 
         }

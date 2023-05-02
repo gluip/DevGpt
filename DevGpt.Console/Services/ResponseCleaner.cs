@@ -44,5 +44,16 @@ namespace DevGpt.Console.Services
 
             return content;
         }
+
+        public string GetTextBetweenBraces(string content)
+        {
+            var Regex = new Regex(@"({[\S\s]*})");
+            var match = Regex.Match(content);
+            if (match.Success)
+            {
+                return match.Value;
+            }
+            return content;
+        }
     }
 }

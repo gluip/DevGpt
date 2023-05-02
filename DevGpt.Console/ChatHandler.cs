@@ -14,6 +14,13 @@ namespace DevGpt.Console
         public void AddMessage(ChatMessage message)
         {
             Messages.Add(message);
+
+            //assistant messages are logged elsewhere
+            if (message.Role == ChatRole.Assistant)
+            {
+                return;
+            }
+
             //write to console color based on role
             System.Console.ForegroundColor = message.Role == ChatRole.User ? 
                 ConsoleColor.Green : message.Role == ChatRole.Assistant ?

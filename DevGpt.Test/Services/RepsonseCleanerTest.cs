@@ -39,6 +39,18 @@ namespace DevGpt.Test.Services
         }
 
         [Fact]
+        public void GetTextBetweenBraces_StripsExtraText()
+        {
+                        // read an embedded resource called sample.json
+            var content = GetEmbeddedResource("DevGpt.Test.Services.apologies.txt");
+            var cleaner = new ResponseCleaner();
+            var betweenBraces = cleaner.GetTextBetweenBraces(content);
+            var data = JsonConvert.DeserializeObject<AssitantReply>(betweenBraces);
+            Assert.NotNull(data);
+        }
+        
+
+        [Fact]
         public void SerializeJsonWithMultilineData()
         {
             var data = new JsonData

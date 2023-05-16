@@ -14,13 +14,11 @@ namespace DevGpt.Console
                                          "Your decisions must always be made independently without seeking user assistance. Play to your strengths as an LLM and pursue simple strategies with no legal complications." +
                                          "\\n\\n" +
                                          "GOALS:\\n\\n\r\n\r\n" +
-                                         "1. read the calculator class in ./SampleConsoleStatic/Calculator.cs\r\n" +
-                                         "2. modify the static calculator class to no longer be static and modify usage in the program"+
-                                         "3. Write unit tests to the calculator class using xunit. \r\n" +
-                                         "4. Create a new test project ./SampleConsole.Tests. \r\n" +
-                                         "5. Write the unit tests to a file in the ./Sampleconsole.Tests folder in your workspace\r\n" +
-                                         "6.  Make sure all tests pass using dotnet test\r\n" +
-                                         "7. Shut down\r\n\r\n" +
+                                         "1. read the calculator class in ./SampleConsole/Calculator.cs\r\n" +
+                                         "2. Write unit tests to the calculator class using xunit\r\n" +
+                                         "3. Write the unit tests to a file in the ./Sampleconsole.Tests folder in your workspace\r\n" +
+                                         "4  Make sure all tests pass using dotnet test\r\n" +
+                                         "5. Shut down\r\n\r\n" +
                                          "Constraints:\r\n" +
                                          "1. ~4000 word limit for short term memory. Your short term memory is short, so immediately save important information to files.\r\n" +
                                          "2. If you are unsure how you previously did something or want to recall past events, thinking about similar events will help you remember.\r\n" +

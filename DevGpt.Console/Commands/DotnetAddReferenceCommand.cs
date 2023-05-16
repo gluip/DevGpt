@@ -20,7 +20,7 @@ namespace DevGpt.Console.Commands
             }
             // start in a proces dotnet add ./PrimeService.Tests/PrimeService.Tests.csproj reference ./PrimeService/PrimeService.csproj
 
-            return new ExecuteShellCommand().Execute("dotnet", $"add ${args[0]} reference {args[1]}");
+            return new ExecuteShellCommand().Execute("dotnet", $"add {args[0]} reference {args[1]}");
 
         }
 

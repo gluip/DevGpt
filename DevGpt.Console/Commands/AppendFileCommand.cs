@@ -2,7 +2,7 @@
 
 namespace DevGpt.Console.Commands;
 
-public class WriteFileCommand : ICommand
+public class AppendFileCommand : ICommand
 {
     public string Execute(params string[] args)
     {
@@ -15,7 +15,7 @@ public class WriteFileCommand : ICommand
         {
             var path = args[0];
             var content = args[1];
-            File.WriteAllText(path, content);
+            File.AppendAllText(path, content);
             return $"{Name} of '{path}' succeeded";
         }
         catch (Exception ex)
@@ -23,8 +23,8 @@ public class WriteFileCommand : ICommand
             return $"{Name} failed with the following error: {ex.Message}";
         }
     }
-    public string Name => "write_file";
-    public string Description => "writes a file";
+    public string Name => "append_file";
+    public string Description => "appends text to a file";
     public string[] Arguments => new[]{"path","content"};
 
 }

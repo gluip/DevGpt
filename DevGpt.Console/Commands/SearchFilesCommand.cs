@@ -1,4 +1,6 @@
-﻿namespace DevGpt.Console.Commands;
+﻿using DevGpt.Models.Commands;
+
+namespace DevGpt.Console.Commands;
 
 public class SearchFilesCommand : ICommand
 {

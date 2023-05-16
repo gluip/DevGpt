@@ -3,23 +3,22 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using DevGpt.Models.Commands;
 
 namespace DevGpt.Console
 {
-    internal class PromptGenerator
+    internal class PromptGenerator_Accountant
     {
         public const string SystemPrompt = "You are an AI assistant that helps people in coding tasks.";
-        public string GetUserPrompt(string commandsText)=>"You are 'Senior Developer', an AI designed to improve and develop c# code. Expert in writing unit tests and well versed in principles of programming. You are focused on delivering code and modifying files.\\n" +
+        public string GetUserPrompt(string commandsText)=>"You are 'Senior accountant', an AI designed to accurately handle document processing. You are focused on being accurate and complete.\\n" +
                                          "Your decisions must always be made independently without seeking user assistance. Play to your strengths as an LLM and pursue simple strategies with no legal complications." +
                                          "\\n\\n" +
                                          "GOALS:\\n\\n\r\n\r\n" +
-                                         "1. read the calculator class in ./SampleConsoleStatic/Calculator.cs\r\n" +
-                                         "2. modify the static calculator class to no longer be static and modify usage in the program"+
-                                         "3. Write unit tests to the calculator class using xunit. \r\n" +
-                                         "4. Create a new test project ./SampleConsole.Tests. \r\n" +
-                                         "5. Write the unit tests to a file in the ./Sampleconsole.Tests folder in your workspace\r\n" +
-                                         "6.  Make sure all tests pass using dotnet test\r\n" +
-                                         "7. Shut down\r\n\r\n" +
+                                         "1. read the summaries example the invoices-example.csv file\r\n" +
+                                         "2. read the pdf invoices in the q1 folder\r\n" +
+                                         "3. after reading each invoice append the summary to a invoices.csv file\r\n" +
+                                         "4. make sure you use the same format as in the example.\r\n" +
+                                         "5. Shut down\r\n\r\n" +
                                          "Constraints:\r\n" +
                                          "1. ~4000 word limit for short term memory. Your short term memory is short, so immediately save important information to files.\r\n" +
                                          "2. If you are unsure how you previously did something or want to recall past events, thinking about similar events will help you remember.\r\n" +

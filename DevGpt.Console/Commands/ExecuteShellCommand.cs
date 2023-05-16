@@ -1,4 +1,5 @@
 ﻿using System.Diagnostics;
+using DevGpt.Models.Commands;
 
 namespace DevGpt.Console.Commands;
 

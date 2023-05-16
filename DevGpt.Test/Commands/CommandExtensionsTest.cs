@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using DevGpt.Console.Commands;
+using DevGpt.Models.Commands;
 
 namespace DevGpt.Test.Commands
 {

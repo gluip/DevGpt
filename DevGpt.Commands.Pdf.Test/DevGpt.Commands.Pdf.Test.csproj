@@ -10,16 +10,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="Services\TextFile.cs" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Remove="Services\apologies.txt" />
-    <None Remove="Services\BadResponse.json" />
-    <None Remove="Services\Sample.json" />
-  </ItemGroup>
-
-  <ItemGroup>
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.5.0" />
     <PackageReference Include="xunit" Version="2.4.2" />
     <PackageReference Include="xunit.runner.visualstudio" Version="2.4.5">
@@ -33,22 +23,11 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\DevGpt.Console\DevGpt.Console.csproj" />
-    <ProjectReference Include="..\DevGpt.Models\DevGpt.Models.csproj" />
+    <ProjectReference Include="..\DevGpt.Commands.Pdf\DevGpt.Commands.Pdf.csproj" />
   </ItemGroup>
 
   <ItemGroup>
-    <EmbeddedResource Include="Services\apologies.txt" />
-    <EmbeddedResource Include="Services\BadResponse.json" />
-    <EmbeddedResource Include="Services\Sample.json" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <EmbeddedResource Include="Services\TextFile.cs" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Update="sample.txt">
+    <None Update="Sample\Factuur.pdf">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>

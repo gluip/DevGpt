@@ -38,7 +38,7 @@ namespace DevGpt.Console
                 chatCompletionsOptions.Messages.Add(message);
             }
             var completions = await client.GetChatCompletionsAsync(
-                deploymentOrModelName: "gpt35",
+                deploymentOrModelName: "gpt4",
                 chatCompletionsOptions);
 
             var messageContent = completions.Value.Choices[0].Message.Content;

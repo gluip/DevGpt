@@ -17,7 +17,11 @@ namespace DevGpt.Console
             // get environment variable 'DevGpt_AzureKey'
             var azureKey = Environment.GetEnvironmentVariable("DevGpt_AzureKey",EnvironmentVariableTarget.User);
             var uri = Environment.GetEnvironmentVariable("DevGpt_AzureUri",EnvironmentVariableTarget.User);
-
+            if (string.IsNullOrWhiteSpace(azureKey) || string.IsNullOrWhiteSpace(uri) )
+            {
+                throw new ArgumentException(
+                    "Make sure you have an environment variable DevGpt_AzureKey and DevGpt_AzureUri.");
+            }
 
             OpenAIClient client = new OpenAIClient(
                 new Uri(uri),

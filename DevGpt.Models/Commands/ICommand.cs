@@ -1,4 +1,6 @@
-﻿public interface ICommand
+﻿namespace DevGpt.Models.Commands;
+
+public interface ICommand
 {
     string[] Arguments { get; }
     string Description { get; }

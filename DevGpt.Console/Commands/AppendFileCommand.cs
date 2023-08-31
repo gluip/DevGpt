@@ -16,6 +16,7 @@ public class AppendFileCommand : ICommand
             var path = args[0];
             var content = args[1];
             File.AppendAllText(path, content);
+            File.AppendAllText(path,Environment.NewLine);
             return $"{Name} of '{path}' succeeded";
         }
         catch (Exception ex)

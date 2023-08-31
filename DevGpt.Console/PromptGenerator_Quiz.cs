@@ -7,17 +7,16 @@ using DevGpt.Models.Commands;
 
 namespace DevGpt.Console
 {
-    internal class PromptGenerator_Accountant
+    internal class PromptGenerator_Quiz
     {
-        public const string SystemPrompt = "You are an AI assistant that helps people in coding tasks.";
-        public string GetUserPrompt(string commandsText)=>"You are 'Senior accountant', an AI designed to accurately handle document processing. You are focused on being accurate and complete.\\n" +
-                                         "Your decisions must always be made independently without seeking user assistance. Play to your strengths as an LLM and pursue simple strategies with no legal complications." +
+        public const string SystemPrompt = "You are an AI assistant that helps people in various tasks.";
+        public string GetUserPrompt(string commandsText)=>"You are a student trying to pass an exam. " +
+                                         "Play to your strengths as an LLM and pursue simple strategies with no legal complications." +
                                          "\\n\\n" +
                                          "GOALS:\\n\\n\r\n\r\n" +
-                                         "1. read the the invoices.csv file in the Invoices folder and notice the header\r\n" +
-                                         "2. read the pdf invoices in the Invoices folder\r\n" +
-                                         "3. after reading each invoice append each invoice to the csv on a new line\r\n" +
-                                         "4. make sure you use the same format as in the example.\r\n" +
+                                         "1. read the questions in quiz.txt file in the Quiz folder\r\n" +
+                                         "2. write the answers to all the questions in a answers.txt file in the Quiz folder\r\n" +
+                                         "3. Make sure all answers are correct\r\n" +
                                          "5. Shut down\r\n\r\n" +
                                          "Constraints:\r\n" +
                                          "1. ~4000 word limit for short term memory. Your short term memory is short, so immediately save important information to files.\r\n" +

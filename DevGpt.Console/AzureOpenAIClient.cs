@@ -2,6 +2,8 @@
 using Azure;
 using DevGpt.Console.Logging;
 
+using System;
+using SharpToken;
 
 namespace DevGpt.Console
 {
@@ -37,15 +39,50 @@ namespace DevGpt.Console
             {
                 chatCompletionsOptions.Messages.Add(message);
             }
+
+
+
+            //use sharptoken to calculate number of tokens in chatCompletionsOptions.Messages
+            var tokenCount = GetTokenCount(chatCompletionsOptions);
+
+            System.Console.ForegroundColor = ConsoleColor.Blue;
+            System.Console.WriteLine($"Estimated {tokenCount} tokens ");
+            while (tokenCount > 6000)
+            {
+                //insomnia!
+                System.Console.ForegroundColor = ConsoleColor.Yellow;
+                System.Console.WriteLine($"Forgetting stuff to make room");
+
+                chatCompletionsOptions.Messages.RemoveAt(2);
+                tokenCount = GetTokenCount(chatCompletionsOptions);
+            }
+
+
             var completions = await client.GetChatCompletionsAsync(
                 deploymentOrModelName: "gpt4",
                 chatCompletionsOptions);
 
             var messageContent = completions.Value.Choices[0].Message.Content;
             Logger.LogReply(messageContent);
+
+            System.Console.ForegroundColor = ConsoleColor.Blue;
+            System.Console.WriteLine($"Usage {completions.Value.Usage.TotalTokens} tokens ");
+
             return messageContent;
 
 
+        }
+
+        private static int GetTokenCount(ChatCompletionsOptions chatCompletionsOptions)
+        {
+            var encoding = GptEncoding.GetEncodingForModel("gpt-4");
+            var tokenCount = 0;
+            foreach (var message in chatCompletionsOptions.Messages)
+            {
+                tokenCount += encoding.Encode(message.Content).Count;
+            }
+
+            return tokenCount;
         }
     }
 }

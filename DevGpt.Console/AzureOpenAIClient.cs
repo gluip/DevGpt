@@ -47,15 +47,6 @@ namespace DevGpt.Console
 
             System.Console.ForegroundColor = ConsoleColor.Blue;
             System.Console.WriteLine($"Estimated {tokenCount} tokens ");
-            while (tokenCount > 6000)
-            {
-                //insomnia!
-                System.Console.ForegroundColor = ConsoleColor.Yellow;
-                System.Console.WriteLine($"Forgetting stuff to make room");
-
-                chatCompletionsOptions.Messages.RemoveAt(2);
-                tokenCount = GetTokenCount(chatCompletionsOptions);
-            }
 
 
             var completions = await client.GetChatCompletionsAsync(

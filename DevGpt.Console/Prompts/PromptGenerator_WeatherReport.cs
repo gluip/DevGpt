@@ -5,20 +5,18 @@ using System.Text;
 using System.Threading.Tasks;
 using DevGpt.Models.Commands;
 
-namespace DevGpt.Console
+namespace DevGpt.Console.Prompts
 {
-    internal class PromptGenerator_Accountant
+    internal class PromptGenerator_WeatherReport
     {
         public const string SystemPrompt = "You are an AI assistant that helps people in coding tasks.";
-        public string GetUserPrompt(string commandsText)=>"You are 'Senior accountant', an AI designed to accurately handle document processing. You are focused on being accurate and complete.\\n" +
+        public string GetUserPrompt(string commandsText) => "You are 'journalist', an AI designed to accurately handle document processing. You are focused on being accurate and complete.\\n" +
                                          "Your decisions must always be made independently without seeking user assistance. Play to your strengths as an LLM and pursue simple strategies with no legal complications." +
                                          "\\n\\n" +
                                          "GOALS:\\n\\n\r\n\r\n" +
-                                         "1. read the the invoices.csv file in the Invoices folder and notice the header\r\n" +
-                                         "2. read the pdf invoices in the Invoices folder\r\n" +
-                                         "3. after reading each invoice append each invoice to the csv on a new line\r\n" +
-                                         "4. make sure you use the same format as in the example.\r\n" +
-                                         "5. Shut down\r\n\r\n" +
+                                         "1. find out the weather for the coming 5 days in Hilversum using google" +
+                                         "2. write a weather report in dutch of 50 words. Save it in a file called weer.txt\r\n" +
+                                         "3. Shut down\r\n\r\n" +
                                          "Constraints:\r\n" +
                                          "1. ~4000 word limit for short term memory. Your short term memory is short, so immediately save important information to files.\r\n" +
                                          "2. If you are unsure how you previously did something or want to recall past events, thinking about similar events will help you remember.\r\n" +
@@ -49,7 +47,7 @@ namespace DevGpt.Console
                                          "              \"plan\": \"- short bulleted\\\\n- list that conveys\\\\n- long-term plan\",\r\n    " +
                                          "              \"criticism\": \"constructive self-criticism\",        \r\n    " +
                                          "\"speak\": \"thoughts summary to say to user\"\r\n     },\r\n    \"command\": {\r\n        \"name\": \"command name\",\r\n        \"args\": [\"arg1\",\"arg2\",..]\r\n    }\r\n}\r\n         \r\nEnsure the response can be parsed by c# JsonSerializer.Deserialize. Make sure endline characters in json values are double encoded using \\\\r\\\\n\r\n";
-   
+
         public string GetFullPrompt(IList<ICommand> commands)
         {
             var commandsText = GetCommandsText(commands);

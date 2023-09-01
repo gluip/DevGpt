@@ -17,8 +17,8 @@ public class BrowseWebsiteCommand : ICommand
             var url = args[0];
             var web = new HtmlWeb();
             var doc = web.Load(url);
-            
-            return doc.DocumentNode.InnerText;//.ParsedText;
+
+            return doc.DocumentNode.InnerText;
 
         }
         catch (Exception ex)

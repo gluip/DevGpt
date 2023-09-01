@@ -7,11 +7,13 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DevGpt.Console", "DevGpt.Co
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DevGpt.Test", "DevGpt.Test\DevGpt.Test.csproj", "{29B98480-D823-4427-9F04-AD71E96D16B1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DevGpt.Commands.Pdf", "DevGpt.Commands.Pdf\DevGpt.Commands.Pdf.csproj", "{C4BB93D1-D6DB-41F5-8E4B-77BDA15813D4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DevGpt.Commands.Pdf", "DevGpt.Commands.Pdf\DevGpt.Commands.Pdf.csproj", "{C4BB93D1-D6DB-41F5-8E4B-77BDA15813D4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DevGpt.Models", "DevGpt.Models\DevGpt.Models.csproj", "{85F8D154-6829-45E6-B2F7-CBF83E16055C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DevGpt.Models", "DevGpt.Models\DevGpt.Models.csproj", "{85F8D154-6829-45E6-B2F7-CBF83E16055C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DevGpt.Commands.Pdf.Test", "DevGpt.Commands.Pdf.Test\DevGpt.Commands.Pdf.Test.csproj", "{8E002428-EA9A-4692-91CA-04DE50FC872C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DevGpt.Commands.Pdf.Test", "DevGpt.Commands.Pdf.Test\DevGpt.Commands.Pdf.Test.csproj", "{8E002428-EA9A-4692-91CA-04DE50FC872C}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DevGpt.Commands.Web", "DevGpt.Commands.Web\DevGpt.Commands.Web.csproj", "{B38020BF-D6AF-4F27-BD20-1E779378D3BC}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -39,6 +41,10 @@ Global
 		{8E002428-EA9A-4692-91CA-04DE50FC872C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8E002428-EA9A-4692-91CA-04DE50FC872C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8E002428-EA9A-4692-91CA-04DE50FC872C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B38020BF-D6AF-4F27-BD20-1E779378D3BC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B38020BF-D6AF-4F27-BD20-1E779378D3BC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B38020BF-D6AF-4F27-BD20-1E779378D3BC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B38020BF-D6AF-4F27-BD20-1E779378D3BC}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

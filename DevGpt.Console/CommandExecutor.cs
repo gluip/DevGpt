@@ -1,5 +1,6 @@
 ﻿using DevGpt.Console;
 using DevGpt.Console.Commands;
+using DevGpt.Console.Prompts;
 using DevGpt.Models.Commands;
 
 namespace MyApp;

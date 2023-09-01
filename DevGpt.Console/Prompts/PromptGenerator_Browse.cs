@@ -5,22 +5,18 @@ using System.Text;
 using System.Threading.Tasks;
 using DevGpt.Models.Commands;
 
-namespace DevGpt.Console
+namespace DevGpt.Console.Prompts
 {
-    internal class PromptGenerator_Developer
+    internal class PromptGenerator_Browse
     {
         public const string SystemPrompt = "You are an AI assistant that helps people in coding tasks.";
-        public string GetUserPrompt(string commandsText)=>"You are 'Senior Developer', an AI designed to improve and develop c# code. Expert in writing unit tests and well versed in principles of programming. You are focused on delivering code and modifying files.\\n" +
-                                         "Your decisions must always be made independently without seeking user assistance. " +
-                                         "Play to your strengths as an LLM and pursue simple strategies with no legal complications." +
+        public string GetUserPrompt(string commandsText) => "You are 'journalist', an AI designed to accurately handle document processing. You are focused on being accurate and complete.\\n" +
+                                         "Your decisions must always be made independently without seeking user assistance. Play to your strengths as an LLM and pursue simple strategies with no legal complications." +
                                          "\\n\\n" +
                                          "GOALS:\\n\\n\r\n\r\n" +
-                                         "1. read the calculator class in ./SampleConsole/Calculator.cs\r\n" +
-                                         "2. Write unit tests to the calculator class using xunit\r\n" +
-                                         "3. Create a test project in ./SampleConsole.Tests folder.\r\n" +
-                                         "4. Write the unit tests to a file in the ./Sampleconsole.Tests folder in your workspace\r\n" +
-                                         "5. Make sure all tests pass using dotnet test\r\n" +
-                                         "6. Shut down\r\n\r\n" +
+                                         "1. read the article at 'https://www.nu.nl/binnenland/6278990/provincie-moet-terug-naar-tekentafel-om-wolf-te-beschieten-met-paintballgeweer.html'\r\n" +
+                                         "2. write a summary of the article in 200 words in english. Save it in a file called wolf.txt\r\n" +
+                                         "3. Shut down\r\n\r\n" +
                                          "Constraints:\r\n" +
                                          "1. ~4000 word limit for short term memory. Your short term memory is short, so immediately save important information to files.\r\n" +
                                          "2. If you are unsure how you previously did something or want to recall past events, thinking about similar events will help you remember.\r\n" +
@@ -51,7 +47,7 @@ namespace DevGpt.Console
                                          "              \"plan\": \"- short bulleted\\\\n- list that conveys\\\\n- long-term plan\",\r\n    " +
                                          "              \"criticism\": \"constructive self-criticism\",        \r\n    " +
                                          "\"speak\": \"thoughts summary to say to user\"\r\n     },\r\n    \"command\": {\r\n        \"name\": \"command name\",\r\n        \"args\": [\"arg1\",\"arg2\",..]\r\n    }\r\n}\r\n         \r\nEnsure the response can be parsed by c# JsonSerializer.Deserialize. Make sure endline characters in json values are double encoded using \\\\r\\\\n\r\n";
-   
+
         public string GetFullPrompt(IList<ICommand> commands)
         {
             var commandsText = GetCommandsText(commands);

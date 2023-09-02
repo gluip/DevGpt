@@ -7,18 +7,18 @@ using DevGpt.Models.Commands;
 
 namespace DevGpt.Console.Prompts
 {
-    internal class PromptGenerator_Accountant
+    internal class PromptGenerator_WebTester
     {
-        public const string SystemPrompt = "You are an AI assistant that helps people in coding tasks.";
-        public string GetUserPrompt(string commandsText) => "You are 'Senior accountant', an AI designed to accurately handle document processing. You are focused on being accurate and complete.\\n" +
+        public const string SystemPrompt = "You are an AI test assistant that helps people in testing web pages.";
+        public string GetUserPrompt(string commandsText) => "You are 'webtester', an AI designed to test web pages. You are focused on being accurate and complete.\\n" +
                                          "Your decisions must always be made independently without seeking user assistance. Play to your strengths as an LLM and pursue simple strategies with no legal complications." +
                                          "\\n\\n" +
+                                         "You want to test a form hosted at https://www.berekenhet.nl/kalender/weekdag-datum.html \r\n"+
                                          "GOALS:\\n\\n\r\n\r\n" +
-                                         "1. read the the invoices.csv file in the Invoices folder and notice the header\r\n" +
-                                         "2. read the pdf invoices in the Invoices folder\r\n" +
-                                         "3. after reading each invoice append each invoice to the csv on a new line\r\n" +
-                                         "4. make sure you use the same format as in the example.\r\n" +
-                                         "5. Shut down\r\n\r\n" +
+                                         "1. open the page at https://www.berekenhet.nl/kalender/weekdag-datum.html\r\n" +
+                                         "1. fill in the form for december 12th 1979\r\n" +
+                                         "2. make sure the forms says the day is a wednesday \r\n" +
+                                         "3. Shut down\r\n\r\n" +
                                          "Constraints:\r\n" +
                                          "1. ~4000 word limit for short term memory. Your short term memory is short, so immediately save important information to files.\r\n" +
                                          "2. If you are unsure how you previously did something or want to recall past events, thinking about similar events will help you remember.\r\n" +

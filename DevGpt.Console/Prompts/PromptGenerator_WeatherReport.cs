@@ -48,13 +48,13 @@ namespace DevGpt.Console.Prompts
                                          "              \"criticism\": \"constructive self-criticism\",        \r\n    " +
                                          "\"speak\": \"thoughts summary to say to user\"\r\n     },\r\n    \"command\": {\r\n        \"name\": \"command name\",\r\n        \"args\": [\"arg1\",\"arg2\",..]\r\n    }\r\n}\r\n         \r\nEnsure the response can be parsed by c# JsonSerializer.Deserialize. Make sure endline characters in json values are double encoded using \\\\r\\\\n\r\n";
 
-        public string GetFullPrompt(IList<ICommand> commands)
+        public string GetFullPrompt(IList<ICommandBase> commands)
         {
             var commandsText = GetCommandsText(commands);
             return GetUserPrompt(commandsText);
         }
 
-        public string GetCommandsText(IList<ICommand> commands)
+        public string GetCommandsText(IList<ICommandBase> commands)
         {
             var commandsText = string.Join("\n", commands.Select(c => c.GetHelp()));
             commandsText += "\n\n";

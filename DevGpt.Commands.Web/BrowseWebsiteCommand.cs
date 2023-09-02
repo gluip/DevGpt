@@ -27,7 +27,7 @@ public class BrowseWebsiteCommand : ICommand
         }
     }
     public string Name => "browse_website";
-    public string Description => "browser a website and returns the text on the page";
+    public string Description => "browses a website and returns the text on the page";
     public string[] Arguments => new[]{"url"};
 
 }

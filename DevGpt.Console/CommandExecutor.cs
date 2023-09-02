@@ -7,13 +7,13 @@ namespace MyApp;
 
 internal class CommandExecutor
 {
-    private readonly IList<ICommand> _commands;
+    private readonly IList<ICommandBase> _commands;
 
-    public CommandExecutor(IList<ICommand> commands)
+    public CommandExecutor(IList<ICommandBase> commands)
     {
         _commands = commands;
     }
-    public string Execute(string commandName, string[] args)
+    public async Task<string> Execute(string commandName, string[] args)
     {
         var command = _commands.FirstOrDefault(c => c.Name == commandName);
         if (command == null)
@@ -21,7 +21,12 @@ internal class CommandExecutor
             var commands = new PromptGenerator_Accountant().GetCommandsText(_commands);
             return $"command {commandName} not found. Please make sure you use on the following commands.\r\n{commands}";
         }
-        return command.Execute(args);
+
+        if (command is IAsyncCommand asyncCommand)
+        {
+            return await asyncCommand.ExecuteAsync(args);
+        }
+        return (command as ICommand)?.Execute(args) ?? throw new InvalidOperationException();
         
     }
 }

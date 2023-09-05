@@ -15,6 +15,13 @@ internal class CommandExecutor
     }
     public async Task<string> Execute(string commandName, string[] args)
     {
+        // remove double encoding from args
+        for (int i = 0; i < args.Length; i++)
+        {
+            args[i] = args[i].Replace("\\n", "\n");
+        }
+
+
         var command = _commands.FirstOrDefault(c => c.Name == commandName);
         if (command == null)
         {

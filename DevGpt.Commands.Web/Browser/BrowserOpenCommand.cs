@@ -20,8 +20,9 @@ public class BrowserOpenCommand : IAsyncCommand
         }
 
         try
-        {
-            return await _browser.OpenPage(args[0]);
+        { 
+            await _browser.OpenPage(args[0]);
+            return await _browser.GetPageHtml();
 
         }
         catch (Exception ex)
@@ -30,7 +31,7 @@ public class BrowserOpenCommand : IAsyncCommand
         }
     }
     public string Name => "browser_open_page";
-    public string Description => "opens the browser for the specific page";
+    public string Description => "opens the browser for the specific page. returns the page content";
     public string[] Arguments => new[] { "url" };
 
 }

@@ -7,10 +7,9 @@ using DevGpt.Models.Commands;
 
 namespace DevGpt.Console.Prompts
 {
-    internal class PromptGenerator_Quiz
+    internal class PromptGenerator_Quiz: PromptGeneratorBase
     {
-        public const string SystemPrompt = "You are an AI assistant that helps people in various tasks.";
-        public string GetUserPrompt(string commandsText) => "You are a student trying to pass an exam. " +
+        public override string GetUserPrompt(string commandsText) => "You are a student trying to pass an exam. " +
                                          "Play to your strengths as an LLM and pursue simple strategies with no legal complications." +
                                          "\\n\\n" +
                                          "GOALS:\\n\\n\r\n\r\n" +
@@ -49,17 +48,6 @@ namespace DevGpt.Console.Prompts
                                          "              \"criticism\": \"constructive self-criticism\",        \r\n    " +
                                          "\"speak\": \"thoughts summary to say to user\"\r\n     },\r\n    \"command\": {\r\n        \"name\": \"command name\",\r\n        \"args\": [\"arg1\",\"arg2\",..]\r\n    }\r\n}\r\n         \r\nEnsure the response can be parsed by c# JsonSerializer.Deserialize. Make sure endline characters in json values are double encoded using \\\\r\\\\n\r\n";
 
-        public string GetFullPrompt(IList<ICommand> commands)
-        {
-            var commandsText = GetCommandsText(commands);
-            return GetUserPrompt(commandsText);
-        }
-
-        public string GetCommandsText(IList<ICommand> commands)
-        {
-            var commandsText = string.Join("\n", commands.Select(c => c.GetHelp()));
-            commandsText += "\n\n";
-            return commandsText;
-        }
+        
     }
 }

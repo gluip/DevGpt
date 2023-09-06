@@ -18,7 +18,7 @@ internal class CommandExecutor
         // remove double encoding from args
         for (int i = 0; i < args.Length; i++)
         {
-            args[i] = args[i].Replace("\\n", "\n");
+            args[i] = args[i].Replace("\\n", "\n").Replace("\\r","\r");
         }
 
 

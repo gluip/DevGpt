@@ -12,8 +12,8 @@ public class RamMemoryManagerTest
         manager.StoreMessage("Koningin beatrix");
 
         // retrieve
-        var topMessage = manager.RetrieveRelevantMemory("heineken");
-        var wimLexMesage = manager.RetrieveRelevantMemory("willem alexander");
+        var topMessage = manager.RetrieveRelevantMessages("heineken");
+        var wimLexMesage = manager.RetrieveRelevantMessages("willem alexander");
 
     }
 }

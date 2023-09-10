@@ -4,15 +4,23 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using DevGpt.Memory;
 
 namespace DevGpt.Console
 {
     internal class ChatHandler
     {
+        private readonly IMemoryManager _memoryManager;
+        public ChatHandler(IMemoryManager memoryManager)
+        {
+            _memoryManager = memoryManager;
+        }
         public IList<ChatMessage> Messages { get; } = new List<ChatMessage>();
 
         public void AddMessage(ChatMessage message)
         {
+            _memoryManager.StoreMessage(message.Content);
+
             Messages.Add(message);
 
             //assistant messages are logged elsewhere

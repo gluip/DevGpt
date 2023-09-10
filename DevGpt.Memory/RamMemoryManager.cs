@@ -3,13 +3,7 @@ using Azure.AI.OpenAI;
 
 namespace DevGpt.Memory;
 
-public class Memory
-{
-    public string message { get; set; }
-    public IReadOnlyList<float> embedding { get; set; }
-}
-
-public class RamMemoryManager 
+public class RamMemoryManager : IMemoryManager
 {
     private IList<Memory> memories = new List<Memory>();
 
@@ -42,7 +36,7 @@ public class RamMemoryManager
         return returnValue.Value.Data[0].Embedding;
     }
 
-    public IList<string> RetrieveRelevantMemory(string message,int count =1)
+    public IList<string> RetrieveRelevantMessages(string message,int count =1)
     {
         var embedding = GetEmbedding(message);
         var relevantMemory = memories.OrderByDescending(m => GetDotProduct(m.embedding, embedding));

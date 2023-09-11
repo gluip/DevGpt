@@ -9,6 +9,7 @@ public class RamMemoryManager : IMemoryManager
 
     public void StoreMessage(string message)
     {
+        //return;
         var embedding = GetEmbedding(message);
 
         memories.Add(new Memory

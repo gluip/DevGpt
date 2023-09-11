@@ -33,7 +33,8 @@ internal class CommandExecutor
         {
             return await asyncCommand.ExecuteAsync(args);
         }
-        return (command as ICommand)?.Execute(args) ?? throw new InvalidOperationException();
+        return (command as ICommand)?.Execute(args) ?? 
+               throw new InvalidOperationException();
         
     }
 }

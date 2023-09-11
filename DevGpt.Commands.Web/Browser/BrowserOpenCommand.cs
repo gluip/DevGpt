@@ -22,8 +22,7 @@ public class BrowserOpenCommand : IAsyncCommand
         try
         { 
             await _browser.OpenPage(args[0]);
-            return await _browser.GetPageHtml();
-
+            return $"{Name} of '{args[0]}' returned : " + await _browser.GetPageHtml();
         }
         catch (Exception ex)
         {

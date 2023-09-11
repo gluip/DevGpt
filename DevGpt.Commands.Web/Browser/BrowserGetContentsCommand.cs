@@ -21,7 +21,7 @@ public class BrowserGetHtmlCommand : IAsyncCommand
 
         try
         {
-            return await _browser.GetPageHtml();
+            return $"{Name} returned : " + await _browser.GetPageHtml();
 
         }
         catch (Exception ex)

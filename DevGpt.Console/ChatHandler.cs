@@ -29,6 +29,16 @@ namespace DevGpt.Console
                 return;
             }
 
+            //if (message.Role == ChatRole.User)
+            //{
+            //    var relevantMessages = _memoryManager.RetrieveRelevantMessages(message.Content, 3);
+            //    foreach (var relevantMessage in relevantMessages)
+            //    {
+            //        System.Console.ForegroundColor = ConsoleColor.Yellow;
+            //        System.Console.WriteLine($"Memory: {relevantMessage}");
+            //    }
+            //}
+
             //write to console color based on role
             System.Console.ForegroundColor = message.Role == ChatRole.User ? 
                 ConsoleColor.Green : message.Role == ChatRole.Assistant ?

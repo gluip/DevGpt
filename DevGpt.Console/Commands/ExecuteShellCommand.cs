@@ -31,7 +31,7 @@ public class ExecuteShellCommand : ICommand
             var output = process.StandardOutput.ReadToEnd();
             var error = process.StandardError.ReadToEnd();
             process.WaitForExit();
-            return $"the command {Name} of '{command}' returned '{output}' and '{error}'";
+            return $"the command {Name} of '{command} {arguments}' returned '{output}' and '{error}'";
         }
         catch (Exception ex)
         {

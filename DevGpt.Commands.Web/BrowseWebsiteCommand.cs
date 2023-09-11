@@ -18,7 +18,7 @@ public class BrowseWebsiteCommand : ICommand
             var web = new HtmlWeb();
             var doc = web.Load(url);
 
-            return doc.DocumentNode.InnerText;
+            return $"{Name} of {url} returned : "+doc.DocumentNode.InnerText;
 
         }
         catch (Exception ex)

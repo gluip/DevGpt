@@ -15,7 +15,6 @@
   <ItemGroup>
     <ProjectReference Include="..\DevGpt.Commands.Pdf\DevGpt.Commands.Pdf.csproj" />
     <ProjectReference Include="..\DevGpt.Commands.Web\DevGpt.Commands.Web.csproj" />
-    <ProjectReference Include="..\DevGpt.Memory\DevGpt.Memory.csproj" />
     <ProjectReference Include="..\DevGpt.Models\DevGpt.Models.csproj" />
   </ItemGroup>
 

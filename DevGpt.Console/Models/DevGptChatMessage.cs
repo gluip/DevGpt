@@ -8,5 +8,5 @@ public class DevGptChatMessage:ChatMessage
     {
     }
 
-    public int Index { get; set; }
+    public bool IsContext { get; set; }
 }

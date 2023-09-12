@@ -4,24 +4,21 @@ using DevGpt.Console.Logging;
 
 using System;
 using System.ComponentModel.Design.Serialization;
-using DevGpt.Memory;
 using SharpToken;
 
 namespace DevGpt.Console
 {
     public class AzureOpenAIClient
     {
-        private readonly IMemoryManager _memoryManager;
-
-        public AzureOpenAIClient(IMemoryManager memoryManager)
+        
+        public AzureOpenAIClient()
         {
-            _memoryManager = memoryManager;
         }
 
         public async Task<string> CompletePrompt(IList<ChatMessage> allMessages)
         {
             //mission statement..first message
-            var messagesToSend = GetMessagesToSend(allMessages);
+            //var messagesToSend = GetMessagesToSend(allMessages);
 
 
             // get environment variable 'DevGpt_AzureKey'
@@ -43,7 +40,7 @@ namespace DevGpt.Console
                 PresencePenalty = 0,
 
             };
-            foreach (var message in messagesToSend)
+            foreach (var message in allMessages)
             {
                 chatCompletionsOptions.Messages.Add(message);
             }
@@ -61,7 +58,6 @@ namespace DevGpt.Console
                 chatCompletionsOptions);
 
             var messageContent = completions.Value.Choices[0].Message.Content;
-            Logger.LogReply(messageContent);
 
             System.Console.ForegroundColor = ConsoleColor.Blue;
             System.Console.WriteLine($"Usage {completions.Value.Usage.TotalTokens} tokens ");
@@ -71,35 +67,7 @@ namespace DevGpt.Console
 
         }
 
-        private IList<ChatMessage> GetMessagesToSend(IList<ChatMessage> allMessages)
-        {
-            // no too many messages
-            if (allMessages.Count <= 5)
-            {
-                return allMessages;
-            }
-
-            var lastMessage = allMessages.Last();
-
-            var messagesToSend = new List<ChatMessage> { allMessages.First() };
-
-            //latest message
-
-            //relevant x messages
-            var relevantMessages = _memoryManager.RetrieveRelevantMessages(lastMessage.Content, 5);
-
-            foreach (var message in allMessages.Skip(1).Take(allMessages.Count - 2))
-            {
-                if (relevantMessages.Any(rm => rm == message.Content && message.Content != lastMessage.Content))
-                {
-                    messagesToSend.Add(message);
-                }
-            }
-
-            messagesToSend.Add(lastMessage);
-            return messagesToSend;
-
-        }
+        
 
         private static int GetTokenCount(ChatCompletionsOptions chatCompletionsOptions)
         {

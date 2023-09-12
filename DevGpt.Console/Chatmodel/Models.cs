@@ -2,10 +2,23 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.Json;
 using System.Threading.Tasks;
 
 namespace DevGpt.Console.Chatmodel
 {
+        public class UserReply
+        {
+            
+            public string result { get; set; }
+
+            public string resultsummary { get; set; }
+
+            public string GetContent()
+            {
+                return result;
+            }
+        }
         public class Command
         {
             public string name { get; set; }
@@ -16,6 +29,11 @@ namespace DevGpt.Console.Chatmodel
         {
             public Thoughts thoughts { get; set; }
             public Command command { get; set; }
+
+            public string GetContent()
+            {
+                return JsonSerializer.Serialize(this);
+            }
         }
 
         public class Thoughts

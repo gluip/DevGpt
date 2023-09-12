@@ -4,23 +4,28 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using DevGpt.Memory;
+using DevGpt.Console.Logging;
+using DevGpt.Console.Models;
 
 namespace DevGpt.Console
 {
     internal class ChatHandler
     {
-        private readonly IMemoryManager _memoryManager;
-        public ChatHandler(IMemoryManager memoryManager)
+        private  IList<DevGptChatMessage> Messages { get; set; } = new List<DevGptChatMessage>();
+
+        public IList<ChatMessage> GetMessages()
         {
-            _memoryManager = memoryManager;
+            var result = Messages.Select(m=>m as ChatMessage).ToList();
+            //remove all context messages from the list
+            Messages = Messages.Where(m => !m.IsContext).ToList();
+            return result;
+
         }
-        public IList<ChatMessage> Messages { get; } = new List<ChatMessage>();
 
-        public void AddMessage(ChatMessage message)
+        public void AddMessage(DevGptChatMessage message)
         {
-            _memoryManager.StoreMessage(message.Content);
-
+            //_memoryManager.StoreMessage(message.Content);
+            Logger.LogMessage(message.Role +":" + message.Content);
             Messages.Add(message);
 
             //assistant messages are logged elsewhere

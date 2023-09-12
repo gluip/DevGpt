@@ -14,12 +14,12 @@ namespace DevGpt.Console.Prompts
                                          "You want write a test using xunit and Playwright." +
                                          "You test should do test the form hosted at https://www.berekenhet.nl/kalender/weekdag-datum.html \r\n"+
                                          "GOALS:\\n\\n\r\n\r\n" +
-                                         "1. create a xunit project called berekenTest" +
-                                         "2. install playwright into the project" +
-                                         "3. check the page and determine the selectors to use" +
+                                         "1. create a xunit project called berekenTest\r\n" +
+                                         "2. install playwright nuget   into the project\r\n" +
+                                         "3. check the page and determine the css selectors to use later in the test for both the form and result page\r\n" +
                                          "4a. write a test that opens the page at https://www.berekenhet.nl/kalender/weekdag-datum.html\r\n" +
                                          "4b. fills in the form for december 12th 1979\r\n" +
-                                         "4c. asserts the forms says the day is a wednesday \r\n" +
+                                         "4c. asserts the result page shows the day is a wednesday \r\n" +
                                          "5. run the test and see it passes\r\n" +
                                          "6. Shut down\r\n\r\n" +
                                          "Constraints:\r\n" +
@@ -51,6 +51,6 @@ namespace DevGpt.Console.Prompts
                                          "              \"reasoning\": \"reasoning\",\r\n    " +
                                          "              \"plan\": \"- short bulleted\\\\n- list that conveys\\\\n- long-term plan\",\r\n    " +
                                          "              \"criticism\": \"constructive self-criticism\",        \r\n    " +
-                                         "\"speak\": \"thoughts summary to say to user\"\r\n     },\r\n    \"command\": {\r\n        \"name\": \"command name\",\r\n        \"args\": [\"arg1\",\"arg2\",..]\r\n    }\r\n}\r\n         \r\nEnsure the response can be parsed by c# JsonSerializer.Deserialize. Make sure endline characters in json values are double encoded using \\\\r\\\\n\r\n";
+                                         "\"speak\": \"thoughts summary to say to user\"\r\n     },\r\n    \"command\": {\r\n        \"name\": \"command name\",\r\n        \"args\": [\"arg1\",\"arg2\",..]\r\n    }\r\n}\r\n         \r\nEnsure the response can be parsed by c# JsonSerializer.Deserialize and always include thoughts. Make sure endline characters in json values are double encoded using \\\\r\\\\n\r\n";
     }
 }

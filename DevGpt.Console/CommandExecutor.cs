@@ -13,7 +13,7 @@ internal class CommandExecutor
     {
         _commands = commands;
     }
-    public async Task<string> Execute(string commandName, string[] args)
+    public async Task<ComplexResult> Execute(string commandName, string[] args)
     {
         // remove double encoding from args
         for (int i = 0; i < args.Length; i++)
@@ -26,14 +26,27 @@ internal class CommandExecutor
         if (command == null)
         {
             var commands = new PromptGenerator_Accountant().GetCommandsText(_commands);
-            return $"command {commandName} not found. Please make sure you use on the following commands.\r\n{commands}";
+            return new ComplexResult
+            {
+                Result =
+                    $"command {commandName} not found. Please make sure you use on the following commands.\r\n{commands}"
+            };
         }
 
         if (command is IAsyncCommand asyncCommand)
         {
-            return await asyncCommand.ExecuteAsync(args);
+            return new ComplexResult { Result = await asyncCommand.ExecuteAsync(args) };
         }
-        return (command as ICommand)?.Execute(args) ?? throw new InvalidOperationException();
+
+        if (command is IComplexCommand complexCommand)
+        {
+            return await complexCommand.ExecuteAsync(args);
+        }
+
+        var result = (command as ICommand)?.Execute(args); 
+       
+
+        return result != null ? new ComplexResult{Result = result}:throw new InvalidOperationException();
         
     }
 }

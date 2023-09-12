@@ -3,25 +3,30 @@ using Azure;
 using DevGpt.Console.Logging;
 
 using System;
+using System.ComponentModel.Design.Serialization;
 using SharpToken;
 
 namespace DevGpt.Console
 {
     public class AzureOpenAIClient
     {
+        
         public AzureOpenAIClient()
         {
         }
 
-        public async Task<string> CompletePrompt(IList<ChatMessage> chatMessages)
+        public async Task<string> CompletePrompt(IList<ChatMessage> allMessages)
         {
+            //mission statement..first message
+            //var messagesToSend = GetMessagesToSend(allMessages);
+
 
             // get environment variable 'DevGpt_AzureKey'
-            var azureKey = Environment.GetEnvironmentVariable("DevGpt_AzureKey",EnvironmentVariableTarget.User);
-            var uri = Environment.GetEnvironmentVariable("DevGpt_AzureUri",EnvironmentVariableTarget.User);
+            var azureKey = Environment.GetEnvironmentVariable("DevGpt_AzureKey", EnvironmentVariableTarget.User);
+            var uri = Environment.GetEnvironmentVariable("DevGpt_AzureUri", EnvironmentVariableTarget.User);
 
 
-            OpenAIClient client = new OpenAIClient(
+            var client = new OpenAIClient(
                 new Uri(uri),
                 new AzureKeyCredential(azureKey));
 
@@ -35,11 +40,10 @@ namespace DevGpt.Console
                 PresencePenalty = 0,
 
             };
-            foreach (var message in chatMessages)
+            foreach (var message in allMessages)
             {
                 chatCompletionsOptions.Messages.Add(message);
             }
-
 
 
             //use sharptoken to calculate number of tokens in chatCompletionsOptions.Messages
@@ -50,11 +54,10 @@ namespace DevGpt.Console
 
 
             var completions = await client.GetChatCompletionsAsync(
-                deploymentOrModelName: "gpt4-32k",
+                deploymentOrModelName: "gpt4",
                 chatCompletionsOptions);
 
             var messageContent = completions.Value.Choices[0].Message.Content;
-            Logger.LogReply(messageContent);
 
             System.Console.ForegroundColor = ConsoleColor.Blue;
             System.Console.WriteLine($"Usage {completions.Value.Usage.TotalTokens} tokens ");
@@ -63,6 +66,8 @@ namespace DevGpt.Console
 
 
         }
+
+        
 
         private static int GetTokenCount(ChatCompletionsOptions chatCompletionsOptions)
         {

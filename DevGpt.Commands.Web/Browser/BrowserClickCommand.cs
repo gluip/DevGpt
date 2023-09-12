@@ -22,7 +22,7 @@ public class BrowserClickCommand : IAsyncCommand
         try
         {
             await _browser.ClickAsync(args[0]);
-            return "Element clicked";
+            return $"Element {args[0]} clicked";
         }
         catch (TimeoutException e)
         {

@@ -22,7 +22,7 @@ public class BrowserEnterInputCommand : IAsyncCommand
         try
         {
             await _browser.FillAsync(args[0], args[1]);
-            return "Input entered";
+            return $"Input '{args[1]}' entered at selector '{args[0]}'";
         }
         catch (TimeoutException e)
         {

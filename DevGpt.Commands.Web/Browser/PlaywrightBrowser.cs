@@ -5,6 +5,7 @@ namespace DevGpt.Commands.Web.Browser;
 
 public class PlaywrightBrowser : IBrowser,IDisposable
 {
+    private const int DefaultTimeout = 10000;
     private IPage _page;
     private IPlaywright _playwright;
     private Microsoft.Playwright.IBrowser _browser;
@@ -32,7 +33,7 @@ public class PlaywrightBrowser : IBrowser,IDisposable
 
         });
 
-        _page.Context.SetDefaultTimeout(3000);
+        _page.Context.SetDefaultTimeout(DefaultTimeout);
 
         await _page.GotoAsync(url);
 

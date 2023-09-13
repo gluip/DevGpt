@@ -21,6 +21,8 @@ namespace DevGpt.Console // Note: actual namespace depends on the project name.
 
         static async Task Main(string[] args)
         {
+
+
             var browser = new PlaywrightBrowser();
 
             var commands = new ICommandBase[]

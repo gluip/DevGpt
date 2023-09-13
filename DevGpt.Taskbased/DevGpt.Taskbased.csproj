@@ -17,19 +17,11 @@
 
   <ItemGroup>
     <PackageReference Include="Azure.AI.OpenAI" Version="1.0.0-beta.5" />
-    <PackageReference Include="SharpToken" Version="1.2.8" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\DevGpt.Commands.Pdf\DevGpt.Commands.Pdf.csproj" />
-    <ProjectReference Include="..\DevGpt.Commands.Web\DevGpt.Commands.Web.csproj" />
-    <ProjectReference Include="..\DevGpt.Commands\DevGpt.Commands.csproj" />
     <ProjectReference Include="..\DevGpt.Models\DevGpt.Models.csproj" />
     <ProjectReference Include="..\DevGpt.OpenAI\DevGpt.OpenAI.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Models\" />
   </ItemGroup>
 
 </Project>

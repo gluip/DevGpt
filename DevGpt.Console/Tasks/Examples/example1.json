@@ -1,0 +1,21 @@
+[
+  {
+    "objective": "Write a xUnit project with unit tests for the SampleConsole c# application",
+    "task_list": [
+      {
+        "id": 1,
+        "task": "Inspect which files include the sampleconsole application",
+        "command": "search_files",
+        "dependent_task_ids": [],
+        "status": "incomplete"
+      },
+      {
+        "id": 2,
+        "task": "Add a task to write unit tests for each file found",
+        "command": "add_task",
+        "dependent_task_ids": [ 1 ],
+        "status": "incomplete"
+      }
+    ]
+  }
+]

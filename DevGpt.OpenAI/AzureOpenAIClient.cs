@@ -1,6 +1,5 @@
 ﻿using Azure.AI.OpenAI;
 using Azure;
-using DevGpt.Console.Logging;
 
 using System;
 using System.ComponentModel.Design.Serialization;
@@ -8,7 +7,12 @@ using SharpToken;
 
 namespace DevGpt.Console
 {
-    public class AzureOpenAIClient
+    public interface IAzureOpenAIClient
+    {
+        Task<string> CompletePrompt(IList<ChatMessage> allMessages);
+    }
+
+    public class AzureOpenAIClient : IAzureOpenAIClient
     {
         
         public AzureOpenAIClient()

@@ -1,4 +1,6 @@
-﻿namespace DevGpt.Console.Tasks; 
+﻿using System.Text.Json.Serialization;
+
+namespace DevGpt.Console.Tasks; 
 
 public class DevGptTask
 {
@@ -6,8 +8,17 @@ public class DevGptTask
     public string task { get; set; }
     public string command { get; set; }
     public List<int> dependent_task_ids { get; set; }
-    public string status { get; set; } = "pending";
+
+    [JsonConverter(typeof(JsonStringEnumConverter))]
+    public TaskStatus status { get; set; } = TaskStatus.pending;//"pending";
     public string[] arguments { get; set; }
 
     public string result { get; set; } = "not yet run";
+}
+
+public enum TaskStatus
+{
+    pending,
+    completed,
+    failed
 }

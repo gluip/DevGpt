@@ -15,12 +15,17 @@ namespace DevGpt.Console.Tasks
         private readonly IAzureOpenAIClient _openAiClient;
         private readonly IList<ICommandBase> _commands;
         private readonly IDeveloper _developer;
+        private readonly IResponseParser _responseParser;
+        private readonly IMessageHandler _messageHandler;
 
-        public TaskReasoningEngine(IAzureOpenAIClient openAiClient, IList<ICommandBase> commands,IDeveloper developer)
+        public TaskReasoningEngine(IAzureOpenAIClient openAiClient, IList<ICommandBase> commands,
+            IDeveloper developer,IResponseParser responseParser, IMessageHandler messageHandler)
         {
             _openAiClient = openAiClient;
             _commands = commands;
             _developer = developer;
+            _responseParser = responseParser;
+            _messageHandler = messageHandler;
         }
 
 
@@ -45,25 +50,27 @@ namespace DevGpt.Console.Tasks
                 Environment.NewLine
                 + "Make sure all task IDs are in chronological order.###\n" + Environment.NewLine
                 + $"OBJECTIVE={project.Objective}" + Environment.NewLine
-                + $"EXAMPLE TASK LIST={JsonSerializer.Serialize(project.TaskList,new JsonSerializerOptions{WriteIndented = true})}" + Environment.NewLine;
-
+                + $"EXAMPLE TASK_LIST={JsonSerializer.Serialize(project.TaskList,new JsonSerializerOptions{WriteIndented = true})} ###END###" + Environment.NewLine
+                +$"TASK_LIST=..... ###END###";
             // green prompt
-            System.Console.ForegroundColor = ConsoleColor.Green;
-            System.Console.WriteLine(prompt);
+            _messageHandler.HandleMessage(ChatRole.User, prompt);
 
             var response = await _openAiClient.CompletePrompt(new List<ChatMessage>
                 { new ChatMessage(ChatRole.User, prompt) });
 
-            System.Console.ForegroundColor = ConsoleColor.Red;
-            System.Console.WriteLine(response);
-
-            //ask developer to solve the first task
+            _messageHandler.HandleMessage(ChatRole.Assistant, response);
             
-            while (!project.TaskList.All(c => c.status == "completed"))
-            {
-                var task = project.TaskList.First(t=>t.status != "completed");
-                await _developer.ExecuteTask(project.Objective, task);
-            }
+
+            project.TaskList = _responseParser.GetTaskList(response);
+
+            //ask developer to solve the project
+            await _developer.ExecuteTask(project);
+
+            //while (!project.TaskList.All(c => c.status == "completed"))
+            //{
+            //    var task = project.TaskList.First(t=>t.status != "completed");
+                
+            //}
         }
     }
 

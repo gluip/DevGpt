@@ -1,5 +1,6 @@
 using DevGpt.Console.Tasks;
 using Microsoft.VisualBasic.CompilerServices;
+using TaskStatus = DevGpt.Console.Tasks.TaskStatus;
 
 namespace DevGpt.Taskbased.Test
 {
@@ -20,7 +21,7 @@ namespace DevGpt.Taskbased.Test
                         arguments = new[] { "dotnet new console -o myApp" },
                         dependent_task_ids = new List<int>(),
                         id = 0,
-                        status = "not_started",
+                        status = TaskStatus.pending
                     },
                     new DevGptTask
                     {
@@ -29,7 +30,7 @@ namespace DevGpt.Taskbased.Test
                         arguments = new[] { "dotnet build myApp" },
                         dependent_task_ids = new List<int> { 0 },
                         id = 1,
-                        status = "not_started"
+                        status = TaskStatus.pending
                     }
                 }
             };

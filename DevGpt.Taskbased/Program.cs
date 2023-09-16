@@ -33,8 +33,10 @@ namespace DevGpt.Taskbased // Note: actual namespace depends on the project name
             System.Console.WriteLine("Hello, World!");
             var azureOpenAiClient = new AzureOpenAIClient();
             var commandExecutor = new CommandExecutor(commands);
-            var developer = new Developer(azureOpenAiClient, commands,commandExecutor);
-            var engine = new TaskReasoningEngine(azureOpenAiClient, commands,developer );
+            var responseParser = new ResponseParser();
+            var messageHandler = new MessageHandler();
+            var developer = new Developer(azureOpenAiClient, commands,commandExecutor,messageHandler,responseParser);
+            var engine = new TaskReasoningEngine(azureOpenAiClient, commands,developer,responseParser,messageHandler );
             await engine.SolveObjective(ConsoleAppFactory.GetConsoleAppProject());
         }
     }

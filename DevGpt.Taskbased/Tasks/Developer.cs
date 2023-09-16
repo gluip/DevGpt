@@ -1,6 +1,6 @@
 ﻿using System.Reflection;
 using System.Text.Json;
-using System.Text.RegularExpressions;
+using System.Threading.Tasks;
 using Azure.AI.OpenAI;
 using DevGpt.Models.Commands;
 using MyApp;
@@ -13,82 +13,72 @@ class Developer : IDeveloper
     private readonly IAzureOpenAIClient _openAiClient;
     private readonly IList<ICommandBase> _commands;
     private readonly ICommandExecutor _commandExecutor;
+    private readonly IMessageHandler _messageHandler;
+    private readonly IResponseParser _responseParser;
 
-    public Developer(IAzureOpenAIClient openAiClient,IList<ICommandBase> commands, ICommandExecutor commandExecutor)
+    public Developer(IAzureOpenAIClient openAiClient,IList<ICommandBase> commands, ICommandExecutor commandExecutor,
+        IMessageHandler messageHandler,IResponseParser responseParser)
     {
         _openAiClient = openAiClient;
         _commands = commands;
         _commandExecutor = commandExecutor;
+        _messageHandler = messageHandler;
+        _responseParser = responseParser;
     }
 
 
-    public async Task<DevGptTask> ExecuteTask(string objective, DevGptTask task)
+    public async Task ExecuteTask(Project project)
     {
-        //var commandsText = string.Join("\n", _commands.Select(c => c.GetHelp()));
-        //commandsText += "\n\n";
+        var taskToRun = project.TaskList.FirstOrDefault(t => t.status == TaskStatus.pending);
 
-        //get text from embedded resource
-        
-
-        var result = await _commandExecutor.Execute(task.command, task.arguments);
+        var runResult = await _commandExecutor.Execute(taskToRun.command, taskToRun.arguments);
         System.Console.ForegroundColor = ConsoleColor.Yellow;
-        System.Console.WriteLine($"result : {result.Result}");
-        System.Console.WriteLine($"context : {result.Context}");
+        System.Console.WriteLine($"result : {runResult.Result}");
+        System.Console.WriteLine($"context : {runResult.Context}");
 
         ////create an openai prompt stating the objective and the task
         //var prompt =
 
 
         var prompt = "You are a developer that has run the following task, " + Environment.NewLine
-                     + $"TASK={JsonSerializer.Serialize(task)} ###END###" +
+                     + $"TASK={JsonSerializer.Serialize(taskToRun)} ###END###" +
                      Environment.NewLine
-                     + $"RESULT={result.Result}" + Environment.NewLine
-                     + $"RESULT_CONTEXT={result.Context}" + Environment.NewLine
-                     + $"Interpreted the result. If the task failed define a new task. If the task succeeded update the given task with the result and set the task status to completed" +
-                     Environment.NewLine;
-        System.Console.ForegroundColor = ConsoleColor.Green;
-        System.Console.WriteLine(prompt);
+                     + $"RESULT={runResult.Result}" + Environment.NewLine
+                     + $"RESULT_CONTEXT={runResult.Context}" + Environment.NewLine
+                     + "Interpreted the RESULT and RESULT_CONTEXT. Update the TASK_LIST using the result. Update the task status or add/modify tasks when needed. Make sure any \\ is encoded for JSON." + Environment.NewLine
+                     + "If the task succeeded update the given task with the result and set the task status to completed" + Environment.NewLine
+                     + "Make sure the TASK_LIST is in chronological order so the first PENDING task should be run next. Always use the 'TASK_LIST= .... ###END###' format in your response. " + Environment.NewLine
+                     + $"AVAILABLE_STATUS_OPTIONS={string.Join(",",Enum.GetNames(typeof(TaskStatus)))}" + Environment.NewLine+
+                     $"TASK_LIST={JsonSerializer.Serialize(project.TaskList,new JsonSerializerOptions{WriteIndented = true})} ###END###";
+                     //Environment.NewLine;
+        _messageHandler.HandleMessage(ChatRole.User,prompt);
+
+        
+
+        var textResponse = await _openAiClient.CompletePrompt(new List<ChatMessage> { new ChatMessage(ChatRole.User, prompt) });
+        _messageHandler.HandleMessage(ChatRole.Assistant, textResponse);
+
+        
 
 
-        var textResponse = await _openAiClient.CompletePrompt(new List<ChatMessage>{new ChatMessage(ChatRole.User,prompt)});
-        System.Console.ForegroundColor = ConsoleColor.Red;
-        System.Console.WriteLine(textResponse);
+        
+        project.TaskList = _responseParser.GetTaskList(textResponse); ;
 
-        // use a reg to parse the task json from the response
-        // TASK={"id":0,"task":"Create a new project","command":"execute_shell","dependent_task_ids":[],"status":"not_started","arguments":["dotnet new console -o myApp --force"],"result":"not yet run"} ###END###
-
-        var taskJson = Regex.Match(textResponse, @"TASK={.*} ###END###").Value;
-        taskJson = taskJson.Replace("TASK=", "");
-        taskJson = taskJson.Replace("###END###", "").Trim();
-        taskJson = taskJson.Replace($"\\", "\\\\");
-
-
-        var newTask = JsonSerializer.Deserialize<DevGptTask>(taskJson);
-        if (newTask.status == "completed")
+        if (project.TaskList.All(t=>t.status == TaskStatus.completed))
         {
             System.Console.ForegroundColor = ConsoleColor.Green;
-            System.Console.WriteLine("Task completed");
-            return newTask;
+            System.Console.WriteLine("All tasks completed!!");
+            return;
         }
         else
         {
-            System.Console.ForegroundColor = ConsoleColor.Red;
-            System.Console.WriteLine("Task failed. Retring");
-            return await ExecuteTask(objective, newTask);
+            await ExecuteTask(project);
         }
+       
     }
+}
 
-    private string GetEmbeddedResource(string resourceName)
-    {
-        var assembly = Assembly.GetExecutingAssembly();
-        
-        using (Stream stream = assembly.GetManifestResourceStream(resourceName))
-        using (StreamReader reader = new StreamReader(stream))
-        {
-            string result = reader.ReadToEnd();
-            return result;
-        }
-
-        
-    }
+internal interface IResponseParser
+{
+    DevGptTask[]? GetTaskList(string textResponse);
 }

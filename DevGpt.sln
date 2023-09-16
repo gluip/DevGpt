@@ -25,6 +25,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DevGpt.Commands", "DevGpt.C
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DevGpt.OpenAI", "DevGpt.OpenAI\DevGpt.OpenAI.csproj", "{A533BA84-C593-431F-960C-A106939A453D}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DevGpt.Taskbased.Test", "DevGpt.Taskbased.Test\DevGpt.Taskbased.Test.csproj", "{76C538AF-EA5D-4D70-8924-D10B87182235}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -75,6 +77,10 @@ Global
 		{A533BA84-C593-431F-960C-A106939A453D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A533BA84-C593-431F-960C-A106939A453D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A533BA84-C593-431F-960C-A106939A453D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{76C538AF-EA5D-4D70-8924-D10B87182235}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{76C538AF-EA5D-4D70-8924-D10B87182235}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{76C538AF-EA5D-4D70-8924-D10B87182235}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{76C538AF-EA5D-4D70-8924-D10B87182235}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

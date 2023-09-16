@@ -6,6 +6,8 @@ public class DevGptTask
     public string task { get; set; }
     public string command { get; set; }
     public List<int> dependent_task_ids { get; set; }
-    public string status { get; set; }
-}
+    public string status { get; set; } = "pending";
+    public string[] arguments { get; set; }
 
+    public string result { get; set; } = "not yet run";
+}

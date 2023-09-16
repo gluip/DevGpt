@@ -1,11 +1,13 @@
-﻿using DevGpt.Console;
-using DevGpt.Console.Commands;
-using DevGpt.Console.Prompts;
-using DevGpt.Models.Commands;
+﻿using DevGpt.Models.Commands;
 
 namespace MyApp;
 
-internal class CommandExecutor
+public interface ICommandExecutor
+{
+    Task<ComplexResult> Execute(string commandName, string[] args);
+}
+
+public class CommandExecutor : ICommandExecutor
 {
     private readonly IList<ICommandBase> _commands;
 
@@ -15,21 +17,24 @@ internal class CommandExecutor
     }
     public async Task<ComplexResult> Execute(string commandName, string[] args)
     {
+
+
         // remove double encoding from args
         for (int i = 0; i < args.Length; i++)
         {
             args[i] = args[i].Replace("\\n", "\n").Replace("\\r","\r");
         }
-
-
+        
         var command = _commands.FirstOrDefault(c => c.Name == commandName);
         if (command == null)
         {
-            var commands = new PromptGenerator_Accountant().GetCommandsText(_commands);
+            var commandsText = string.Join("\n", _commands.Select(c => c.GetHelp()));
+            commandsText += "\n\n";
+
             return new ComplexResult
             {
                 Result =
-                    $"command {commandName} not found. Please make sure you use on the following commands.\r\n{commands}"
+                    $"command {commandName} not found. Please make sure you use one of the following commands.\r\n{commandsText}"
             };
         }
 

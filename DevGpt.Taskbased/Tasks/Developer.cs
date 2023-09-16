@@ -1,7 +1,10 @@
 ﻿using System.Reflection;
 using System.Text.Json;
+using System.Text.RegularExpressions;
 using Azure.AI.OpenAI;
 using DevGpt.Models.Commands;
+using MyApp;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace DevGpt.Console.Tasks;
 
@@ -9,41 +12,70 @@ class Developer : IDeveloper
 {
     private readonly IAzureOpenAIClient _openAiClient;
     private readonly IList<ICommandBase> _commands;
+    private readonly ICommandExecutor _commandExecutor;
 
-    public Developer(IAzureOpenAIClient openAiClient,IList<ICommandBase> commands)
+    public Developer(IAzureOpenAIClient openAiClient,IList<ICommandBase> commands, ICommandExecutor commandExecutor)
     {
         _openAiClient = openAiClient;
         _commands = commands;
+        _commandExecutor = commandExecutor;
     }
 
 
-    public async Task ExecuteTask(string objective, string task)
+    public async Task<DevGptTask> ExecuteTask(string objective, DevGptTask task)
     {
-        var commandsText = string.Join("\n", _commands.Select(c => c.GetHelp()));
-        commandsText += "\n\n";
+        //var commandsText = string.Join("\n", _commands.Select(c => c.GetHelp()));
+        //commandsText += "\n\n";
 
         //get text from embedded resource
-        var exampleTask = GetEmbeddedResource("DevGpt.Console.Tasks.Examples.example1.json");
-        var workExample = JsonSerializer.Deserialize<WorkExample>(exampleTask);
         
-        //create an openai prompt stating the objective and the task
-        var prompt=
-            "You are an expert task list creation AI tasked with creating a list of tasks as a JSON array, " +
-            "considering the ultimate objective of your team: {objective}. "+Environment.NewLine
-            + "Create a very short task list based on the objective, the final output of the last task will be provided back to the user. " +
-            "Limit tasks types to those that can be completed with the available skills listed below. Task description should be detailed.###" + Environment.NewLine
-            + $"AVAILABLE COMMANDS: {commandsText}" + Environment.NewLine
-            + "RULES:" + Environment.NewLine
-            + "Do not use skills that are not listed." + Environment.NewLine
-            + "Always include one skill." + Environment.NewLine
-            + "dependent_task_ids should always be an empty array, or an array of numbers representing the task ID it should pull results from." + Environment.NewLine
-            + "Make sure all task IDs are in chronological order.###\n" + Environment.NewLine
-            + $"EXAMPLE OBJECTIVE={workExample.objective}" + Environment.NewLine
-            + $"TASK LIST={JsonSerializer.Serialize(workExample.task_list)}" + Environment.NewLine
-            + "OBJECTIVE={objective}" + Environment.NewLine
-            + "TASK LIST=";
 
-        var textResponse = _openAiClient.CompletePrompt(new List<ChatMessage>{new ChatMessage(ChatRole.User,prompt)});
+        var result = await _commandExecutor.Execute(task.command, task.arguments);
+        System.Console.ForegroundColor = ConsoleColor.Yellow;
+        System.Console.WriteLine($"result : {result.Result}");
+        System.Console.WriteLine($"context : {result.Context}");
+
+        ////create an openai prompt stating the objective and the task
+        //var prompt =
+
+
+        var prompt = "You are a developer that has run the following task, " + Environment.NewLine
+                     + $"TASK={JsonSerializer.Serialize(task)} ###END###" +
+                     Environment.NewLine
+                     + $"RESULT={result.Result}" + Environment.NewLine
+                     + $"RESULT_CONTEXT={result.Context}" + Environment.NewLine
+                     + $"Interpreted the result. If the task failed define a new task. If the task succeeded update the given task with the result and set the task status to completed" +
+                     Environment.NewLine;
+        System.Console.ForegroundColor = ConsoleColor.Green;
+        System.Console.WriteLine(prompt);
+
+
+        var textResponse = await _openAiClient.CompletePrompt(new List<ChatMessage>{new ChatMessage(ChatRole.User,prompt)});
+        System.Console.ForegroundColor = ConsoleColor.Red;
+        System.Console.WriteLine(textResponse);
+
+        // use a reg to parse the task json from the response
+        // TASK={"id":0,"task":"Create a new project","command":"execute_shell","dependent_task_ids":[],"status":"not_started","arguments":["dotnet new console -o myApp --force"],"result":"not yet run"} ###END###
+
+        var taskJson = Regex.Match(textResponse, @"TASK={.*} ###END###").Value;
+        taskJson = taskJson.Replace("TASK=", "");
+        taskJson = taskJson.Replace("###END###", "").Trim();
+        taskJson = taskJson.Replace($"\\", "\\\\");
+
+
+        var newTask = JsonSerializer.Deserialize<DevGptTask>(taskJson);
+        if (newTask.status == "completed")
+        {
+            System.Console.ForegroundColor = ConsoleColor.Green;
+            System.Console.WriteLine("Task completed");
+            return newTask;
+        }
+        else
+        {
+            System.Console.ForegroundColor = ConsoleColor.Red;
+            System.Console.WriteLine("Task failed. Retring");
+            return await ExecuteTask(objective, newTask);
+        }
     }
 
     private string GetEmbeddedResource(string resourceName)

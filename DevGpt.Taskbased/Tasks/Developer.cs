@@ -64,15 +64,14 @@ class Developer : IDeveloper
         
         project.TaskList = _responseParser.GetTaskList(textResponse); ;
 
-        if (project.TaskList.All(t=>t.status == TaskStatus.completed))
+        if (project.TaskList.Any(t=>t.status == TaskStatus.pending))
         {
-            System.Console.ForegroundColor = ConsoleColor.Green;
-            System.Console.WriteLine("All tasks completed!!");
-            return;
+            await ExecuteTask(project);
         }
         else
         {
-            await ExecuteTask(project);
+            System.Console.ForegroundColor = ConsoleColor.Green;
+            System.Console.WriteLine("No pending tasks left. Project completed.");
         }
        
     }

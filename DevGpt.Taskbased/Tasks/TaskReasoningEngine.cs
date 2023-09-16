@@ -66,11 +66,7 @@ namespace DevGpt.Console.Tasks
             //ask developer to solve the project
             await _developer.ExecuteTask(project);
 
-            //while (!project.TaskList.All(c => c.status == "completed"))
-            //{
-            //    var task = project.TaskList.First(t=>t.status != "completed");
-                
-            //}
+            
         }
     }
 

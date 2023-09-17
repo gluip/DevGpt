@@ -38,6 +38,8 @@ class Developer : IDeveloper
 
         ////create an openai prompt stating the objective and the task
         //var prompt =
+        var commandsText = string.Join("\n", _commands.Select(c => c.GetHelp()));
+        commandsText += "\n\n";
 
 
         var prompt = "You are a developer that has run the following task, " + Environment.NewLine
@@ -45,13 +47,18 @@ class Developer : IDeveloper
                      Environment.NewLine
                      + $"RESULT={runResult.Result}" + Environment.NewLine
                      + $"RESULT_CONTEXT={runResult.Context}" + Environment.NewLine
-                     + "Interpreted the RESULT and RESULT_CONTEXT. Update the TASK_LIST using the result. Update the task status or add/modify tasks when needed. Make sure any \\ is encoded for JSON." + Environment.NewLine
-                     + "If the task succeeded update the given task with the result and set the task status to completed" + Environment.NewLine
+                     + "Interpreted the RESULT and RESULT_CONTEXT. Update the TASK_LIST using the result. " +
+                     " Update the task status or add/modify tasks when needed. Make sure any \\ is encoded for JSON." + Environment.NewLine
+                     + "If the task failed you should try to correct the error by altering the task." + Environment.NewLine
+                     + "If the task succeeded you update the result of the task with a summary of the result. Make sure all info relevant to the objective is in the summary. Also update any future dependend tasks with the result." + Environment.NewLine
+                     + "You are allowed to add new tasks to the TASK_LIST if you think it is needed. " + Environment.NewLine 
+                     + "Make sure all tasks have correct and concrete arguments." + Environment.NewLine
+                     + $"AVAILABLE COMMANDS: {commandsText}" + Environment.NewLine + Environment.NewLine 
                      + "Make sure the TASK_LIST is in chronological order so the first PENDING task should be run next. Always use the 'TASK_LIST= .... ###END###' format in your response. " + Environment.NewLine
                      + $"AVAILABLE_STATUS_OPTIONS={string.Join(",",Enum.GetNames(typeof(TaskStatus)))}" + Environment.NewLine+
                      $"TASK_LIST={JsonSerializer.Serialize(project.TaskList,new JsonSerializerOptions{WriteIndented = true})} ###END###";
                      //Environment.NewLine;
-        _messageHandler.HandleMessage(ChatRole.User,prompt);
+            _messageHandler.HandleMessage(ChatRole.User,prompt);
 
         
 

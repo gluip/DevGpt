@@ -9,6 +9,10 @@ namespace DevGpt.Commands.Pdf
     {
         public string Execute(params string[] args)
         {
+            if (args.Length != 1)
+            {
+                return "Invalid number of arguments. Read pdf requires one argument : path";
+            }
             using PdfDocument document = PdfDocument.Open(args[0]);
             
             foreach (Page page in document.GetPages())

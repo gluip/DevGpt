@@ -2,7 +2,7 @@
   "profiles": {
     "DevGpt.Taskbased": {
       "commandName": "Project",
-      "workingDirectory": "C:\\DevGpt\\WorkTaskbased"
+      "workingDirectory": "C:\\DevGpt\\Work"
     }
   }
 }

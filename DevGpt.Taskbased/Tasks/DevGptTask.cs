@@ -14,11 +14,17 @@ public class DevGptTask
     public string[] arguments { get; set; }
 
     public string result { get; set; } = "not yet run";
+
+    public override string ToString()
+    {
+        return $"{task}({command},{status})";
+    }
 }
 
 public enum TaskStatus
 {
     pending,
+    needtorefine,
     completed,
     failed
 }

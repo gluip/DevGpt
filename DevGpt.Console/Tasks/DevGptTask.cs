@@ -7,5 +7,11 @@ public class DevGptTask
     public string command { get; set; }
     public List<int> dependent_task_ids { get; set; }
     public string status { get; set; }
+
+    public override string ToString()
+    {
+        
+        return $"task: {task}({command},{status})";
+    }
 }
 

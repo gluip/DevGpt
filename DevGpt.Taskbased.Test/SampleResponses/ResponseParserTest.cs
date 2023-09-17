@@ -33,7 +33,18 @@ namespace DevGpt.Test.SampleResponses
 
             var tasklist = responseParser.GetTaskList(response);
             Assert.NotNull(tasklist);
-            Assert.Equal(3, tasklist.Length);
+            Assert.Equal(2, tasklist.Length);
+        }
+
+        [Fact]
+        public void GetTaskList_Sample3CorrectInput_ParsesOk()
+        {
+            var responseParser = new ResponseParser();
+            var response = DevGptResourceReader.GetEmbeddedResource(Assembly.GetExecutingAssembly(),
+                               "DevGpt.Taskbased.Test.SampleResponses.SampleResponse3.txt");
+            var tasklist = responseParser.GetTaskList(response);
+            Assert.NotNull(tasklist);
+            Assert.Equal(6, tasklist.Length);
         }
     }
 }

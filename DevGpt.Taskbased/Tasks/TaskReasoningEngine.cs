@@ -37,11 +37,12 @@ namespace DevGpt.Console.Tasks
 
             var prompt =
                 "You are an expert task list creation AI tasked with creating a list of tasks as a JSON array, " +
-                "considering the ultimate objective of your team: {objective}. " + Environment.NewLine
-                + "Create a very short task list based on the objective, the final output of the last task will be provided back to the user. " +
+                $"considering the ultimate objective of your team: {project.Objective}. " + Environment.NewLine +
+                "Create a very short tasklist to work towards the objective. " +
                 "Limit tasks types to those that can be completed with the available skills listed below. " +
-                "Task description should be detailed. Add a complete task list to complete the objective###" +
-                Environment.NewLine
+                "You don't have to complete the objective, only create the tasks of which the arguments are clear. Additional tasks can be added later on." +
+                "Task description should be detailed. ###" +
+                Environment.NewLine + Environment.NewLine
                 + $"AVAILABLE COMMANDS: {commandsText}" + Environment.NewLine
                 + "RULES:" + Environment.NewLine
                 + "Do not use skills that are not listed." + Environment.NewLine
@@ -51,7 +52,7 @@ namespace DevGpt.Console.Tasks
                 + "Make sure all task IDs are in chronological order.###\n" + Environment.NewLine
                 + $"OBJECTIVE={project.Objective}" + Environment.NewLine
                 + $"EXAMPLE TASK_LIST={JsonSerializer.Serialize(project.TaskList,new JsonSerializerOptions{WriteIndented = true})} ###END###" + Environment.NewLine
-                +$"TASK_LIST=..... ###END###";
+                +$"TASK_LIST=.....";
             // green prompt
             _messageHandler.HandleMessage(ChatRole.User, prompt);
 

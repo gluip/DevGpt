@@ -14,6 +14,11 @@ namespace DevGpt.Console.Commands
             try
             {
                 var path = args[0];
+                //make it relative to the current directory
+                if (path.StartsWith("/"))
+                {
+                    path = "." + path;
+                }
                 return $"{Name} of '{path}' returned '{File.ReadAllText(path)}'";
 
             }

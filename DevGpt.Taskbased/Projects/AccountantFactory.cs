@@ -15,7 +15,7 @@ namespace DevGpt.Taskbased.Projects
             return new Project
             {
                 Objective =
-                    "Read the file invoices.csv in the Invoices folder. For each PDF in the Invoices folder add a line to the csv.",
+                    "Read the file invoices.csv in the Invoices folder. For each PDF in the Invoices folder add a line to the csv containing the data of the invoice.",
                 //    Environment.NewLine+ 
                 //"Inspect the functionality in https://www.berekenhet.nl/kalender/weekdag-datum.html to determine what to test" + 
                 //    Environment.NewLine +
@@ -31,6 +31,7 @@ namespace DevGpt.Taskbased.Projects
                         command = "execute_shell",
                         arguments = new[] { "dotnet new console -o myApp" },
                         dependent_task_ids = new List<int>(),
+                        reason = "to create a cponsole app we need a project",
                         id = 0,
                         status = TaskStatus.pending,
                     },
@@ -40,6 +41,7 @@ namespace DevGpt.Taskbased.Projects
                         command = "execute_shell",
                         arguments = new[] { "dotnet build myApp" },
                         dependent_task_ids = new List<int> { 0 },
+                        reason = "to verify the project compiles",
                         id = 1,
                         status = TaskStatus.pending
                     }

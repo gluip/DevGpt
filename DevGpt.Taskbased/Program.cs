@@ -6,6 +6,8 @@ using DevGpt.Console;
 using DevGpt.Console.Commands;
 using DevGpt.Console.Tasks;
 using DevGpt.Models.Commands;
+using DevGpt.OpenAI;
+using DevGpt.OpenAI.RedisCache;
 using DevGpt.Taskbased.Projects;
 using MyApp;
 
@@ -36,7 +38,7 @@ namespace DevGpt.Taskbased // Note: actual namespace depends on the project name
 //                new DeterminePageFunctionalityCommand()
             };
 
-            var azureOpenAiClient = new AzureOpenAIClient();
+            var azureOpenAiClient = new RedisCachingAzureOpenAIClient(new AzureOpenAIClient(),new RedisClient());
             var commandExecutor = new CommandExecutor(commands);
             var responseParser = new ResponseParser();
             var messageHandler = new MessageHandler();

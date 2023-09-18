@@ -1,11 +1,8 @@
-﻿using Azure.AI.OpenAI;
-using Azure;
-
-using System;
-using System.ComponentModel.Design.Serialization;
+﻿using Azure;
+using Azure.AI.OpenAI;
 using SharpToken;
 
-namespace DevGpt.Console
+namespace DevGpt.OpenAI
 {
     public interface IAzureOpenAIClient
     {
@@ -30,9 +27,13 @@ namespace DevGpt.Console
             var uri = Environment.GetEnvironmentVariable("DevGpt_AzureUri", EnvironmentVariableTarget.User);
 
 
-            var client = new OpenAIClient(
-                new Uri(uri),
-                new AzureKeyCredential(azureKey));
+            // azure version
+            //var client = new OpenAIClient(
+            //    new Uri(uri),
+            //    new AzureKeyCredential(azureKey));
+
+            var openAIKey = Environment.GetEnvironmentVariable("DevGpt_OpenAIKey", EnvironmentVariableTarget.User);
+            var client = new OpenAIClient(openAIKey);
 
             // ### If streaming is selected
             var chatCompletionsOptions = new ChatCompletionsOptions()
@@ -58,7 +59,7 @@ namespace DevGpt.Console
 
 
             var completions = await client.GetChatCompletionsAsync(
-                deploymentOrModelName: "gpt4",
+                deploymentOrModelName: "gpt-3.5-turbo",
                 chatCompletionsOptions);
 
             var messageContent = completions.Value.Choices[0].Message.Content;

@@ -3,6 +3,7 @@ using System.Text.Json;
 using System.Threading.Tasks;
 using Azure.AI.OpenAI;
 using DevGpt.Models.Commands;
+using DevGpt.OpenAI;
 using MyApp;
 using static System.Net.Mime.MediaTypeNames;
 
@@ -50,13 +51,14 @@ class Developer : IDeveloper
                      + "Interpreted the RESULT and RESULT_CONTEXT. Update the TASK_LIST using the result. " +
                      " Update the task status or add/modify tasks when needed. Make sure any \\ is encoded for JSON." + Environment.NewLine
                      + "If the task failed you should try to correct the error by altering the task." + Environment.NewLine
-                     + "If the task succeeded you update the result of the task with a summary of the result. Make sure all info relevant to the objective is in the summary. Also update any future dependend tasks with the result." + Environment.NewLine
-                     + "You are allowed to add new tasks to the TASK_LIST if you think it is needed. " + Environment.NewLine 
+                     + "If the task succeeded you update the result of the task with a summary of the result. Make sure all info relevant to the objective is in the summary. " + Environment.NewLine
+                     + "Create additional tasks to the TASK_LIST if you think it is needed to complete the objective. " + Environment.NewLine 
                      + "Make sure all tasks have correct and concrete arguments." + Environment.NewLine
+                     + $"OBJECTIVE={project.Objective}" + Environment.NewLine
                      + $"AVAILABLE COMMANDS: {commandsText}" + Environment.NewLine + Environment.NewLine 
-                     + "Make sure the TASK_LIST is in chronological order so the first PENDING task should be run next. Always use the 'TASK_LIST= .... ###END###' format in your response. " + Environment.NewLine
+                     + "Make sure the TASK_LIST is in chronological order so the first PENDING task should be run next. Always use the 'TASK_LIST=[{task1,task2}] ###END###' format in your response. " + Environment.NewLine
                      + $"AVAILABLE_STATUS_OPTIONS={string.Join(",",Enum.GetNames(typeof(TaskStatus)))}" + Environment.NewLine+
-                     $"TASK_LIST={JsonSerializer.Serialize(project.TaskList,new JsonSerializerOptions{WriteIndented = true})} ###END###";
+                     $"TASK_LIST={JsonSerializer.Serialize(project.TaskList,new JsonSerializerOptions{WriteIndented = true})}###END###";
                      //Environment.NewLine;
             _messageHandler.HandleMessage(ChatRole.User,prompt);
 
@@ -65,11 +67,7 @@ class Developer : IDeveloper
         var textResponse = await _openAiClient.CompletePrompt(new List<ChatMessage> { new ChatMessage(ChatRole.User, prompt) });
         _messageHandler.HandleMessage(ChatRole.Assistant, textResponse);
 
-        
-
-
-        
-        project.TaskList = _responseParser.GetTaskList(textResponse); ;
+        project.TaskList = _responseParser.GetTaskList(textResponse); 
 
         if (project.TaskList.Any(t=>t.status == TaskStatus.pending))
         {

@@ -13,6 +13,8 @@ public class DevGptTask
     public TaskStatus status { get; set; } = TaskStatus.pending;//"pending";
     public string[] arguments { get; set; }
 
+    public string reason { get; set; }
+
     public string result { get; set; } = "not yet run";
 
     public override string ToString()

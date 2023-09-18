@@ -8,7 +8,7 @@ public class ResponseParser : IResponseParser
 {
     public DevGptTask[] GetTaskList(string textResponse)
     {
-        var taskJson = Regex.Match(textResponse, @"TASK_LIST=\[([\s\S]*?)\] ###END###", RegexOptions.Multiline).Value;
+        var taskJson = Regex.Match(textResponse, @"TASK_LIST=\[([\s\S]*?)\]###END###", RegexOptions.Multiline).Value;
         if (!string.IsNullOrWhiteSpace(taskJson))
         {
             taskJson = taskJson.Replace("TASK_LIST=", "");

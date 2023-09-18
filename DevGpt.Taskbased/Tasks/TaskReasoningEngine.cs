@@ -6,6 +6,7 @@ using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
 using Azure.AI.OpenAI;
+using DevGpt.OpenAI;
 
 namespace DevGpt.Console.Tasks
 {
@@ -63,7 +64,7 @@ namespace DevGpt.Console.Tasks
             
 
             project.TaskList = _responseParser.GetTaskList(response);
-
+            project.TaskList = project.TaskList.Take(2).ToArray();
             //ask developer to solve the project
             await _developer.ExecuteTask(project);
 

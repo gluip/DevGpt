@@ -11,6 +11,7 @@ using DevGpt.Console.Models;
 using DevGpt.Console.Prompts;
 using DevGpt.Console.Services;
 using DevGpt.Models.Commands;
+using DevGpt.OpenAI;
 using MyApp;
 
 namespace DevGpt.Console // Note: actual namespace depends on the project name.

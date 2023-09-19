@@ -26,7 +26,8 @@ public class DevGptTask
 public enum TaskStatus
 {
     pending,
+    failed,
     needtorefine,
     completed,
-    failed
+    
 }

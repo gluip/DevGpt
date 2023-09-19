@@ -18,15 +18,17 @@ namespace DevGpt.Console.Tasks
         private readonly IDeveloper _developer;
         private readonly IResponseParser _responseParser;
         private readonly IMessageHandler _messageHandler;
+        private ITaskPlanner _taskPlanner;
 
         public TaskReasoningEngine(IAzureOpenAIClient openAiClient, IList<ICommandBase> commands,
-            IDeveloper developer,IResponseParser responseParser, IMessageHandler messageHandler)
+            IDeveloper developer,IResponseParser responseParser, IMessageHandler messageHandler,ITaskPlanner taskPlanner)
         {
             _openAiClient = openAiClient;
             _commands = commands;
             _developer = developer;
             _responseParser = responseParser;
             _messageHandler = messageHandler;
+            _taskPlanner = taskPlanner;
         }
 
 
@@ -66,8 +68,16 @@ namespace DevGpt.Console.Tasks
             project.TaskList = _responseParser.GetTaskList(response);
             project.TaskList = project.TaskList.Take(2).ToArray();
             //ask developer to solve the project
-            await _developer.ExecuteTask(project);
 
+            while (project.TaskList.Any(t => t.status == TaskStatus.pending))
+            {
+                await _developer.ExecuteTask(project);
+                await _taskPlanner.ExecuteTask(project);
+            }
+            System.Console.ForegroundColor = ConsoleColor.Green;
+            System.Console.WriteLine("No pending tasks left. Project completed.");
+            
+            
             
         }
     }

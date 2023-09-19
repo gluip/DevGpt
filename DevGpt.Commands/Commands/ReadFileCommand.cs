@@ -19,6 +19,13 @@ namespace DevGpt.Console.Commands
                 {
                     path = "." + path;
                 }
+
+                if (path.EndsWith(".pdf"))
+                {
+                    throw new ArgumentException("PDF files are not supported");
+                }
+
+
                 return $"{Name} of '{path}' returned '{File.ReadAllText(path)}'";
 
             }

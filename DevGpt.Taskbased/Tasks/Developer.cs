@@ -69,16 +69,8 @@ class Developer : IDeveloper
 
         project.TaskList = _responseParser.GetTaskList(textResponse); 
 
-        if (project.TaskList.Any(t=>t.status == TaskStatus.pending))
-        {
-            await ExecuteTask(project);
-        }
-        else
-        {
-            System.Console.ForegroundColor = ConsoleColor.Green;
-            System.Console.WriteLine("No pending tasks left. Project completed.");
-        }
-       
+        //await ExecuteTask(project);
+        
     }
 }
 

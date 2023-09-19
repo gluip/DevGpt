@@ -13,6 +13,12 @@ namespace DevGpt.Commands.Pdf
             {
                 return "Invalid number of arguments. Read pdf requires one argument : path";
             }
+
+            if (!args[0].EndsWith(".pdf"))
+            {
+                return "Invalid file type only pdf files are supported.";
+            }
+
             using PdfDocument document = PdfDocument.Open(args[0]);
             
             foreach (Page page in document.GetPages())

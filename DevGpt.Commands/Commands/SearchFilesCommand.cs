@@ -14,6 +14,12 @@ public class SearchFilesCommand : ICommand
         try
         {
             var path = args[0];
+            //make it relative to the current directory
+            if (path.StartsWith("/"))
+            {
+                path = "." + path;
+            }
+
             var searchPattern = args[1];
             var files = Directory.GetFiles(path, searchPattern,SearchOption.AllDirectories).Select(f=>Path.GetFullPath(f));
 

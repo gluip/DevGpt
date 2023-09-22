@@ -14,6 +14,18 @@ namespace DevGpt.Console.Commands
             try
             {
                 var path = args[0];
+                //make it relative to the current directory
+                if (path.StartsWith("/"))
+                {
+                    path = "." + path;
+                }
+
+                if (path.EndsWith(".pdf"))
+                {
+                    throw new ArgumentException("PDF files are not supported");
+                }
+
+
                 return $"{Name} of '{path}' returned '{File.ReadAllText(path)}'";
 
             }

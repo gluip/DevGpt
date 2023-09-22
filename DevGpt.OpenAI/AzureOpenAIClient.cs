@@ -23,17 +23,9 @@ namespace DevGpt.OpenAI
 
 
             // get environment variable 'DevGpt_AzureKey'
-            var azureKey = Environment.GetEnvironmentVariable("DevGpt_AzureKey", EnvironmentVariableTarget.User);
-            var uri = Environment.GetEnvironmentVariable("DevGpt_AzureUri", EnvironmentVariableTarget.User);
+            
 
-
-            // azure version
-            //var client = new OpenAIClient(
-            //    new Uri(uri),
-            //    new AzureKeyCredential(azureKey));
-
-            var openAIKey = Environment.GetEnvironmentVariable("DevGpt_OpenAIKey", EnvironmentVariableTarget.User);
-            var client = new OpenAIClient(openAIKey);
+            var client = GetOpenAiClient();
 
             // ### If streaming is selected
             var chatCompletionsOptions = new ChatCompletionsOptions()
@@ -59,7 +51,7 @@ namespace DevGpt.OpenAI
 
 
             var completions = await client.GetChatCompletionsAsync(
-                deploymentOrModelName: "gpt-3.5-turbo",
+                deploymentOrModelName: "gpt-4",
                 chatCompletionsOptions);
 
             var messageContent = completions.Value.Choices[0].Message.Content;
@@ -72,7 +64,23 @@ namespace DevGpt.OpenAI
 
         }
 
-        
+        private static OpenAIClient GetOpenAiClient()
+        {
+
+            // azure version
+            var azureKey = Environment.GetEnvironmentVariable("DevGpt_AzureKey", EnvironmentVariableTarget.User);
+            var uri = Environment.GetEnvironmentVariable("DevGpt_AzureUri", EnvironmentVariableTarget.User);
+
+
+            var client = new OpenAIClient(
+                new Uri(uri),
+                new AzureKeyCredential(azureKey));
+
+            //var openAIKey = Environment.GetEnvironmentVariable("DevGpt_OpenAIKey", EnvironmentVariableTarget.User);
+            //var client = new OpenAIClient(openAIKey);
+            return client;
+        }
+
 
         private static int GetTokenCount(ChatCompletionsOptions chatCompletionsOptions)
         {

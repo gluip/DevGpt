@@ -12,6 +12,7 @@ using DevGpt.Console.Prompts;
 using DevGpt.Console.Services;
 using DevGpt.Models.Commands;
 using DevGpt.OpenAI;
+using DevGpt.OpenAI.RedisCache;
 using MyApp;
 
 namespace DevGpt.Console // Note: actual namespace depends on the project name.
@@ -43,7 +44,7 @@ namespace DevGpt.Console // Note: actual namespace depends on the project name.
                 //new BrowserClickCommand(browser),
             };
 
-            var client = new AzureOpenAIClient();
+            var client = new RedisCachingAzureOpenAIClient(new AzureOpenAIClient(), new RedisClient());
             var chatHandler = new ChatHandler();
             var commandExecutor = new CommandExecutor(commands);
 

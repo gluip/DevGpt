@@ -42,7 +42,7 @@ public class PlaywrightBrowser : IBrowser,IDisposable
 
     public async Task<string> GetPageHtml()
     {
-        var html = await _page.InnerHTMLAsync("body");
+        var html = await _page.ContentAsync();//InnerHTMLAsync("body");
 
         // strip comments from html
         html = Regex.Replace(html, "<!--.*?-->", "", RegexOptions.Singleline);
@@ -60,7 +60,16 @@ public class PlaywrightBrowser : IBrowser,IDisposable
         html = Regex.Replace(html, " class=\".*?\"", "", RegexOptions.Singleline);
         // string whitespace from html
         html = Regex.Replace(html, @"\s+", " ", RegexOptions.Singleline);
+        // string base64 src attributes from html
+        html = Regex.Replace(html, " src=\"data:image.*?\"", "", RegexOptions.Singleline);
+        // remove data- attributes from html
+        html = Regex.Replace(html, " data-.*?=\".*?\"", "", RegexOptions.Singleline);
         return html;
+    }
+
+    public Task<string> GetPageText()
+    {
+        return _page.InnerTextAsync("body");
     }
 
     public async Task FillAsync(string selector, string value)

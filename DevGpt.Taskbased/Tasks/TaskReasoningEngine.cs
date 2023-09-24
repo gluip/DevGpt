@@ -72,7 +72,7 @@ namespace DevGpt.Console.Tasks
             while (project.TaskList.Any(t => t.status == TaskStatus.pending))
             {
                 await _developer.ExecuteTask(project);
-                await _taskPlanner.ExecuteTask(project);
+               // await _taskPlanner.ExecuteTask(project);
             }
             System.Console.ForegroundColor = ConsoleColor.Green;
             System.Console.WriteLine("No pending tasks left. Project completed.");

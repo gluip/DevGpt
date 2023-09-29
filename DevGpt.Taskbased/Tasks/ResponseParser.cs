@@ -18,14 +18,14 @@ public class ResponseParser : IResponseParser
             return JsonSerializer.Deserialize<DevGptTask[]>(taskJson);
         }
 
-        taskJson = Regex.Match(textResponse, @"TASK_LIST=\[([\s\S]*?)\]", RegexOptions.Multiline).Value;
+        taskJson = Regex.Match(textResponse, @"TASK_LIST=\[([\s\S]*)\]", RegexOptions.Multiline).Value;
         if (!string.IsNullOrWhiteSpace(taskJson))
         {
             taskJson = taskJson.Replace("TASK_LIST=", "");
             return JsonSerializer.Deserialize<DevGptTask[]>(taskJson);
         }
 
-        taskJson = Regex.Match(textResponse, @"^\[([\s\S]*?)\]$", RegexOptions.Multiline).Value;
+        taskJson = Regex.Match(textResponse, @"^\[([\s\S]*)\]$", RegexOptions.Multiline).Value;
         if (!string.IsNullOrWhiteSpace(taskJson))
         {
             return JsonSerializer.Deserialize<DevGptTask[]>(taskJson);

@@ -22,9 +22,9 @@ namespace DevGpt.Taskbased // Note: actual namespace depends on the project name
 
         static async Task Main(string[] args)
         {
-            //var azureOpenAiClient = new RedisCachingAzureOpenAIClient(new AzureOpenAIClient(),new RedisClient());
+            var azureOpenAiClient = new RedisCachingAzureOpenAIClient(new AzureOpenAIClient(),new RedisClient());
 
-            var azureOpenAiClient = new AzureOpenAIClient();
+            //var azureOpenAiClient = new AzureOpenAIClient();
 
             var browser = new PlaywrightBrowser();
             var commands = new ICommandBase[]

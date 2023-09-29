@@ -54,7 +54,7 @@ class Developer : IDeveloper
                      + "Make sure all tasks have correct and concrete arguments." + Environment.NewLine
                      + $"OBJECTIVE={project.Objective}" + Environment.NewLine
                      + $"AVAILABLE COMMANDS: {commandsText}" + Environment.NewLine + Environment.NewLine 
-                     + "Make sure the TASK_LIST is in chronological order so the first PENDING task should be run next. Always use the 'TASK_LIST=[{task1,task2}] ###END###' format in your response. " + Environment.NewLine
+                     + "Make sure the TASK_LIST is in chronological order so the first PENDING task should be run next. Update the next task so it contains only concrete parameters and no references or placeholders. Always use the 'TASK_LIST=[{task1,task2}] ###END###' format in your response. " + Environment.NewLine
                      + $"AVAILABLE_STATUS_OPTIONS={string.Join(",",Enum.GetNames(typeof(TaskStatus)))}" + Environment.NewLine+
                      $"TASK_LIST={JsonSerializer.Serialize(project.TaskList,new JsonSerializerOptions{WriteIndented = true})}###END###";
                      //Environment.NewLine;

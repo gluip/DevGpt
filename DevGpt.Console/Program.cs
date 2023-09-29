@@ -2,6 +2,7 @@
 
 using System.Text.Json;
 using Azure.AI.OpenAI;
+using DevGpt.Commands.Magic;
 using DevGpt.Commands.Pdf;
 using DevGpt.Commands.Web.Browser;
 using DevGpt.Commands.Web.Google;
@@ -29,6 +30,7 @@ namespace DevGpt.Console // Note: actual namespace depends on the project name.
 
 
             var browser = new PlaywrightBrowser();
+            var client = new RedisCachingAzureOpenAIClient(new AzureOpenAIClient(), new RedisClient());
 
             var commands = new ICommandBase[]
             {
@@ -41,16 +43,16 @@ namespace DevGpt.Console // Note: actual namespace depends on the project name.
                 new ReadPdfCommand(),
                 new AppendFileCommand(),
                 new GoogleSearchCommand(),
-                new BrowseWebsiteCommand(),
-                new BrowserOpenCommand(browser),
-                new BrowserGetHtmlCommand(browser),
-                new BrowserEnterInputCommand(browser),
-                new BrowserClickCommand(browser),
-                //new ReadWebPageCommand()
+                //new BrowseWebsiteCommand(),
+                //new BrowserOpenCommand(browser),
+                //new BrowserGetHtmlCommand(browser),
+                //new BrowserEnterInputCommand(browser),
+                //new BrowserClickCommand(browser),
+                new ReadWebPageCommand(browser,new MagicFunction(client))
             };
 
-            //var client = new RedisCachingAzureOpenAIClient(new AzureOpenAIClient(), new RedisClient());
-            var client = new AzureOpenAIClient();
+            
+            //var client = new AzureOpenAIClient();
             var chatHandler = new ChatHandler();
             var commandExecutor = new CommandExecutor(commands);
 

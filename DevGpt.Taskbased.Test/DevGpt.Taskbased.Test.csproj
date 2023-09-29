@@ -13,9 +13,11 @@
     <None Remove="SampleResponses\SampleResponse1.txt" />
     <None Remove="SampleResponses\SampleResponse2.txt" />
     <None Remove="SampleResponses\SampleResponse3.txt" />
+    <None Remove="SampleResponses\SampleResponse4.txt" />
   </ItemGroup>
 
   <ItemGroup>
+    <EmbeddedResource Include="SampleResponses\SampleResponse4.txt" />
     <EmbeddedResource Include="SampleResponses\SampleResponse3.txt" />
     <EmbeddedResource Include="SampleResponses\SampleResponse2.txt" />
     <EmbeddedResource Include="SampleResponses\SampleResponse1.txt" />

@@ -44,7 +44,7 @@ namespace DevGpt.Taskbased // Note: actual namespace depends on the project name
                 //new BrowserGetHtmlCommand(browser),
                 //new BrowserEnterInputCommand(browser),
                 //new BrowserClickCommand(browser),
-                new ReadWebPageCommand(browser,new MagicFunction(azureOpenAiClient)),
+                new ReadWebPageCommand(browser,new SimpleFunction(azureOpenAiClient)),
 //                new DeterminePageFunctionalityCommand()
             };
 

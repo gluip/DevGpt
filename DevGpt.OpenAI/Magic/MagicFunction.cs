@@ -5,6 +5,8 @@ using DevGpt.OpenAI;
 
 namespace DevGpt.Commands.Magic;
 
+
+
 public class MagicFunction : IMagicFunction
 {
     private readonly IAzureOpenAIClient _openAiClient;

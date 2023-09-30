@@ -25,6 +25,8 @@ namespace DevGpt.OpenAI.RedisCache
             var cachedResult = _redisclient.GetFromCache(hash);
             if (cachedResult != null)
             {
+                System.Console.ForegroundColor = ConsoleColor.Blue;
+                System.Console.WriteLine("Using cached response");
                 return cachedResult;
             }
 

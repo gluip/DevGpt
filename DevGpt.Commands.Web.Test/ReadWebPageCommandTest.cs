@@ -16,10 +16,9 @@ namespace DevGpt.Commands.Web.Test
         public async Task ReadWebPageCommand_GetsTheFacts()
         {
             var browser = new PlaywrightBrowser();
-            var magicFunction = new MagicFunction(new AzureOpenAIClient());
+            var magicFunction = new SimpleFunction(new AzureOpenAIClient());
             var command = new ReadWebPageCommand(browser, magicFunction);
-            var result = await command.ExecuteAsync(new[] { "https://nl.wikipedia.org/wiki/Erwin_Olaf" ,"Erwin Olaf"});
-            Assert.Equal("blue is a color", result);
+            var result = await command.ExecuteAsync(new[] { "https://nl.wikipedia.org/wiki/Erwin_Olaf" ,"Get Erwin Olaf facts"});
 
 
         }

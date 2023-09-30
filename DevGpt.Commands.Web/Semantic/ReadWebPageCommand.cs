@@ -31,7 +31,6 @@ public class ReadWebPageCommand : IAsyncCommand
         }
         var url = args[0];
         var question = args[1];
-        var useHtml = args.Length == 3 && args[2] == "true";
 
         await _browser.OpenPage(url);
         var pageText = await _browser.GetPageText();

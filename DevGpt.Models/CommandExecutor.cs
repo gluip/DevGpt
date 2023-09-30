@@ -1,4 +1,6 @@
-﻿using DevGpt.Models.Commands;
+﻿using System.Drawing;
+using DevGpt.Models.Commands;
+using DevGpt.Models.Utils;
 
 namespace MyApp;
 
@@ -20,7 +22,7 @@ public class CommandExecutor:ICommandExecutor
     public async Task<string> Execute(string commandName, string[] args)
         
     {
-        System.Console.WriteLine($"Do you want to execute {commandName} ? (y/n)");
+        DevConsole.WriteLine($"Do you want to execute {commandName} ? (y/n)");
         var response = System.Console.ReadLine();
         string result;
         if (response.ToLower() == "y")

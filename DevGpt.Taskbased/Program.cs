@@ -55,7 +55,7 @@ namespace DevGpt.Taskbased // Note: actual namespace depends on the project name
             var taskPlanner = new TaskPlanner(azureOpenAiClient, commands, messageHandler, responseParser);
 
             var engine = new TaskReasoningEngine(azureOpenAiClient, commands,developer,responseParser,messageHandler, taskPlanner);
-            await engine.SolveObjective(BiographyFactory.GetProject());
+            await engine.SolveObjective(WebTestFactory.GetProject());
         }
     }
 }

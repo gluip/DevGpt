@@ -98,23 +98,8 @@ namespace DevGpt.Console // Note: actual namespace depends on the project name.
 
 
                         //prompt user in a y/n question
-                        System.Console.WriteLine($"Do you want to execute {asistantReply.command.name} ? (y/n)");
-                        var response = System.Console.ReadLine();
-                        string result;
-                        if (response.ToLower() == "y")
-                        {
-                            result = await commandExecutor.Execute(asistantReply.command.name,
-                                asistantReply.command.args.ToArray());
-                        }
-                        else if (response == "r")
-                        {
-                            result = "Please make sure you use one of the following commands: \n" +
-                                     promptGenerator.GetCommandsText(commands);
-                        }
-                        else
-                        {
-                            result = "User refused to execute command. Please try something else";
-                        }
+                        Command command = asistantReply.command;
+                        var result = await commandExecutor.Execute(command.name, command.args.ToArray());
 
                         chatHandler.AddMessage(new DevGptChatMessage(ChatRole.User, result));
                         
@@ -128,6 +113,30 @@ namespace DevGpt.Console // Note: actual namespace depends on the project name.
 
             }
         }
+
+        //private static async Task<string> GetCommandResult(CommandExecutor commandExecutor, 
+        //    ICommandBase[] commands, string commandName, List<string> commandArgs)
+        //{
+        //    System.Console.WriteLine($"Do you want to execute {commandName} ? (y/n)");
+        //    var response = System.Console.ReadLine();
+        //    string result;
+        //    if (response.ToLower() == "y")
+        //    {
+        //        result = await commandExecutor.Execute(commandName,
+        //            commandArgs.ToArray());
+        //    }
+        //    else if (response == "r")
+        //    {
+        //        result = "Please make sure you use one of the following commands: \n" +
+        //                 commands.GetCommandsText();
+        //    }
+        //    else
+        //    {
+        //        result = "User refused to execute command. Please try something else";
+        //    }
+
+        //    return result;
+        //}
 
         private static void WriteReply(AssitantReply asistantReply)
         {

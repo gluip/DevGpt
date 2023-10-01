@@ -25,8 +25,9 @@ public class GoogleSearchCommand : IAsyncCommand
 
         try
         {
-            var googleApiKey = "AIzaSyDWU-xr6VsqvgnYU441_F2C6HQwxtDS9Ww";
-            var googleSearchEngineId = "b6176df06771e42a1";
+            //var 
+            var googleApiKey = Environment.GetEnvironmentVariable("DevGpt_GoogleApiKey");
+            var googleSearchEngineId = Environment.GetEnvironmentVariable("DevGpt_GoogleSearchEngineId");
 
             // make a rest request to google search api
             var url = $"https://www.googleapis.com/customsearch/v1?key={googleApiKey}&cx={googleSearchEngineId}&q={args[0]}";

@@ -1,7 +1,7 @@
 ﻿using DevGpt.Models.Commands;
 using HtmlAgilityPack;
 
-namespace DevGpt.Console.Commands;
+namespace DevGpt.Commands.Web.Semantic;
 
 public class BrowseWebsiteCommand : ICommand
 {
@@ -18,7 +18,7 @@ public class BrowseWebsiteCommand : ICommand
             var web = new HtmlWeb();
             var doc = web.Load(url);
 
-            return $"{Name} of {url} returned : "+doc.DocumentNode.InnerText;
+            return $"{Name} of {url} returned : " + doc.DocumentNode.InnerText;
 
         }
         catch (Exception ex)
@@ -28,6 +28,6 @@ public class BrowseWebsiteCommand : ICommand
     }
     public string Name => "browse_website";
     public string Description => "browses a website and returns the text on the page";
-    public string[] Arguments => new[]{"url"};
+    public string[] Arguments => new[] { "url" };
 
 }

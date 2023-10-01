@@ -3,7 +3,7 @@ using HtmlAgilityPack;
 
 namespace DevGpt.Commands.Web.Browser;
 
-public class BrowserGetHtmlCommand : IComplexCommand
+public class BrowserGetHtmlCommand : IAsyncCommand
 {
     private readonly IBrowser _browser;
 
@@ -12,28 +12,21 @@ public class BrowserGetHtmlCommand : IComplexCommand
         _browser = browser;
     }
 
-    public async Task<ComplexResult> ExecuteAsync(params string[] args)
+    public async Task<string> ExecuteAsync(params string[] args)
     {
         if (args.Length != 0)
         {
-            return new ComplexResult { Result = $"{Name} requires no arguments" };
+            return $"{Name} requires no arguments";
         }
 
         try
         {
-            return new ComplexResult
-            {
-                Result = $"{Name} returned html. Html set in context",
-                Context = await _browser.GetPageHtml()
-            };
+            return $"{Name} returned : " + await _browser.GetPageHtml();
 
         }
         catch (Exception ex)
         {
-            return new ComplexResult
-            {
-                Result = $"{Name} failed with the following error: {ex.Message}"
-            };
+            return $"{Name} failed with the following error: {ex.Message}";
         }
     }
     public string Name => "browser_get_html";

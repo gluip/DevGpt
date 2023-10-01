@@ -5,5 +5,4 @@ namespace DevGpt.Console.Prompts;
 internal interface IPromptGenerator
 {
     string GetFullPrompt(IList<ICommandBase> commands);
-    string GetCommandsText(IList<ICommandBase> commands);
 }

@@ -13,7 +13,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\DevGpt.Commands\DevGpt.Commands.csproj" />
     <ProjectReference Include="..\DevGpt.Models\DevGpt.Models.csproj" />
+    <ProjectReference Include="..\DevGpt.OpenAI\DevGpt.OpenAI.csproj" />
   </ItemGroup>
 
 </Project>

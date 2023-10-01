@@ -15,6 +15,12 @@ public class WriteFileCommand : ICommand
         {
             var path = args[0];
             var content = args[1];
+            //make it relative to the current directory
+            if (path.StartsWith("/"))
+            {
+                path = "." + path;
+            }
+
             File.WriteAllText(path, content);
             return $"{Name} of '{path}' succeeded";
         }

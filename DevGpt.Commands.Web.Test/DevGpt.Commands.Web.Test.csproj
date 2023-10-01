@@ -10,20 +10,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="SampleResponses\SampleResponse1.txt" />
-    <None Remove="SampleResponses\SampleResponse2.txt" />
-    <None Remove="SampleResponses\SampleResponse3.txt" />
-    <None Remove="SampleResponses\SampleResponse4.txt" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <EmbeddedResource Include="SampleResponses\SampleResponse4.txt" />
-    <EmbeddedResource Include="SampleResponses\SampleResponse3.txt" />
-    <EmbeddedResource Include="SampleResponses\SampleResponse2.txt" />
-    <EmbeddedResource Include="SampleResponses\SampleResponse1.txt" />
-  </ItemGroup>
-
-  <ItemGroup>
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.5.0" />
     <PackageReference Include="xunit" Version="2.4.2" />
     <PackageReference Include="xunit.runner.visualstudio" Version="2.4.5">
@@ -37,11 +23,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\DevGpt.Taskbased\DevGpt.Taskbased.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Tasks\" />
+    <ProjectReference Include="..\DevGpt.Commands.Web\DevGpt.Commands.Web.csproj" />
+    <ProjectReference Include="..\DevGpt.OpenAI\DevGpt.OpenAI.csproj" />
   </ItemGroup>
 
 </Project>

@@ -30,7 +30,7 @@ namespace DevGpt.Taskbased.Projects
                         task = "Create a new project",
                         command = "execute_shell",
                         arguments = new[] { "dotnet new console -o myApp" },
-                        dependent_task_ids = new List<int>(),
+                        //dependent_task_ids = new List<int>(),
                         reason = "to create a cponsole app we need a project",
                         id = 0,
                         status = TaskStatus.pending,
@@ -40,7 +40,7 @@ namespace DevGpt.Taskbased.Projects
                         task = "Compile the project",
                         command = "execute_shell",
                         arguments = new[] { "dotnet build myApp" },
-                        dependent_task_ids = new List<int> { 0 },
+                        //dependent_task_ids = new List<int> { 0 },
                         reason = "to verify the project compiles",
                         id = 1,
                         status = TaskStatus.pending

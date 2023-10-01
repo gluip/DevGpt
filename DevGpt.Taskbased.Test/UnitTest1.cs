@@ -19,7 +19,6 @@ namespace DevGpt.Taskbased.Test
                         task = "Create a new project",
                         command = "execute_shell",
                         arguments = new[] { "dotnet new console -o myApp" },
-                        dependent_task_ids = new List<int>(),
                         id = 0,
                         status = TaskStatus.pending
                     },
@@ -28,7 +27,6 @@ namespace DevGpt.Taskbased.Test
                         task = "Compile the project",
                         command = "execute_shell",
                         arguments = new[] { "dotnet build myApp" },
-                        dependent_task_ids = new List<int> { 0 },
                         id = 1,
                         status = TaskStatus.pending
                     }

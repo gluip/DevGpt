@@ -34,8 +34,7 @@ class Developer : IDeveloper
 
         var runResult = await _commandExecutor.Execute(taskToRun.command, taskToRun.arguments);
         System.Console.ForegroundColor = ConsoleColor.Yellow;
-        System.Console.WriteLine($"result : {runResult.Result}");
-        System.Console.WriteLine($"context : {runResult.Context}");
+        System.Console.WriteLine($"result : {runResult}");
 
         ////create an openai prompt stating the objective and the task
         //var prompt =
@@ -46,9 +45,8 @@ class Developer : IDeveloper
         var prompt = "You are a developer that has run the following task, " + Environment.NewLine
                      + $"TASK={JsonSerializer.Serialize(taskToRun)} ###END###" +
                      Environment.NewLine
-                     + $"RESULT={runResult.Result}" + Environment.NewLine
-                     + $"RESULT_CONTEXT={runResult.Context}" + Environment.NewLine
-                     + "Interpreted the RESULT and RESULT_CONTEXT. Update the TASK_LIST using the result. " +
+                     + $"RESULT={runResult}" + Environment.NewLine
+                     + "Interpreted the RESULT and RESULT_CONTEXT. Update the TASK_LIST using the result. Describe how the result affects the task list." +
                      " Update the task status or add/modify tasks when needed. Make sure any \\ is encoded for JSON." + Environment.NewLine
                      + "If the task failed you should try to correct the error by altering the task." + Environment.NewLine
                      + "If the task succeeded you update the result of the task with a summary of the result. Make sure all info relevant to the objective is in the summary. " + Environment.NewLine
@@ -56,7 +54,7 @@ class Developer : IDeveloper
                      + "Make sure all tasks have correct and concrete arguments." + Environment.NewLine
                      + $"OBJECTIVE={project.Objective}" + Environment.NewLine
                      + $"AVAILABLE COMMANDS: {commandsText}" + Environment.NewLine + Environment.NewLine 
-                     + "Make sure the TASK_LIST is in chronological order so the first PENDING task should be run next. Always use the 'TASK_LIST=[{task1,task2}] ###END###' format in your response. " + Environment.NewLine
+                     + "Make sure the TASK_LIST is in chronological order so the first PENDING task should be run next. Update the next task so it contains only concrete parameters and no references or placeholders. Always use the 'TASK_LIST=[{task1,task2}] ###END###' format in your response. " + Environment.NewLine
                      + $"AVAILABLE_STATUS_OPTIONS={string.Join(",",Enum.GetNames(typeof(TaskStatus)))}" + Environment.NewLine+
                      $"TASK_LIST={JsonSerializer.Serialize(project.TaskList,new JsonSerializerOptions{WriteIndented = true})}###END###";
                      //Environment.NewLine;

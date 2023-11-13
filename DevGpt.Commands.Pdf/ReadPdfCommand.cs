@@ -23,6 +23,7 @@ namespace DevGpt.Commands.Pdf
             
             foreach (Page page in document.GetPages())
             {
+                return page.Text;
                 IReadOnlyList<Letter> letters = page.Letters;
                 return string.Join(string.Empty, letters.Select(x => x.Value));
             }

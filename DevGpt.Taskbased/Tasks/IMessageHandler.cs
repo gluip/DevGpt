@@ -1,8 +1,9 @@
-﻿using Azure.AI.OpenAI;
+﻿
+using DevGpt.Models.OpenAI;
 
 namespace DevGpt.Console.Tasks;
 
 internal interface IMessageHandler
 {
-    void HandleMessage(ChatRole chatRole, string message);
+    void HandleMessage(DevGptChatRole chatRole, string message);
 }

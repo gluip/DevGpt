@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
-using Azure.AI.OpenAI;
+
 using DevGpt.Models.OpenAI;
 using DevGpt.OpenAI;
 
@@ -58,12 +58,12 @@ namespace DevGpt.Console.Tasks
                 + $"EXAMPLE TASK_LIST={JsonSerializer.Serialize(project.TaskList,new JsonSerializerOptions{WriteIndented = true})} ###END###" + Environment.NewLine
                 +$"TASK_LIST=.....";
             // green prompt
-            _messageHandler.HandleMessage(ChatRole.User, prompt);
+            _messageHandler.HandleMessage(DevGptChatRole.User, prompt);
 
             var response = await _openAiClient.CompletePrompt(new List<DevGptChatMessage>
                 { new DevGptChatMessage(DevGptChatRole.User, prompt) });
 
-            _messageHandler.HandleMessage(ChatRole.Assistant, response);
+            _messageHandler.HandleMessage(DevGptChatRole.Assistant, response);
             
 
             project.TaskList = _responseParser.GetTaskList(response);

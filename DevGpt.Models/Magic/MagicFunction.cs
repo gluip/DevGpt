@@ -1,10 +1,7 @@
 ﻿using System.Text.Json;
-using Azure.AI.OpenAI;
-using DevGpt.Models;
 using DevGpt.Models.OpenAI;
-using DevGpt.OpenAI;
 
-namespace DevGpt.Commands.Magic;
+namespace DevGpt.Models.Magic;
 
 
 

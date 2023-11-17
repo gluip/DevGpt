@@ -1,7 +1,7 @@
 ﻿using System.Reflection;
 using System.Text.Json;
 using System.Threading.Tasks;
-using Azure.AI.OpenAI;
+
 using DevGpt.Models.Commands;
 using DevGpt.Models.OpenAI;
 using DevGpt.OpenAI;
@@ -49,12 +49,12 @@ class TaskPlanner : ITaskPlanner
                      + $"AVAILABLE_STATUS_OPTIONS={string.Join(",",Enum.GetNames(typeof(TaskStatus)))}" + Environment.NewLine+
                      $"TASK_LIST={JsonSerializer.Serialize(project.TaskList,new JsonSerializerOptions{WriteIndented = true})}###END###";
                      //Environment.NewLine;
-        _messageHandler.HandleMessage(ChatRole.User,prompt);
+        _messageHandler.HandleMessage(DevGptChatRole.User,prompt);
 
         
 
         var textResponse = await _openAiClient.CompletePrompt(new List<DevGptChatMessage> { new DevGptChatMessage(DevGptChatRole.User, prompt) });
-        _messageHandler.HandleMessage(ChatRole.Assistant, textResponse);
+        _messageHandler.HandleMessage(DevGptChatRole.Assistant, textResponse);
 
         project.TaskList = _responseParser.GetTaskList(textResponse); 
 

@@ -1,6 +1,6 @@
 ﻿using System.Reflection;
 using System.Text.Json;
-using Azure.AI.OpenAI;
+
 using DevGpt.Models.Commands;
 using DevGpt.Models.OpenAI;
 using DevGpt.OpenAI;

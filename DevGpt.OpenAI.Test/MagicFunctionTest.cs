@@ -1,5 +1,6 @@
 using System.Reflection;
-using DevGpt.Commands.Magic;
+using DevGpt.Models.Magic;
+
 
 namespace DevGpt.OpenAI.Test
 {

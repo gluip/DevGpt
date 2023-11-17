@@ -1,7 +1,6 @@
 ﻿// See https://aka.ms/new-console-template for more information
 
 using System.Text.Json;
-using Azure.AI.OpenAI;
 using DevGpt.Commands.Magic;
 using DevGpt.Commands.Pdf;
 using DevGpt.Commands.Web.Browser;

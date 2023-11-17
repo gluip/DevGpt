@@ -3,7 +3,7 @@ using DevGpt.Commands.Web.Browser;
 using DevGpt.Commands.Web.Google;
 using DevGpt.Commands.Web.Semantic;
 using DevGpt.Console.Commands.Semantic;
-using DevGpt.OpenAI;
+
 
 namespace DevGpt.Commands.Web.Test
 {

@@ -1,6 +1,5 @@
-﻿using Azure.AI.OpenAI;
-using DevGpt.Models.OpenAI;
-using DevGpt.OpenAI;
+﻿using DevGpt.Models.OpenAI;
+
 
 namespace DevGpt.Commands.Magic;
 

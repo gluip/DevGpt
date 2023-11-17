@@ -1,13 +1,14 @@
-﻿using Azure.AI.OpenAI;
+﻿
+using DevGpt.Models.OpenAI;
 using DevGpt.Models.Utils;
 
 namespace DevGpt.Console.Tasks;
 
 class MessageHandler : IMessageHandler
 {
-    public void HandleMessage(ChatRole chatRole, string message)
+    public void HandleMessage(DevGptChatRole chatRole, string message)
     {
-        var color = chatRole == ChatRole.User ? 
+        var color = chatRole == DevGptChatRole.User ? 
             ConsoleColor.Green : ConsoleColor.Red;
 
         DevConsole.WriteLine(message, color);

@@ -1,4 +1,4 @@
-﻿using Azure.AI.OpenAI;
+﻿
 using DevGpt.Models.OpenAI;
 using static System.Net.Mime.MediaTypeNames;
 

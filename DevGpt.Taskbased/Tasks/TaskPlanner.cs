@@ -3,6 +3,7 @@ using System.Text.Json;
 using System.Threading.Tasks;
 using Azure.AI.OpenAI;
 using DevGpt.Models.Commands;
+using DevGpt.Models.OpenAI;
 using DevGpt.OpenAI;
 using static System.Net.Mime.MediaTypeNames;
 
@@ -15,12 +16,12 @@ internal interface ITaskPlanner
 
 class TaskPlanner : ITaskPlanner
 {
-    private readonly IAzureOpenAIClient _openAiClient;
+    private readonly IDevGptOpenAIClient _openAiClient;
     private readonly IList<ICommandBase> _commands;
     private readonly IMessageHandler _messageHandler;
     private readonly IResponseParser _responseParser;
 
-    public TaskPlanner(IAzureOpenAIClient openAiClient,IList<ICommandBase> commands,
+    public TaskPlanner(IDevGptOpenAIClient openAiClient,IList<ICommandBase> commands,
         IMessageHandler messageHandler,IResponseParser responseParser)
     {
         _openAiClient = openAiClient;
@@ -52,7 +53,7 @@ class TaskPlanner : ITaskPlanner
 
         
 
-        var textResponse = await _openAiClient.CompletePrompt(new List<ChatMessage> { new ChatMessage(ChatRole.User, prompt) });
+        var textResponse = await _openAiClient.CompletePrompt(new List<DevGptChatMessage> { new DevGptChatMessage(DevGptChatRole.User, prompt) });
         _messageHandler.HandleMessage(ChatRole.Assistant, textResponse);
 
         project.TaskList = _responseParser.GetTaskList(textResponse); 

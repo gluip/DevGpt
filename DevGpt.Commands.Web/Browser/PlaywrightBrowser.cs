@@ -14,7 +14,9 @@ public class PlaywrightBrowser : IBrowser,IDisposable
     public async Task<string> OpenPage(string url)
     {
         _playwright = await Playwright.CreateAsync();
-        _browser = await _playwright.Webkit.LaunchAsync();
+        //non headless browser
+        _browser = await _playwright.Chromium.LaunchAsync(new BrowserTypeLaunchOptions { Headless = false });
+        //_browser = await _playwright.Webkit.LaunchAsync();
         
         _page = await _browser.NewPageAsync();
 
@@ -62,8 +64,6 @@ public class PlaywrightBrowser : IBrowser,IDisposable
         html = Regex.Replace(html, @"\s+", " ", RegexOptions.Singleline);
         // string base64 src attributes from html
         html = Regex.Replace(html, " src=\"data:image.*?\"", "", RegexOptions.Singleline);
-        // remove data- attributes from html
-        html = Regex.Replace(html, " data-.*?=\".*?\"", "", RegexOptions.Singleline);
         return html;
     }
 
@@ -80,6 +80,15 @@ public class PlaywrightBrowser : IBrowser,IDisposable
     public async Task ClickAsync(string selector)
     {
         await _page.Locator(selector).ClickAsync();
+    }
+
+    public Task TakeScreenshot()
+    {
+        return Task.CompletedTask;
+        //await _page.ScreenshotAsync(new PageScreenshotOptions
+        //{
+        //    Path = 
+        //});
     }
 
     public void Dispose()

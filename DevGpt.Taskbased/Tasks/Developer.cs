@@ -3,6 +3,7 @@ using System.Text.Json;
 using System.Threading.Tasks;
 using Azure.AI.OpenAI;
 using DevGpt.Models.Commands;
+using DevGpt.Models.OpenAI;
 using DevGpt.OpenAI;
 using MyApp;
 using static System.Net.Mime.MediaTypeNames;
@@ -11,13 +12,13 @@ namespace DevGpt.Console.Tasks;
 
 class Developer : IDeveloper
 {
-    private readonly IAzureOpenAIClient _openAiClient;
+    private readonly IDevGptOpenAIClient _openAiClient;
     private readonly IList<ICommandBase> _commands;
     private readonly ICommandExecutor _commandExecutor;
     private readonly IMessageHandler _messageHandler;
     private readonly IResponseParser _responseParser;
 
-    public Developer(IAzureOpenAIClient openAiClient,IList<ICommandBase> commands, ICommandExecutor commandExecutor,
+    public Developer(IDevGptOpenAIClient openAiClient,IList<ICommandBase> commands, ICommandExecutor commandExecutor,
         IMessageHandler messageHandler,IResponseParser responseParser)
     {
         _openAiClient = openAiClient;
@@ -59,10 +60,8 @@ class Developer : IDeveloper
                      $"TASK_LIST={JsonSerializer.Serialize(project.TaskList,new JsonSerializerOptions{WriteIndented = true})}###END###";
                      //Environment.NewLine;
             _messageHandler.HandleMessage(ChatRole.User,prompt);
-
         
-
-        var textResponse = await _openAiClient.CompletePrompt(new List<ChatMessage> { new ChatMessage(ChatRole.User, prompt) });
+        var textResponse = await _openAiClient.CompletePrompt(new List<DevGptChatMessage> { new DevGptChatMessage(DevGptChatRole.User, prompt) });
         _messageHandler.HandleMessage(ChatRole.Assistant, textResponse);
 
         project.TaskList = _responseParser.GetTaskList(textResponse); 

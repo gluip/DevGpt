@@ -15,10 +15,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DevGpt.Commands.Pdf.Test", 
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DevGpt.Commands.Web", "DevGpt.Commands.Web\DevGpt.Commands.Web.csproj", "{B38020BF-D6AF-4F27-BD20-1E779378D3BC}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DevGpt.Memory", "DevGpt.Memory\DevGpt.Memory.csproj", "{68C90FF5-3A4B-4EB4-90F7-99521FEE9A22}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DevGpt.Memory.Test", "DevGpt.Memory.Test\DevGpt.Memory.Test.csproj", "{BE551A5E-A17B-4BE7-A032-96012201CD82}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DevGpt.Taskbased", "DevGpt.Taskbased\DevGpt.Taskbased.csproj", "{95AB84AD-3CAA-4F82-9412-AF79C57DF25C}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DevGpt.Commands", "DevGpt.Commands\DevGpt.Commands.csproj", "{72C3A2DB-6364-4899-A4AD-553C880EA99E}"
@@ -33,9 +29,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DevGpt.OpenAI.RedisCache.Te
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DevGpt.SemanticKernel", "DevGpt.SemanticKernel\DevGpt.SemanticKernel.csproj", "{A8626AA1-D0B6-4C34-8782-A44DD088BD8E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DevGpt.Commands.Web.Test", "DevGpt.Commands.Web.Test\DevGpt.Commands.Web.Test.csproj", "{039FE5FB-13CE-4B03-98B6-B76F75E70148}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DevGpt.Commands.Web.Test", "DevGpt.Commands.Web.Test\DevGpt.Commands.Web.Test.csproj", "{039FE5FB-13CE-4B03-98B6-B76F75E70148}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DevGpt.OpenAI.Test", "DevGpt.OpenAI.Test\DevGpt.OpenAI.Test.csproj", "{3125A694-DFC1-42F6-9F9D-D1E5322F14EB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DevGpt.OpenAI.Test", "DevGpt.OpenAI.Test\DevGpt.OpenAI.Test.csproj", "{3125A694-DFC1-42F6-9F9D-D1E5322F14EB}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DevGpt.Images", "DevGpt.Images\DevGpt.Images.csproj", "{CE056E6C-980A-4672-B025-FE236DC18C61}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -67,14 +65,6 @@ Global
 		{B38020BF-D6AF-4F27-BD20-1E779378D3BC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B38020BF-D6AF-4F27-BD20-1E779378D3BC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B38020BF-D6AF-4F27-BD20-1E779378D3BC}.Release|Any CPU.Build.0 = Release|Any CPU
-		{68C90FF5-3A4B-4EB4-90F7-99521FEE9A22}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{68C90FF5-3A4B-4EB4-90F7-99521FEE9A22}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{68C90FF5-3A4B-4EB4-90F7-99521FEE9A22}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{68C90FF5-3A4B-4EB4-90F7-99521FEE9A22}.Release|Any CPU.Build.0 = Release|Any CPU
-		{BE551A5E-A17B-4BE7-A032-96012201CD82}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{BE551A5E-A17B-4BE7-A032-96012201CD82}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{BE551A5E-A17B-4BE7-A032-96012201CD82}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{BE551A5E-A17B-4BE7-A032-96012201CD82}.Release|Any CPU.Build.0 = Release|Any CPU
 		{95AB84AD-3CAA-4F82-9412-AF79C57DF25C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{95AB84AD-3CAA-4F82-9412-AF79C57DF25C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{95AB84AD-3CAA-4F82-9412-AF79C57DF25C}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -111,6 +101,10 @@ Global
 		{3125A694-DFC1-42F6-9F9D-D1E5322F14EB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3125A694-DFC1-42F6-9F9D-D1E5322F14EB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3125A694-DFC1-42F6-9F9D-D1E5322F14EB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CE056E6C-980A-4672-B025-FE236DC18C61}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CE056E6C-980A-4672-B025-FE236DC18C61}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CE056E6C-980A-4672-B025-FE236DC18C61}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CE056E6C-980A-4672-B025-FE236DC18C61}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

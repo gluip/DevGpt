@@ -1,4 +1,5 @@
 ﻿using Azure.AI.OpenAI;
+using DevGpt.Models.OpenAI;
 using DevGpt.OpenAI;
 
 namespace DevGpt.Commands.Magic;
@@ -9,9 +10,9 @@ public interface ISimpleFunction
 }
 public class SimpleFunction : ISimpleFunction
 {
-    private readonly IAzureOpenAIClient _openAiClient;
+    private readonly IDevGptOpenAIClient _openAiClient;
 
-    public SimpleFunction(IAzureOpenAIClient openAiClient)
+    public SimpleFunction(IDevGptOpenAIClient openAiClient)
     {
         _openAiClient = openAiClient;
     }
@@ -21,7 +22,7 @@ public class SimpleFunction : ISimpleFunction
         var prompt =
             $"{question} context: {context}";
 
-        return await _openAiClient.CompletePrompt(new List<ChatMessage> { new ChatMessage(ChatRole.User, prompt) });
+        return await _openAiClient.CompletePrompt(new List<DevGptChatMessage>{ new DevGptChatMessage(DevGptChatRole.User, prompt) });
 
 
     }

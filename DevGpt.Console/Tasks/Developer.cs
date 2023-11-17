@@ -2,16 +2,17 @@
 using System.Text.Json;
 using Azure.AI.OpenAI;
 using DevGpt.Models.Commands;
+using DevGpt.Models.OpenAI;
 using DevGpt.OpenAI;
 
 namespace DevGpt.Console.Tasks;
 
 class Developer : IDeveloper
 {
-    private readonly IAzureOpenAIClient _openAiClient;
+    private readonly IDevGptOpenAIClient _openAiClient;
     private readonly IList<ICommandBase> _commands;
 
-    public Developer(IAzureOpenAIClient openAiClient,IList<ICommandBase> commands)
+    public Developer(IDevGptOpenAIClient openAiClient,IList<ICommandBase> commands)
     {
         _openAiClient = openAiClient;
         _commands = commands;
@@ -44,7 +45,7 @@ class Developer : IDeveloper
             + "OBJECTIVE={objective}" + Environment.NewLine
             + "TASK LIST=";
 
-        var textResponse = _openAiClient.CompletePrompt(new List<ChatMessage>{new ChatMessage(ChatRole.User,prompt)});
+        var textResponse = _openAiClient.CompletePrompt(new List<DevGptChatMessage>{new DevGptChatMessage(DevGptChatRole.User, prompt) });
     }
 
     private string GetEmbeddedResource(string resourceName)

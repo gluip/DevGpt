@@ -1,17 +1,16 @@
 ﻿using Azure;
 using Azure.AI.OpenAI;
+using DevGpt.Models.OpenAI;
 using SharpToken;
 
 namespace DevGpt.OpenAI
 {
-    public interface IAzureOpenAIClient
-    {
-        Task<string> CompletePrompt(IList<ChatMessage> allMessages);
-    }
+   
 
-    public class AzureOpenAIClient : IAzureOpenAIClient
+    public class AzureOpenAIClient : IDevGptOpenAIClient
     {
-        public async Task<string> CompletePrompt(IList<ChatMessage> allMessages)
+        
+        public async Task<string> CompletePrompt(IList<DevGptChatMessage> allMessages)
         {
             //mission statement..first message
             //var messagesToSend = GetMessagesToSend(allMessages);
@@ -34,7 +33,7 @@ namespace DevGpt.OpenAI
             };
             foreach (var message in allMessages)
             {
-                chatCompletionsOptions.Messages.Add(message);
+                chatCompletionsOptions.Messages.Add(AzureOpenAIChatMessageMapper.Map(message));
             }
 
 
@@ -46,7 +45,7 @@ namespace DevGpt.OpenAI
 
 
             var completions = await client.GetChatCompletionsAsync(
-                deploymentOrModelName: "gpt-4",
+                deploymentOrModelName: "gpt-4-1106-preview",
                 chatCompletionsOptions);
 
             var messageContent = completions.Value.Choices[0].Message.Content;
@@ -61,19 +60,28 @@ namespace DevGpt.OpenAI
 
         private static OpenAIClient GetOpenAiClient()
         {
+            var useAzure = false;
 
-            // azure version
-            var azureKey = Environment.GetEnvironmentVariable("DevGpt_AzureKey", EnvironmentVariableTarget.User);
-            var uri = Environment.GetEnvironmentVariable("DevGpt_AzureUri", EnvironmentVariableTarget.User);
+            if (useAzure)
+            {
+                // azure version
+                var azureKey = Environment.GetEnvironmentVariable("DevGpt_AzureKey", EnvironmentVariableTarget.User);
+                var uri = Environment.GetEnvironmentVariable("DevGpt_AzureUri", EnvironmentVariableTarget.User);
 
 
-            var client = new OpenAIClient(
-                new Uri(uri),
-                new AzureKeyCredential(azureKey));
+                var client = new OpenAIClient(
+                    new Uri(uri),
+                    new AzureKeyCredential(azureKey));
 
-            //var openAIKey = Environment.GetEnvironmentVariable("DevGpt_OpenAIKey", EnvironmentVariableTarget.User);
-            //var client = new OpenAIClient(openAIKey);
-            return client;
+                //var openAIKey = Environment.GetEnvironmentVariable("DevGpt_OpenAIKey", EnvironmentVariableTarget.User);
+                //var client = new OpenAIClient(openAIKey);
+                return client;
+            }
+
+            var openAIKey = Environment.GetEnvironmentVariable("DevGpt_OpenAIKey", EnvironmentVariableTarget.User); 
+            return new OpenAIClient(openAIKey);
+
+
         }
 
 

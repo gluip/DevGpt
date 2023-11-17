@@ -1,19 +1,20 @@
 ﻿using Azure.AI.OpenAI;
+using DevGpt.Models.OpenAI;
 using static System.Net.Mime.MediaTypeNames;
 
 namespace DevGpt.OpenAI.RedisCache
 {
-    public class RedisCachingAzureOpenAIClient : IAzureOpenAIClient
+    public class RedisCachingAzureOpenAIClient : IDevGptOpenAIClient
     {
-        private readonly IAzureOpenAIClient _client;
+        private readonly IDevGptOpenAIClient _client;
         private IRedisClient _redisclient;
 
-        public RedisCachingAzureOpenAIClient(IAzureOpenAIClient client, IRedisClient redisclient)
+        public RedisCachingAzureOpenAIClient(IDevGptOpenAIClient client, IRedisClient redisclient)
         {
             _client = client;
             _redisclient = redisclient;
         }
-        public async Task<string> CompletePrompt(IList<ChatMessage> allMessages)
+        public async Task<string> CompletePrompt(IList<DevGptChatMessage> allMessages)
         {
             // calculate a hash of all the messages 
             // if the hash is in the cache, return the result
@@ -36,7 +37,7 @@ namespace DevGpt.OpenAI.RedisCache
             return completePrompt;
         }
 
-        private string GetHash(IList<ChatMessage> allMessages)
+        private string GetHash(IList<DevGptChatMessage> allMessages)
         {
             var content = string.Join(",",allMessages.Select(c => c.Content + c.Role.ToString()));
 

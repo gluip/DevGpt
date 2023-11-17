@@ -5,7 +5,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using DevGpt.Console.Logging;
-using DevGpt.Console.Models;
+
+using DevGpt.Models.OpenAI;
 
 namespace DevGpt.Console
 {
@@ -13,14 +14,15 @@ namespace DevGpt.Console
     {
         private  IList<DevGptChatMessage> Messages { get; set; } = new List<DevGptChatMessage>();
 
-        public IList<ChatMessage> GetMessages()
+        public IList<DevGptChatMessage> GetMessages()
         {
-            var result = Messages.Select(m=>m as ChatMessage).ToList();
-            //remove all context messages from the list
-            Messages = Messages.Where(m => !m.IsContext).ToList();
-            return result;
-
+            return Messages;
         }
+        //    //remove all context messages from the list
+        //    Messages = Messages.Where(m => !m.IsContext).ToList();
+        //    return result;
+
+        //}
 
         public void AddMessage(DevGptChatMessage message)
         {
@@ -29,7 +31,7 @@ namespace DevGpt.Console
             Messages.Add(message);
 
             //assistant messages are logged elsewhere
-            if (message.Role == ChatRole.Assistant)
+            if (message.Role == DevGptChatRole.Assistant)
             {
                 return;
             }
@@ -45,11 +47,11 @@ namespace DevGpt.Console
             //}
 
             //write to console color based on role
-            System.Console.ForegroundColor = message.Role == ChatRole.User ? 
-                ConsoleColor.Green : message.Role == ChatRole.Assistant ?
+            System.Console.ForegroundColor = message.Role == DevGptChatRole.User ? 
+                ConsoleColor.Green : message.Role == DevGptChatRole.Assistant ?
                 ConsoleColor.Red:
                 ConsoleColor.White;
-            System.Console.WriteLine(message.Role + ":" + message.Content);
+            System.Console.WriteLine(message.Role + ":" + message.ToString());
         }
 
     }

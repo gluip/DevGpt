@@ -6,6 +6,7 @@ using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
 using Azure.AI.OpenAI;
+using DevGpt.Models.OpenAI;
 using DevGpt.OpenAI;
 
 namespace DevGpt.Console.Tasks
@@ -13,14 +14,14 @@ namespace DevGpt.Console.Tasks
     internal class TaskReasoningEngine
     {
 
-        private readonly IAzureOpenAIClient _openAiClient;
+        private readonly IDevGptOpenAIClient _openAiClient;
         private readonly IList<ICommandBase> _commands;
         private readonly IDeveloper _developer;
         private readonly IResponseParser _responseParser;
         private readonly IMessageHandler _messageHandler;
         private ITaskPlanner _taskPlanner;
 
-        public TaskReasoningEngine(IAzureOpenAIClient openAiClient, IList<ICommandBase> commands,
+        public TaskReasoningEngine(IDevGptOpenAIClient openAiClient, IList<ICommandBase> commands,
             IDeveloper developer,IResponseParser responseParser, IMessageHandler messageHandler,ITaskPlanner taskPlanner)
         {
             _openAiClient = openAiClient;
@@ -59,8 +60,8 @@ namespace DevGpt.Console.Tasks
             // green prompt
             _messageHandler.HandleMessage(ChatRole.User, prompt);
 
-            var response = await _openAiClient.CompletePrompt(new List<ChatMessage>
-                { new ChatMessage(ChatRole.User, prompt) });
+            var response = await _openAiClient.CompletePrompt(new List<DevGptChatMessage>
+                { new DevGptChatMessage(DevGptChatRole.User, prompt) });
 
             _messageHandler.HandleMessage(ChatRole.Assistant, response);
             

@@ -1,6 +1,7 @@
 ﻿using System.Text.Json;
 using Azure.AI.OpenAI;
 using DevGpt.Models;
+using DevGpt.Models.OpenAI;
 using DevGpt.OpenAI;
 
 namespace DevGpt.Commands.Magic;
@@ -9,9 +10,9 @@ namespace DevGpt.Commands.Magic;
 
 public class MagicFunction : IMagicFunction
 {
-    private readonly IAzureOpenAIClient _openAiClient;
+    private readonly IDevGptOpenAIClient _openAiClient;
 
-    public MagicFunction(IAzureOpenAIClient openAiClient)
+    public MagicFunction(IDevGptOpenAIClient openAiClient)
     {
         _openAiClient = openAiClient;
     }
@@ -26,7 +27,7 @@ public class MagicFunction : IMagicFunction
             $"ANSWER_EXAMPLE={JsonSerializer.Serialize(example)}" + Environment.NewLine +
             "ANSWER=" + Environment.NewLine;
 
-        var response = await _openAiClient.CompletePrompt(new List<ChatMessage> { new ChatMessage(ChatRole.User, prompt) });
+        var response = await _openAiClient.CompletePrompt(new List<DevGptChatMessage> { new DevGptChatMessage(DevGptChatRole.User, prompt) });
         try
         {
             return JsonSerializer.Deserialize<T>(response);

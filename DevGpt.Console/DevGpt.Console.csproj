@@ -8,6 +8,12 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Models\**" />
+    <EmbeddedResource Remove="Models\**" />
+    <None Remove="Models\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <None Remove="Tasks\Examples\example1.json" />
   </ItemGroup>
 
@@ -26,10 +32,7 @@
     <ProjectReference Include="..\DevGpt.Commands\DevGpt.Commands.csproj" />
     <ProjectReference Include="..\DevGpt.Models\DevGpt.Models.csproj" />
     <ProjectReference Include="..\DevGpt.OpenAI.RedisCache\DevGpt.OpenAI.RedisCache.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Models\" />
+    <ProjectReference Include="..\DevGpt.OpenAIDotnet\DevGpt.OpenAIDotnet.csproj" />
   </ItemGroup>
 
 </Project>

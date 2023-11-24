@@ -1,16 +1,17 @@
 ﻿using System.Drawing;
 using DevGpt.Models.Commands;
+using DevGpt.Models.OpenAI;
 using DevGpt.Models.Utils;
 
 namespace MyApp;
 
 public interface ICommandExecutor
 {
-    Task<string> Execute(string commandName, string[] args);
+    Task<DevGptChatMessage> Execute(string commandName, string[] args);
 }
 
 
-public class CommandExecutor:ICommandExecutor
+public class CommandExecutor : ICommandExecutor
 {
     private readonly IList<ICommandBase> _commands;
 
@@ -19,31 +20,22 @@ public class CommandExecutor:ICommandExecutor
         _commands = commands;
     }
 
-    public async Task<string> Execute(string commandName, string[] args)
-        
+    public async Task<DevGptChatMessage> Execute(string commandName, string[] args)
+
     {
         DevConsole.WriteLine($"Do you want to execute {commandName} ? (y/n)");
         var response = System.Console.ReadLine();
-        string result;
         if (response.ToLower() == "y")
         {
-            result = await DoExecute(commandName,
+            return await DoExecute(commandName,
                 args);
         }
-        else if (response == "r")
-        {
-            result = "Please make sure you use one of the following commands: \n" +
-                     _commands.GetCommandsText();
-        }
-        else
-        {
-            result = "User refused to execute command. Please try something else";
-        }
 
-        return result;
+        return new DevGptChatMessage(DevGptChatRole.User, "User refused to execute command. Please try something else");
+
     }
 
-    private async Task<string> DoExecute(string commandName, string[] args)
+    private async Task<DevGptChatMessage> DoExecute(string commandName, string[] args)
     {
         // remove double encoding from args
         for (int i = 0; i < args.Length; i++)
@@ -57,15 +49,23 @@ public class CommandExecutor:ICommandExecutor
         {
             var commandsText = string.Join("\n", _commands.Select(c => c.GetHelp()));
             commandsText += "\n\n";
-            return $"command {commandName} not found. Please make sure you use on the following commands.\r\n{commandsText}";
+            return new DevGptChatMessage(DevGptChatRole.User,
+                $"command {commandName} not found. Please make sure you use on the following commands.\r\n{commandsText}");
+        }
+
+        if (command is IAsyncMessageCommand messageCommand)
+        {
+            return await messageCommand.ExecuteAsync(args);
         }
 
         if (command is IAsyncCommand asyncCommand)
         {
-            return await asyncCommand.ExecuteAsync(args);
+            var stringResult = await asyncCommand.ExecuteAsync(args);
+            return new DevGptChatMessage(DevGptChatRole.User, stringResult);
         }
-        return (command as ICommand)?.Execute(args) ??
-               throw new InvalidOperationException();
 
+        var doExecute = (command as ICommand)?.Execute(args) ??
+                        throw new InvalidOperationException();
+        return new DevGptChatMessage(DevGptChatRole.User, doExecute);
     }
 }

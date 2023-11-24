@@ -1,6 +1,9 @@
 ﻿
+using DevGpt.Models.OpenAI;
+using DevGpt.OpenAI;
 using OpenAI;
 using OpenAI.Chat;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace DevGpt.Images // Note: actual namespace depends on the project name.
 {
@@ -15,20 +18,25 @@ namespace DevGpt.Images // Note: actual namespace depends on the project name.
 
             var openAIKey = Environment.GetEnvironmentVariable("DevGpt_OpenAIKey", EnvironmentVariableTarget.User);
 
-            var client = new OpenAIClient(openAIKey);
-            
-            var messages = new List<Message>
+
+            var client = new DotnetOpenAIClient();
+            //read png from file into bas64 string
+            var base64 = Convert.ToBase64String(File.ReadAllBytes("orv.png"));
+
+            var uri = $"data:image/jpeg;base64,{base64}";
+
+            var messages = new List<DevGptChatMessage>
             {
-                new Message(Role.System, "You are a helpful assistant."),
-                new Message(Role.User, new List<Content>
+                new DevGptChatMessage(DevGptChatRole.System, "You are a helpful assistant."),
+                new DevGptChatMessage(DevGptChatRole.User, new List<DevGptContent>
                 {
-                    new Content(ContentType.Text, "What's in this image?"),
-                    new Content(ContentType.ImageUrl, "https://i.ibb.co/b12F8qQ/Screenshot-2023-11-16-230916.png")
+                    new DevGptContent(DevGptContentType.Text, "Is the 'Mijzelf and iemand anders' option selected?"),
+                    new DevGptContent(DevGptContentType.ImageUrl,uri)
                 })
             };
-            var chatRequest = new ChatRequest(messages, model: "gpt-4-vision-preview",maxTokens:1000);
-            var result = await client.ChatEndpoint.GetCompletionAsync(chatRequest);
-            Console.WriteLine($"{result.FirstChoice.Message.Role}: {result.FirstChoice.Message.Content} | Finish Reason: {result.FirstChoice.FinishDetails}");
+            //var chatRequest = new ChatRequest(messages, model: "gpt-4-vision-preview",maxTokens:1000);
+            var result = await client.CompletePrompt(messages);
+            Console.WriteLine(result);
         }
     }
 }

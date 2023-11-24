@@ -39,7 +39,7 @@ namespace DevGpt.OpenAI.RedisCache
 
         private string GetHash(IList<DevGptChatMessage> allMessages)
         {
-            var content = string.Join(",",allMessages.Select(c => c.Content + c.Role.ToString()));
+            var content = string.Join(",",allMessages.Select(c => c.ToString()));
 
             var textBytes = System.Text.Encoding.UTF8.GetBytes(content);
             return System.Convert.ToBase64String(textBytes);

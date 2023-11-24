@@ -6,17 +6,27 @@ using System.Threading.Tasks;
 
 namespace DevGpt.Console.Prompts
 {
-    internal class PromptGeneratorGeneratorWebTester : PromptGeneratorBase
+    internal class PromptGeneratorGeneratorWebTesterORV : PromptGeneratorBase
     {
         public override string GetUserPrompt(string commandsText) => "You are 'webtester', an AI designed to test web pages. You are focused on being accurate and complete.\\n" +
                                          "Your decisions must always be made independently without seeking user assistance. Play to your strengths as an LLM and pursue simple strategies with no legal complications." +
                                          "\\n\\n" +
                                          "You want to test a form hosted at https://www.berekenhet.nl/kalender/weekdag-datum.html \r\n"+
                                          "GOALS:\\n\\n\r\n\r\n" +
-                                         "1. open the page at https://www.berekenhet.nl/kalender/weekdag-datum.html\r\n" +
-                                         "1. fill in the form for december 12th 1979\r\n" +
-                                         "2. make sure the forms says the day is a wednesday \r\n" +
-                                         "3. Shut down\r\n\r\n" +
+                                         "1. open the page at https://www.asr.nl/service/bereken-premie-overlijdensrisicoverzekering\r\n" +
+                                         "2. ignore the cookiebanner" +
+                                         "3. fill in the dutch form for the insurance with the following data\r\n" +
+                                         "who to insure: single person \r\n" +
+                                         "smoked: yes\r\n\r\n" +
+                                         "birthdate: 12 december 1979 \r\n" +
+                                         "insurance start date: 1 december 2023\r\n\r\n" +
+                                         "insurance duration: 10 years\r\n\r\n" +
+                                         "amount to insure: 100000\r\n\r\n" +
+                                         "insurance type: constant\r\n\r\n" +
+                                         "payment period: month\r\n\r\n" +
+                                         "3. verify the premium is E15.62\r\n" +
+                                         "NOTE: use the data-uitest attributes where available in the html to access or click elements.\r\n"+
+                                         "NOTE: always click on the text next to radio buttons to make a radio button selection.\r\n" +
                                          "Constraints:\r\n" +
                                          "1. ~4000 word limit for short term memory. Your short term memory is short, so immediately save important information to files.\r\n" +
                                          "2. If you are unsure how you previously did something or want to recall past events, thinking about similar events will help you remember.\r\n" +
@@ -27,11 +37,6 @@ namespace DevGpt.Console.Prompts
                                          "Commands:\r\n\r\n" +
                                          commandsText +
                                          "" +
-                                         "" +
-                                         "Resources:\r\n" +
-                                         "1. Internet access for searches and information gathering.\r\n" +
-                                         "2. Long Term memory management.\r\n" +
-                                         "3. File output.\r\n\r\n" +
                                          "" +
                                          "Performance Evaluation:\r\n" +
                                          "1. Continuously review and analyze your actions to ensure you are performing to the best of your abilities.\r\n" +

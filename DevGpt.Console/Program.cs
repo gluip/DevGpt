@@ -29,8 +29,8 @@ namespace DevGpt.Console // Note: actual namespace depends on the project name.
 
 
             var browser = new PlaywrightBrowser();
-            var client = new RedisCachingAzureOpenAIClient(new AzureOpenAIClient(), new RedisClient());
-            //var client = new AzureOpenAIClient();
+            var client = new RedisCachingAzureOpenAIClient(new DotnetOpenAIClient(), new RedisClient());
+            //var client = new DotnetOpenAIClient();
             var simpleFunction = new SimpleFunction(client);
             var commands = new ICommandBase[]
             {
@@ -48,6 +48,10 @@ namespace DevGpt.Console // Note: actual namespace depends on the project name.
                 new BrowserGetHtmlCommand(browser),
                 new BrowserEnterInputCommand(browser),
                 new BrowserClickCommand(browser),
+                new BrowserTakeScreenshotCommand(browser),
+                new ImageQuestionCommand(client)
+
+                
                 //new ReadWebPageCommand(browser,simpleFunction),
                 //new ReadWebPageHtmlCommand(browser,simpleFunction)
             };
@@ -98,9 +102,9 @@ namespace DevGpt.Console // Note: actual namespace depends on the project name.
 
                         //prompt user in a y/n question
                         Command command = asistantReply.command;
-                        var result = await commandExecutor.Execute(command.name, command.args.ToArray());
+                        var resultMessage = await commandExecutor.Execute(command.name, command.args.ToArray());
 
-                        chatHandler.AddMessage(new DevGptChatMessage(DevGptChatRole.User, result));
+                        chatHandler.AddMessage(resultMessage);
                         
                     }
                 }

@@ -11,4 +11,14 @@
     <PackageReference Include="OpenAI-DotNet" Version="7.2.3" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\DevGpt.OpenAIDotnet\DevGpt.OpenAIDotnet.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="orv.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
 </Project>

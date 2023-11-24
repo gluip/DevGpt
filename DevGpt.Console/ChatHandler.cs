@@ -27,7 +27,7 @@ namespace DevGpt.Console
         public void AddMessage(DevGptChatMessage message)
         {
             //_memoryManager.StoreMessage(message.Content);
-            Logger.LogMessage(message.Role +":" + message.Content);
+            Logger.LogMessage(message.ToString());
             Messages.Add(message);
 
             //assistant messages are logged elsewhere

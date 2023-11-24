@@ -7,6 +7,6 @@ public interface IBrowser
 
     Task<string> GetPageText();
     Task FillAsync(string selector, string value);
-    Task ClickAsync(string selector);
-    Task TakeScreenshot();
+    Task ClickAsync(string locator);
+    Task<string> TakeScreenshot();
 }

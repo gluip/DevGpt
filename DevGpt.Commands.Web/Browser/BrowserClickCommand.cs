@@ -16,7 +16,7 @@ public class BrowserClickCommand : IAsyncCommand
     {
         if (args.Length != 1)
         {
-            return $"{Name} requires 1 argument: css selector";
+            return $"{Name} requires 1 argument: playwright locator";
         }
 
         try
@@ -35,6 +35,6 @@ public class BrowserClickCommand : IAsyncCommand
     }
     public string Name => "browser_click";
     public string Description => "clicks on a element on a page";
-    public string[] Arguments => new[] { "css selector" };
+    public string[] Arguments => new[] { "playwright element selector" };
 
 }

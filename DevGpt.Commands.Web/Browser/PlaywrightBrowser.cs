@@ -1,5 +1,6 @@
 ﻿using System.Text.RegularExpressions;
 using Microsoft.Playwright;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace DevGpt.Commands.Web.Browser;
 
@@ -36,7 +37,7 @@ public class PlaywrightBrowser : IBrowser,IDisposable
         });
 
         _page.Context.SetDefaultTimeout(DefaultTimeout);
-
+        
         await _page.GotoAsync(url);
 
         return "Page opened";
@@ -64,6 +65,12 @@ public class PlaywrightBrowser : IBrowser,IDisposable
         html = Regex.Replace(html, @"\s+", " ", RegexOptions.Singleline);
         // string base64 src attributes from html
         html = Regex.Replace(html, " src=\"data:image.*?\"", "", RegexOptions.Singleline);
+        // remove head elements
+        html = Regex.Replace(html, "<head.*?</head>", "", RegexOptions.Singleline);
+        // remove header element
+        html = Regex.Replace(html, "<header.*?</header>", "", RegexOptions.Singleline);
+        // remove footer element
+        html = Regex.Replace(html, "<footer.*?</footer>", "", RegexOptions.Singleline);
         return html;
     }
 
@@ -77,18 +84,38 @@ public class PlaywrightBrowser : IBrowser,IDisposable
         await _page.Locator(selector).FillAsync(value);
     }
 
-    public async Task ClickAsync(string selector)
+    public async Task ClickAsync(string locator)
     {
-        await _page.Locator(selector).ClickAsync();
+        await _page.Locator(locator).ClickAsync();
     }
 
-    public Task TakeScreenshot()
+
+    byte[] ResizeImage(byte[] data, double ratio)
     {
-        return Task.CompletedTask;
-        //await _page.ScreenshotAsync(new PageScreenshotOptions
-        //{
-        //    Path = 
-        //});
+        //resize the image by 50% using ImageSharp
+        using var image = SixLabors.ImageSharp.Image.Load(data);
+        image.Mutate(x => x.Resize((int)(image.Width * ratio), (int)(image.Height * ratio)));
+        using var ms = new MemoryStream();
+        image.SaveAsJpeg(ms);
+        return ms.ToArray();
+
+    }
+    public async Task<string> TakeScreenshot()
+    {
+        var bytes = await _page.ScreenshotAsync(new()
+        {
+            Type = ScreenshotType.Jpeg
+        });
+        
+        bytes = ResizeImage(bytes, 0.5);
+
+        using var image = SixLabors.ImageSharp.Image.Load(bytes);
+        
+        //create a screenshot name based on current time including seconds
+        var screenshotName =$"screenshot-{DateTime.Now:yyyyMMddHHmmss}.png";
+        image.Save(screenshotName);
+
+        return screenshotName;
     }
 
     public void Dispose()

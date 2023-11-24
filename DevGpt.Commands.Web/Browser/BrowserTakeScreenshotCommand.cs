@@ -1,8 +1,9 @@
 ﻿using DevGpt.Models.Commands;
+using DevGpt.Models.OpenAI;
 
 namespace DevGpt.Commands.Web.Browser;
 
-public class BrowserTakeScreenshotCommand : IAsyncCommand
+public class BrowserTakeScreenshotCommand : IAsyncMessageCommand
 {
     private readonly IBrowser _browser;
 
@@ -15,9 +16,13 @@ public class BrowserTakeScreenshotCommand : IAsyncCommand
     public string Description => "Gets a screenshot of the current page in the browser";
     public string Name => "browser_take_screenshot";
     
-    public async Task<string> ExecuteAsync(string[] args)
+    public async Task<DevGptChatMessage> ExecuteAsync(string[] args)
     {
-         await _browser.TakeScreenshot();
-         return "Screenshot taken";
+         var path = await _browser.TakeScreenshot();
+
+         return new DevGptChatMessage(DevGptChatRole.User, new List<DevGptContent>
+         {
+             new DevGptContent(DevGptContentType.Text, $"Screenshot saved to {path}`"),
+         });
     }
 }

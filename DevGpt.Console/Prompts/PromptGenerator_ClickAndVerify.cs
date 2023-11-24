@@ -6,26 +6,17 @@ using System.Threading.Tasks;
 
 namespace DevGpt.Console.Prompts
 {
-    internal class PromptGeneratorGeneratorWebTesterORV : PromptGeneratorBase
+    internal class PromptGeneratorClickAndVerify : PromptGeneratorBase
     {
         public override string GetUserPrompt(string commandsText) => "You are 'webtester', an AI designed to test web pages. You are focused on being accurate and complete.\\n" +
                                          "Your decisions must always be made independently without seeking user assistance. Play to your strengths as an LLM and pursue simple strategies with no legal complications." +
                                          "\\n\\n" +
-                                         "You want to test a form hosted at https://www.berekenhet.nl/kalender/weekdag-datum.html \r\n"+
+                                         "You want to test a form hosted at https://www.asr.nl/service/bereken-premie-overlijdensrisicoverzekering \r\n" +
                                          "GOALS:\\n\\n\r\n\r\n" +
                                          "1. open the page at https://www.asr.nl/service/bereken-premie-overlijdensrisicoverzekering\r\n" +
-                                         "2. fill in the dutch form for the insurance with the following data\r\n" +
-                                         "who to insure: single person \r\n" +
-                                         "smoked: yes\r\n\r\n" +
-                                         "birthdate: 12 december 1979 \r\n" +
-                                         "insurance start date: 1 december 2023\r\n\r\n" +
-                                         "insurance duration: 10 years\r\n\r\n" +
-                                         "amount to insure: 100000\r\n\r\n" +
-                                         "insurance type: constant\r\n\r\n" +
-                                         "payment period: month\r\n\r\n" +
-                                         "3. verify the premium is E15.62\r\n" +
-                                         "NOTE: use the data-uitest attributes where available in the html to access or click elements.\r\n"+
-                                         "NOTE: always click on the text next to radio buttons to make a radio button selection.\r\n" +
+                                         "2. try to click the 'Mijzelf en iemand anders' option. Use selectors targeting labels\r\n" +
+                                         "3. check the 'Mijzelf en iemand anders' option is selected by verifying a screenshot. Try a different selector if it is not selected \r\n" +
+                                         "4. Shut down\r\n\r\n" +
                                          "Constraints:\r\n" +
                                          "1. ~4000 word limit for short term memory. Your short term memory is short, so immediately save important information to files.\r\n" +
                                          "2. If you are unsure how you previously did something or want to recall past events, thinking about similar events will help you remember.\r\n" +
@@ -35,6 +26,7 @@ namespace DevGpt.Console.Prompts
                                          "" +
                                          "Commands:\r\n\r\n" +
                                          commandsText +
+                                         "" +
                                          "" +
                                          "" +
                                          "Performance Evaluation:\r\n" +

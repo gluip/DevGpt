@@ -4,17 +4,13 @@
     <TargetFramework>net6.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
-<HasRuntimeOutput>true</HasRuntimeOutput>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="HtmlAgilityPack" Version="1.11.52" />
-    <PackageReference Include="Microsoft.Playwright" Version="1.37.1" />
-    <PackageReference Include="SixLabors.ImageSharp" Version="3.0.2" />
+    <PackageReference Include="OpenAI-DotNet" Version="7.2.3" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\DevGpt.Commands\DevGpt.Commands.csproj" />
     <ProjectReference Include="..\DevGpt.Models\DevGpt.Models.csproj" />
   </ItemGroup>
 

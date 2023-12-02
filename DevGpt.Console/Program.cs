@@ -102,9 +102,12 @@ namespace DevGpt.Console // Note: actual namespace depends on the project name.
 
                         //prompt user in a y/n question
                         Command command = asistantReply.command;
-                        var resultMessage = await commandExecutor.Execute(command.name, command.args.ToArray());
+                        var resultMessages = await commandExecutor.Execute(command.name, command.args.ToArray());
 
-                        chatHandler.AddMessage(resultMessage);
+                        foreach (var message in resultMessages)
+                        {
+                            chatHandler.AddMessage(message);
+                        }
                         
                     }
                 }

@@ -1,4 +1,5 @@
 ﻿using System.Text.RegularExpressions;
+using DevGpt.Models.OpenAI;
 using Microsoft.Playwright;
 using static System.Net.Mime.MediaTypeNames;
 
@@ -17,7 +18,6 @@ public class PlaywrightBrowser : IBrowser,IDisposable
         _playwright = await Playwright.CreateAsync();
         //non headless browser
         _browser = await _playwright.Chromium.LaunchAsync(new BrowserTypeLaunchOptions { Headless = false });
-        //_browser = await _playwright.Webkit.LaunchAsync();
         
         _page = await _browser.NewPageAsync();
 
@@ -98,6 +98,19 @@ public class PlaywrightBrowser : IBrowser,IDisposable
         using var ms = new MemoryStream();
         image.SaveAsJpeg(ms);
         return ms.ToArray();
+
+    }
+
+    public async Task<string> TakeBase64Screenshot()
+    {
+        var bytes = await _page.ScreenshotAsync(new()
+        {
+            Type = ScreenshotType.Jpeg
+        });
+
+        bytes = ResizeImage(bytes, 0.5);
+
+        return Convert.ToBase64String(bytes);
 
     }
     public async Task<string> TakeScreenshot()

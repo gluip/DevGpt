@@ -7,7 +7,7 @@ namespace MyApp;
 
 public interface ICommandExecutor
 {
-    Task<DevGptChatMessage> Execute(string commandName, string[] args);
+    Task<IEnumerable<DevGptChatMessage>> Execute(string commandName, string[] args);
 }
 
 
@@ -20,7 +20,7 @@ public class CommandExecutor : ICommandExecutor
         _commands = commands;
     }
 
-    public async Task<DevGptChatMessage> Execute(string commandName, string[] args)
+    public async Task<IEnumerable<DevGptChatMessage>> Execute(string commandName, string[] args)
 
     {
         DevConsole.WriteLine($"Do you want to execute {commandName} ? (y/n)");
@@ -31,11 +31,11 @@ public class CommandExecutor : ICommandExecutor
                 args);
         }
 
-        return new DevGptChatMessage(DevGptChatRole.User, "User refused to execute command. Please try something else");
+        return new[] { new DevGptChatMessage(DevGptChatRole.User, "User refused to execute command. Please try something else") };
 
     }
 
-    private async Task<DevGptChatMessage> DoExecute(string commandName, string[] args)
+    private async Task<IEnumerable<DevGptChatMessage>> DoExecute(string commandName, string[] args)
     {
         // remove double encoding from args
         for (int i = 0; i < args.Length; i++)
@@ -49,8 +49,11 @@ public class CommandExecutor : ICommandExecutor
         {
             var commandsText = string.Join("\n", _commands.Select(c => c.GetHelp()));
             commandsText += "\n\n";
-            return new DevGptChatMessage(DevGptChatRole.User,
-                $"command {commandName} not found. Please make sure you use on the following commands.\r\n{commandsText}");
+            return new[]
+            {
+                new DevGptChatMessage(DevGptChatRole.User,
+                    $"command {commandName} not found. Please make sure you use on the following commands.\r\n{commandsText}")
+            };
         }
 
         if (command is IAsyncMessageCommand messageCommand)
@@ -61,11 +64,14 @@ public class CommandExecutor : ICommandExecutor
         if (command is IAsyncCommand asyncCommand)
         {
             var stringResult = await asyncCommand.ExecuteAsync(args);
-            return new DevGptChatMessage(DevGptChatRole.User, stringResult);
+            return new[]
+            {
+                new DevGptChatMessage(DevGptChatRole.User, stringResult)
+            };
         }
 
         var doExecute = (command as ICommand)?.Execute(args) ??
                         throw new InvalidOperationException();
-        return new DevGptChatMessage(DevGptChatRole.User, doExecute);
+        return new[] { new DevGptChatMessage(DevGptChatRole.User, doExecute) };
     }
 }

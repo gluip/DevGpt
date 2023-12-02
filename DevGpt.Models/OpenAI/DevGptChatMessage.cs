@@ -8,7 +8,7 @@ namespace DevGpt.Models.OpenAI;
 
 public enum DevGptChatRole
 {
-    User, System, Assistant
+    User, System, Assistant, ContextMessage
 }
 public enum DevGptContentType
 {
@@ -25,6 +25,23 @@ public class DevGptContent
 
     public DevGptContentType ContentType { get; set; }
     public string Content { get; set; }
+}
+
+public class DevGptContextMessage : DevGptChatMessage
+{
+    public string ContextKey { get; }
+
+    public DevGptContextMessage(string contextKey,string content) : base(DevGptChatRole.ContextMessage, content)
+    {
+        ContextKey = contextKey;
+        Role = DevGptChatRole.ContextMessage;
+    }
+
+    public DevGptContextMessage(string contextKey, IList<DevGptContent> content) : base(DevGptChatRole.ContextMessage, content)
+    {
+        ContextKey = contextKey;
+        Role = DevGptChatRole.ContextMessage;
+    }
 }
 
 public class DevGptChatMessage

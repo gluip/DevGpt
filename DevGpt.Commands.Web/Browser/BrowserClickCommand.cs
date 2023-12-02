@@ -1,36 +1,53 @@
 ﻿using DevGpt.Models.Commands;
+using DevGpt.Models.OpenAI;
 using HtmlAgilityPack;
 
 namespace DevGpt.Commands.Web.Browser;
 
-public class BrowserClickCommand : IAsyncCommand
+public class BrowserClickCommand : BrowserCommandBase, IAsyncMessageCommand
 {
     private readonly IBrowser _browser;
 
-    public BrowserClickCommand(IBrowser browser)
+    public BrowserClickCommand(IBrowser browser):base(browser)
     {
         _browser = browser;
     }
 
-    public async Task< string> ExecuteAsync(params string[] args)
+    public async Task<IList<DevGptChatMessage>> ExecuteAsync(params string[] args)
     {
         if (args.Length != 1)
         {
-            return $"{Name} requires 1 argument: playwright locator";
+            return new List<DevGptChatMessage>()
+            {
+                new DevGptChatMessage(DevGptChatRole.User, $"{Name} requires 1 argument: playwright locator")
+            };
         }
 
         try
         {
             await _browser.ClickAsync(args[0]);
-            return $"Element {args[0]} clicked";
+            var userMessage = new DevGptChatMessage(DevGptChatRole.User, $"Element {args[0]} clicked. browser_html updated");
+
+            return new[]
+            {
+                await GetHtmlContextMessage(),
+                userMessage
+            };
         }
         catch (TimeoutException e)
         {
-            return "No element found for selector";
+            return new List<DevGptChatMessage>()
+            {
+                new DevGptChatMessage(DevGptChatRole.User, $"No element found for selection")
+            };
+
         }
-        catch (Exception ex)
+        catch (Exception e)
         {
-            return $"{Name} failed with the following error: {ex.Message}";
+            return new List<DevGptChatMessage>()
+            {
+                new DevGptChatMessage(DevGptChatRole.User, $"{Name} failed with the following error: {e.Message}")
+            };
         }
     }
     public string Name => "browser_click";

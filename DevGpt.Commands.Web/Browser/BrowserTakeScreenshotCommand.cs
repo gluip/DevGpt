@@ -15,14 +15,17 @@ public class BrowserTakeScreenshotCommand : IAsyncMessageCommand
     public string[] Arguments => new[] { "" };
     public string Description => "Gets a screenshot of the current page in the browser";
     public string Name => "browser_take_screenshot";
-    
-    public async Task<DevGptChatMessage> ExecuteAsync(string[] args)
-    {
-         var path = await _browser.TakeScreenshot();
 
-         return new DevGptChatMessage(DevGptChatRole.User, new List<DevGptContent>
-         {
-             new DevGptContent(DevGptContentType.Text, $"Screenshot saved to {path}`"),
-         });
+    public async Task<IList<DevGptChatMessage>> ExecuteAsync(string[] args)
+    {
+        var path = await _browser.TakeScreenshot();
+
+        return new[]
+        {
+            new DevGptChatMessage(DevGptChatRole.User, new List<DevGptContent>
+            {
+                new DevGptContent(DevGptContentType.Text, $"Screenshot saved to {path}`"),
+            })
+        };
     }
 }

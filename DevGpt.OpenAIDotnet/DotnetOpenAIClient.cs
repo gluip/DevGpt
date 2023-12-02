@@ -42,11 +42,8 @@ namespace DevGpt.OpenAI
             
 
 
-            //use sharptoken to calculate number of tokens in chatCompletionsOptions.Messages
-            //var tokenCount = GetTokenCount(chatCompletionsOptions);
 
             Console.ForegroundColor = ConsoleColor.Blue;
-            //Console.WriteLine($"Estimated {tokenCount} tokens ");
 
 
             var completions = await client.GetCompletionAsync(chatRequest);
@@ -77,16 +74,6 @@ namespace DevGpt.OpenAI
         }
 
 
-        //private static int GetTokenCount(ChatCompletionsOptions chatCompletionsOptions)
-        //{
-        //    var encoding = GptEncoding.GetEncodingForModel("gpt-4");
-        //    var tokenCount = 0;
-        //    foreach (var message in chatCompletionsOptions.Messages)
-        //    {
-        //        tokenCount += encoding.Encode(message.Content).Count;
-        //    }
-
-        //    return tokenCount;
-        //}
+       
     }
 }

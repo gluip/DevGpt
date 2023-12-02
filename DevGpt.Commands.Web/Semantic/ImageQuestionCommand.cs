@@ -23,7 +23,7 @@ namespace DevGpt.Commands.Web.Semantic
 
         public string Description => "Answer a question about an image";
         public string Name => "image_question";
-        public async Task<DevGptChatMessage> ExecuteAsync(string[] args)
+        public async Task<IList<DevGptChatMessage>> ExecuteAsync(string[] args)
         {
             var path = args[0];
             var question = args[1];
@@ -40,7 +40,10 @@ namespace DevGpt.Commands.Web.Semantic
 
             var answer = await _devGptOpenAiClient.CompletePrompt(new[] { devGptChatMessage });
 
-            return new DevGptChatMessage(DevGptChatRole.User, answer);
+            return new[]
+            {
+                new DevGptChatMessage(DevGptChatRole.User, answer)
+            };
         }
     }
 }

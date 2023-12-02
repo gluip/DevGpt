@@ -28,6 +28,13 @@ namespace DevGpt.Console
         {
             //_memoryManager.StoreMessage(message.Content);
             Logger.LogMessage(message.ToString());
+            
+            if (message is DevGptContextMessage contextMessage)
+            {
+                //remove all context messages with the same key
+                Messages = Messages.Where(m => !(m is DevGptContextMessage cm && cm.ContextKey == contextMessage.ContextKey)).ToList();
+            }
+
             Messages.Add(message);
 
             //assistant messages are logged elsewhere
@@ -35,23 +42,13 @@ namespace DevGpt.Console
             {
                 return;
             }
-
-            //if (message.Role == ChatRole.User)
-            //{
-            //    var relevantMessages = _memoryManager.RetrieveRelevantMessages(message.Content, 3);
-            //    foreach (var relevantMessage in relevantMessages)
-            //    {
-            //        System.Console.ForegroundColor = ConsoleColor.Yellow;
-            //        System.Console.WriteLine($"Memory: {relevantMessage}");
-            //    }
-            //}
-
+            
             //write to console color based on role
             System.Console.ForegroundColor = message.Role == DevGptChatRole.User ? 
                 ConsoleColor.Green : message.Role == DevGptChatRole.Assistant ?
                 ConsoleColor.Red:
                 ConsoleColor.White;
-            System.Console.WriteLine(message.Role + ":" + message.ToString());
+            System.Console.WriteLine(message.ToString());
         }
 
     }

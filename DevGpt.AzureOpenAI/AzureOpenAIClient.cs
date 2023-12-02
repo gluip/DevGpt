@@ -60,7 +60,7 @@ namespace DevGpt.OpenAI
 
         private static OpenAIClient GetOpenAiClient()
         {
-            var useAzure = false;
+            var useAzure = true;
 
             if (useAzure)
             {

@@ -9,4 +9,5 @@ public interface IBrowser
     Task FillAsync(string selector, string value);
     Task ClickAsync(string locator);
     Task<string> TakeScreenshot();
+    Task<string> TakeBase64Screenshot();
 }

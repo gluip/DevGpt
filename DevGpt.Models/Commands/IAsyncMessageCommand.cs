@@ -4,5 +4,5 @@ namespace DevGpt.Models.Commands;
 
 public interface IAsyncMessageCommand : ICommandBase
 {
-    Task<DevGptChatMessage> ExecuteAsync(string[] args);
+    Task<IList<DevGptChatMessage>> ExecuteAsync(string[] args);
 }

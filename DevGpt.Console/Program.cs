@@ -34,17 +34,17 @@ namespace DevGpt.Console // Note: actual namespace depends on the project name.
             //var client = new DotnetOpenAIClient();
             var simpleFunction = new SimpleFunction(client);
             var commandPrompt = new CommandPrompt();
-            var commandPromptCommands = new ICommandBase[]
-            {
-                new PromptOpenCommand(commandPrompt),
-                new PromptReadOutputCommand(commandPrompt),
-                new PromptSendEnterKeyCommand(commandPrompt),
-                new PromptSendLineCommand(commandPrompt),
-                //new PromptSendKeysCommand(commandPrompt),
-                new PromptSendLeftArrowKeyCommand(commandPrompt),
-                new PromptSendRightArrowKeyCommand(commandPrompt),
+            //var commandPromptCommands = new ICommandBase[]
+            //{
+            //    new PromptOpenCommand(commandPrompt),
+            //    new PromptReadOutputCommand(commandPrompt),
+            //    new PromptSendEnterKeyCommand(commandPrompt),
+            //    new PromptSendLineCommand(commandPrompt),
+            //    //new PromptSendKeysCommand(commandPrompt),
+            //    new PromptSendLeftArrowKeyCommand(commandPrompt),
+            //    new PromptSendRightArrowKeyCommand(commandPrompt),
 
-            };
+            //};
 
 
             var commands = new List<ICommandBase>
@@ -53,7 +53,7 @@ namespace DevGpt.Console // Note: actual namespace depends on the project name.
                 new WriteFileCommand(),
                 new SearchFilesCommand(),
                 new ShutDownCommand(),
-                //new ExecuteShellCommand(),
+                new ExecuteShellCommand(),
                 new DotnetAddReferenceCommand(),
                 new ReadPdfCommand(),
                 new AppendFileCommand(),

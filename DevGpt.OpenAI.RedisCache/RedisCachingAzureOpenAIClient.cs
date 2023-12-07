@@ -1,4 +1,5 @@
 ﻿
+using DevGpt.Models.Commands;
 using DevGpt.Models.OpenAI;
 using static System.Net.Mime.MediaTypeNames;
 
@@ -14,7 +15,8 @@ namespace DevGpt.OpenAI.RedisCache
             _client = client;
             _redisclient = redisclient;
         }
-        public async Task<string> CompletePrompt(IList<DevGptChatMessage> allMessages)
+        public async Task<string> CompletePrompt(IList<DevGptChatMessage> allMessages,
+            IList<ICommandBase> commands = null)
         {
             // calculate a hash of all the messages 
             // if the hash is in the cache, return the result

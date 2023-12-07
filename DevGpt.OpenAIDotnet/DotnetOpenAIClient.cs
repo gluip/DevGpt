@@ -1,6 +1,8 @@
 ﻿using System.Net.Http.Json;
 using System.Text.Json.Serialization;
 using System.Transactions;
+using DevGpt.Commands.Functions;
+using DevGpt.Models.Commands;
 using DevGpt.Models.OpenAI;
 using DevGpt.OpenAIDotnet;
 using OpenAI;
@@ -15,7 +17,8 @@ namespace DevGpt.OpenAI
     {
         private double? totalRunCosts = 0;
         
-        public async Task<string> CompletePrompt(IList<DevGptChatMessage> allMessages)
+        public async Task<string> CompletePrompt(IList<DevGptChatMessage> allMessages,
+            IList<ICommandBase> commands = null)
         {
             //mission statement..first message
             //var messagesToSend = GetMessagesToSend(allMessages);
@@ -37,11 +40,15 @@ namespace DevGpt.OpenAI
             var model = allMessages.Any(m => m.Content.Any(c => c.ContentType == DevGptContentType.ImageUrl))
                 ? "gpt-4-vision-preview"
                 : "gpt-4-1106-preview";
-            var chatRequest = new ChatRequest(messages,
-                model, temperature:0.5,maxTokens:1500,responseFormat:ChatResponseFormat.Text);
+            
+            var adapters = commands?.Select(c => new FunctionAdapter(c)).ToList();
+            IEnumerable<Tool>? tools = adapters?.Select(a => (Tool)a.GetFunction()).ToList();
             
 
-
+            var chatRequest = new ChatRequest(messages,tools: tools ?? Enumerable.Empty<Tool>(),toolChoice:"auto"
+                ,model:
+                model, temperature:0.5,maxTokens:1500,responseFormat:ChatResponseFormat.Text);
+            
 
             Console.ForegroundColor = ConsoleColor.Blue;
 

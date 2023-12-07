@@ -1,6 +1,8 @@
-﻿using System.Text.Json;
+﻿using System.Collections.Concurrent;
+using System.Text.Json;
 using System.Text.Json.Nodes;
 using System.Text.Json.Serialization;
+using DevGpt.Models.Commands;
 
 namespace DevGpt.Models.OpenAI;
 
@@ -81,5 +83,5 @@ public class DevGptChatMessage
 }
 public interface IDevGptOpenAIClient
 {
-    Task<string> CompletePrompt(IList<DevGptChatMessage> allMessages);
+    Task<string> CompletePrompt(IList<DevGptChatMessage> allMessages, IList<ICommandBase> commands = null);
 }

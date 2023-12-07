@@ -1,5 +1,6 @@
 ﻿using Azure;
 using Azure.AI.OpenAI;
+using DevGpt.Models.Commands;
 using DevGpt.Models.OpenAI;
 using SharpToken;
 
@@ -10,7 +11,8 @@ namespace DevGpt.OpenAI
     public class AzureOpenAIClient : IDevGptOpenAIClient
     {
         
-        public async Task<string> CompletePrompt(IList<DevGptChatMessage> allMessages)
+        public async Task<string> CompletePrompt(IList<DevGptChatMessage> allMessages,
+            IList<ICommandBase> commands = null)
         {
             //mission statement..first message
             //var messagesToSend = GetMessagesToSend(allMessages);

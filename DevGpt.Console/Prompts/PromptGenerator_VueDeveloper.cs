@@ -17,7 +17,7 @@ namespace DevGpt.Console.Prompts
                                          "1. modify the vue application in the folder 'age_calculator' according to the specifications below\r\n" +
                                          "2. inspect the current application state\r\n" +
                                          "3. write the needed code for the application\r\n" +
-                                         "4. run the application using 'npm run build' and 'serve dist' commands\r\n"+
+                                         "4. run the application using the 'runserver.ps1' command in the 'age_calculator' folder. This will start a dev server after which you can make modifications\r\n"+
                                          "4. make sure the application functions correctly by using a browser and refine where needed\r\n" +
                                          "5. Shut down\r\n\r\n" +
                                          "Specifications of 'age calculator':\r\n" +
@@ -50,8 +50,8 @@ namespace DevGpt.Console.Prompts
                                          "              \"reasoning\": \"reasoning\",\r\n    " +
                                          "              \"plan\": \"- short bulleted\\\\n- list that conveys\\\\n- long-term plan\",\r\n    " +
                                          "              \"criticism\": \"constructive self-criticism\",        \r\n    " +
-                                         "\"speak\": \"thoughts summary to say to user\"\r\n     }\r\n " +
-                                         "}\r\n         \r\nEnsure the response can be parsed by c# JsonSerializer.Deserialize. Make sure endline characters in json values are double encoded using \\\\r\\\\n\r\n";
+                                         "\"speak\": \"thoughts summary to say to user\"\r\n     },\r\n    \"command\": {\r\n        \"name\": \"command name\",\r\n        \"args\": [\"arg1\",\"arg2\",..]\r\n    }\r\n}\r\n         \r\n" +
+                                         "Ensure the response can be parsed by c# JsonSerializer.Deserialize. Make sure endline characters in json values are double encoded using \\\\r\\\\n\r\n";
 
         
     }

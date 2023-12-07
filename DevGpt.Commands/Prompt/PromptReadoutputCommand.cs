@@ -8,22 +8,22 @@ using DevGpt.Models.Commands;
 
 namespace DevGpt.Console.Commands
 {
-    public class PromptOpenCommand : ICommand
+    
+    public class PromptReadOutputCommand : ICommand
     {
         private readonly ICommandPrompt commandPrompt;
 
-        public PromptOpenCommand(ICommandPrompt commandPrompt)
+        public PromptReadOutputCommand(ICommandPrompt commandPrompt)
         {
             this.commandPrompt = commandPrompt;
         }
-        public string[] Arguments => new string[] {};
+        public string[] Arguments => new string[] { };
 
-        public string Description => "opens the command prompt";
-        public string Name => "prompt_open";
+        public string Description => "read the command prompt output";
+        public string Name => "prompt_read_output";
         public string Execute(string[] args)
         {
-            commandPrompt.Open();
-            return "command prompt opened";
+            return commandPrompt.ReadOutput();
         }
     }
 }

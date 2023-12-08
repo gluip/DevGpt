@@ -5,6 +5,17 @@ namespace DevGpt.OpenAIDotnet;
 
 public class DotnetChatMessageMapper
 {
+    public static IList<Message> Map(DevGptToolCallResultMessage? toolCallResultMessage)
+    {
+        
+        return new[]
+        {
+            toolCallResultMessage.ToolCallMessage, 
+            
+            new Message( toolCallResultMessage.ToolCallMessage.ToolCalls.First(),toolCallResultMessage.Result)
+        };
+
+    }
     public static Message Map(DevGptChatMessage message)
     {
         var role = Map(message.Role);
@@ -28,6 +39,7 @@ public class DotnetChatMessageMapper
     {
         return messageRole == DevGptChatRole.Assistant ? Role.Assistant :
             messageRole == DevGptChatRole.User ? Role.User : 
+            messageRole == DevGptChatRole.Tool? Role.Tool :
             Role.System;
     }
 }

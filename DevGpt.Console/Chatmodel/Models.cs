@@ -28,8 +28,6 @@ namespace DevGpt.Console.Chatmodel
         public class AssitantReply
         {
             public Thoughts thoughts { get; set; }
-            public Command command { get; set; }
-
             public string GetContent()
             {
                 return JsonSerializer.Serialize(this);

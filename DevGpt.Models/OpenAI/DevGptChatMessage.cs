@@ -3,6 +3,8 @@ using System.Text.Json;
 using System.Text.Json.Nodes;
 using System.Text.Json.Serialization;
 using DevGpt.Models.Commands;
+using DevGpt.Models.OpenAI;
+using OpenAI.Chat;
 
 namespace DevGpt.Models.OpenAI;
 
@@ -10,7 +12,7 @@ namespace DevGpt.Models.OpenAI;
 
 public enum DevGptChatRole
 {
-    User, System, Assistant, ContextMessage
+    User, System, Assistant, ContextMessage,Tool
 }
 public enum DevGptContentType
 {
@@ -45,6 +47,22 @@ public class DevGptContextMessage : DevGptChatMessage
         Role = DevGptChatRole.ContextMessage;
     }
 }
+
+public class DevGptToolCallResultMessage : DevGptChatMessage
+{
+    public DevGptToolCallResultMessage(string toolName, string result) : base(
+        DevGptChatRole.Tool, result)
+    {
+        ToolName = toolName;
+        Result = result;
+    }
+
+    public string ToolName { get; }
+    public string Result { get; set; }
+    public Message ToolCallMessage { get; set; }
+}
+
+
 
 public class DevGptChatMessage
 {
@@ -81,7 +99,40 @@ public class DevGptChatMessage
 
     public bool IsContext { get; set; }
 }
+
+public class DevGptToolCall
+{
+    //TODO: remove this OpenAI Dotnet reference
+    public DevGptToolCall(string toolName, IList<string> arguments, Message toolcallMessage)
+    {
+        ToolName = toolName;
+        Arguments = arguments;
+        ToolcallMessage = toolcallMessage;
+    }
+
+    public string ToolName { get; }
+    public IList<string> Arguments { get; }
+    public Message ToolcallMessage { get; }
+
+    public override string ToString()
+    {
+        return $"{ToolName}({string.Join(",", Arguments)})";
+    }
+}
+public class DevGptChatResponse
+{
+    public DevGptChatResponse(string message, IList<DevGptToolCall> toolCalls)
+    {
+        Message = message;
+        ToolCalls = toolCalls;
+    }
+
+    public string Message { get; }
+    public IList<DevGptToolCall> ToolCalls { get; }
+}
+
+
 public interface IDevGptOpenAIClient
 {
-    Task<string> CompletePrompt(IList<DevGptChatMessage> allMessages, IList<ICommandBase> commands = null);
+    Task<DevGptChatResponse> CompletePrompt(IList<DevGptChatMessage> allMessages, IList<ICommandBase> commands = null);
 }

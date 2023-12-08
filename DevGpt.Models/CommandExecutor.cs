@@ -1,4 +1,6 @@
 ﻿using System.Drawing;
+using System.Text.Json;
+using System.Text.Json.Nodes;
 using DevGpt.Models.Commands;
 using DevGpt.Models.OpenAI;
 using DevGpt.Models.Utils;
@@ -18,6 +20,22 @@ public class CommandExecutor : ICommandExecutor
     public CommandExecutor(IList<ICommandBase> commands)
     {
         _commands = commands;
+    }
+
+    public async Task<IEnumerable<DevGptChatMessage>> ExecuteTool(DevGptToolCall toolCall)
+    {
+        var devGptChatMessages = await Execute(toolCall.ToolName, toolCall.Arguments.ToArray());
+
+        foreach (var message in devGptChatMessages)
+        {
+            if (message is DevGptToolCallResultMessage toolCallResultMessage)
+            {
+                toolCallResultMessage.ToolCallMessage = toolCall.ToolcallMessage;
+            }
+        }
+        
+        
+        return devGptChatMessages;
     }
 
     public async Task<IEnumerable<DevGptChatMessage>> Execute(string commandName, string[] args)
@@ -56,9 +74,25 @@ public class CommandExecutor : ICommandExecutor
             };
         }
 
+        // TODO: return DevGptToolCallResultMessage below
+        //JsonObject argumentJson = new();
+        //int j = 0;
+        //foreach (var a in command.Arguments)
+        //{
+        //    argumentJson[a] = args[j++];
+        //}
+
+        // /var arguments = new { arguments = args };
+        //var argumentsJson = JsonSerializer.Serialize(argumentJson);
         if (command is IAsyncMessageCommand messageCommand)
         {
-            return await messageCommand.ExecuteAsync(args);
+            var devGptChatMessages = await messageCommand.ExecuteAsync(args);
+            return new[]
+            {
+                new DevGptToolCallResultMessage(commandName,
+                    devGptChatMessages.First(c => c is not DevGptContextMessage).Content.FirstOrDefault().Content),
+            };
+
         }
 
         if (command is IAsyncCommand asyncCommand)
@@ -66,12 +100,16 @@ public class CommandExecutor : ICommandExecutor
             var stringResult = await asyncCommand.ExecuteAsync(args);
             return new[]
             {
-                new DevGptChatMessage(DevGptChatRole.User, stringResult)
+
+                new DevGptToolCallResultMessage(commandName, stringResult)
             };
         }
 
-        var doExecute = (command as ICommand)?.Execute(args) ??
+        var result = (command as ICommand)?.Execute(args) ??
                         throw new InvalidOperationException();
-        return new[] { new DevGptChatMessage(DevGptChatRole.User, doExecute) };
+        return new[]
+        {
+            new DevGptToolCallResultMessage(commandName, result)
+        };
     }
 }

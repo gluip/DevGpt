@@ -1,4 +1,5 @@
 ﻿
+using System.Text.Json;
 using DevGpt.Models.Commands;
 using DevGpt.Models.OpenAI;
 using static System.Net.Mime.MediaTypeNames;
@@ -15,7 +16,7 @@ namespace DevGpt.OpenAI.RedisCache
             _client = client;
             _redisclient = redisclient;
         }
-        public async Task<string> CompletePrompt(IList<DevGptChatMessage> allMessages,
+        public async Task<DevGptChatResponse> CompletePrompt(IList<DevGptChatMessage> allMessages,
             IList<ICommandBase> commands = null)
         {
             // calculate a hash of all the messages 
@@ -30,11 +31,11 @@ namespace DevGpt.OpenAI.RedisCache
             {
                 System.Console.ForegroundColor = ConsoleColor.Blue;
                 System.Console.WriteLine("Using cached response");
-                return cachedResult;
+                return JsonSerializer.Deserialize<DevGptChatResponse>(cachedResult);
             }
 
-            var completePrompt = await _client.CompletePrompt(allMessages);
-            _redisclient.AddToCache(hash, completePrompt);
+            var completePrompt = await _client.CompletePrompt(allMessages, commands);
+            _redisclient.AddToCache(hash, JsonSerializer.Serialize(completePrompt));
 
             return completePrompt;
         }

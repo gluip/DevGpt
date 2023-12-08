@@ -92,38 +92,39 @@ namespace DevGpt.Console // Note: actual namespace depends on the project name.
 
             while (true)
             {
-                var assistantReplyText = await client.CompletePrompt(chatHandler.GetMessages(),commands);
+                var devGptChatResponse = await client.CompletePrompt(chatHandler.GetMessages(),commands);
 
-                assistantReplyText = _responseCleaner.GetTextBetweenBraces(assistantReplyText);
-                var cleanedReplyText = _responseCleaner.CleanJsonResponse(assistantReplyText);
-                var balancedText = _responseCleaner.BalanceBraces(cleanedReplyText);
-
-                chatHandler.AddMessage(new DevGptChatMessage(DevGptChatRole.Assistant, balancedText));
+                
+                //TODO : ADD function calls here?
+                chatHandler.AddMessage(new DevGptChatMessage(DevGptChatRole.Assistant, devGptChatResponse.Message));
 
                 try
                 {
-                    var asistantReply = JsonSerializer.Deserialize<AssitantReply>(balancedText);
-                    WriteReply(asistantReply);
-                    if (asistantReply.command != null)
+                    
+                    WriteReply(devGptChatResponse);
+                    var toolCall = devGptChatResponse.ToolCalls?.FirstOrDefault();
+
+                    if (toolCall != null)
                     {
                         //check if command exists
-                        if (commands.All(c => c.Name != asistantReply.command.name))
+                        if (commands.All(c => c.Name != toolCall.ToolName))
                         {
-                            chatHandler.AddMessage(new DevGptChatMessage(DevGptChatRole.User, $"Command '{asistantReply.command.name}' not found. Proceed to formulate a concrete command."));
+                            chatHandler.AddMessage(new DevGptChatMessage(DevGptChatRole.User, $"Tool '{toolCall.ToolName}' not found. Proceed to formulate a concrete command."));
                             continue;
                         }
 
-
-
                         //prompt user in a y/n question
-                        Command command = asistantReply.command;
-                        var resultMessages = await commandExecutor.Execute(command.name, command.args.ToArray());
+                        var resultMessages = await commandExecutor.ExecuteTool(toolCall);
 
                         foreach (var message in resultMessages)
                         {
                             chatHandler.AddMessage(message);
                         }
                         
+                    }
+                    else
+                    {
+                        chatHandler.AddMessage(new DevGptChatMessage(DevGptChatRole.User, $"No tool call found. Please make sure to include a tool call in every response"));
                     }
                 }
                 catch (Exception e)
@@ -135,29 +136,35 @@ namespace DevGpt.Console // Note: actual namespace depends on the project name.
             }
         }
 
-        private static void WriteReply(AssitantReply asistantReply)
+        private static void WriteReply(DevGptChatResponse devGptChatResponse)
         {
-            //write reply using colors
-            if (asistantReply.thoughts != null)
+            if (devGptChatResponse.Message != null)
             {
-                System.Console.ForegroundColor = ConsoleColor.White;
-                System.Console.WriteLine(asistantReply.thoughts.text);
-                System.Console.ForegroundColor = ConsoleColor.White;
-                System.Console.WriteLine(asistantReply.thoughts.reasoning);
-                System.Console.ForegroundColor = ConsoleColor.Yellow;
-                System.Console.WriteLine(asistantReply.thoughts.plan);
-                System.Console.ForegroundColor = ConsoleColor.Red;
-                System.Console.WriteLine(asistantReply.thoughts.criticism);
-                System.Console.ForegroundColor = ConsoleColor.White;
-                System.Console.WriteLine(asistantReply.thoughts.speak);
-                System.Console.ForegroundColor = ConsoleColor.White;
+                var asistantReply = JsonSerializer.Deserialize<AssitantReply>(devGptChatResponse.Message);
+                //write reply using colors
+                if (asistantReply.thoughts != null)
+                {
+                    System.Console.ForegroundColor = ConsoleColor.White;
+                    System.Console.WriteLine(asistantReply.thoughts.text);
+                    System.Console.ForegroundColor = ConsoleColor.White;
+                    System.Console.WriteLine(asistantReply.thoughts.reasoning);
+                    System.Console.ForegroundColor = ConsoleColor.Yellow;
+                    System.Console.WriteLine(asistantReply.thoughts.plan);
+                    System.Console.ForegroundColor = ConsoleColor.Red;
+                    System.Console.WriteLine(asistantReply.thoughts.criticism);
+                    System.Console.ForegroundColor = ConsoleColor.White;
+                    System.Console.WriteLine(asistantReply.thoughts.speak);
+                    System.Console.ForegroundColor = ConsoleColor.White;
 
+                }
             }
 
-            if (asistantReply.command != null)
+
+            var devGptToolCall = devGptChatResponse.ToolCalls?.FirstOrDefault();
+            if (devGptToolCall  != null)
             {
-                System.Console.WriteLine("Command: " + asistantReply.command.name);
-                System.Console.WriteLine("Args: " + string.Join(" ", asistantReply.command.args));
+                System.Console.WriteLine("Tool: " + devGptToolCall.ToolName);
+                System.Console.WriteLine("Args: " + string.Join(" ", devGptToolCall.Arguments));
             }
 
         }

@@ -9,20 +9,21 @@ public class ExecuteShellCommand : ICommand
     {
         if (args.Length < 1)
         {
-            return $"{Name} requires at 1east argument";
+            return $"{Name} requires at 1east 2 argument";
         }
 
         string arguments = "";
-        if (args.Length >1)
+        if (args.Length >2)
         {
-            arguments = args.Skip(1).Aggregate((a, b) => $"{a} {b}");
+            arguments = args.Skip(2).Aggregate((a, b) => $"{a} {b}");
         }
 
         try
         {
-            var command = args[0];
+            var command = args[1];
             var process = new Process();
             process.StartInfo.FileName = "cmd.exe";
+            process.StartInfo.WorkingDirectory = args[0];
             process.StartInfo.Arguments = $"/c {command} {arguments}";
             process.StartInfo.UseShellExecute = false;
             process.StartInfo.RedirectStandardOutput = true;
@@ -40,5 +41,5 @@ public class ExecuteShellCommand : ICommand
     }
     public string Name => "execute_shell";
     public string Description => "executes a shell command";
-    public string[] Arguments => new[] {"command"};
+    public string[] Arguments => new[] { "workingdirectory","command","command arguments"};
 }

@@ -1,4 +1,5 @@
 ﻿using System.Net.Http.Json;
+using System.Text.Json.Nodes;
 using System.Text.Json.Serialization;
 using System.Transactions;
 using DevGpt.Commands.Functions;
@@ -17,16 +18,9 @@ namespace DevGpt.OpenAI
     {
         private double? totalRunCosts = 0;
         
-        public async Task<string> CompletePrompt(IList<DevGptChatMessage> allMessages,
+        public async Task<DevGptChatResponse> CompletePrompt(IList<DevGptChatMessage> allMessages,
             IList<ICommandBase> commands = null)
         {
-            //mission statement..first message
-            //var messagesToSend = GetMessagesToSend(allMessages);
-
-
-            // get environment variable 'DevGpt_AzureKey'
-            
-
             var client = GetOpenAiClient();
             double? temp = 0.5;
             // ### If streaming is selected
@@ -34,7 +28,14 @@ namespace DevGpt.OpenAI
             var messages = new List<Message>();
             foreach (var message in allMessages)
             {
-                messages.Add(DotnetChatMessageMapper.Map(message));
+                if (message is DevGptToolCallResultMessage toolMessage)
+                {
+                    messages.AddRange(DotnetChatMessageMapper.Map(toolMessage));
+                }
+                else
+                {
+                    messages.Add(DotnetChatMessageMapper.Map(message));
+                }
             }
 
             var model = allMessages.Any(m => m.Content.Any(c => c.ContentType == DevGptContentType.ImageUrl))
@@ -47,7 +48,7 @@ namespace DevGpt.OpenAI
 
             var chatRequest = new ChatRequest(messages,tools: tools ?? Enumerable.Empty<Tool>(),toolChoice:"auto"
                 ,model:
-                model, temperature:0.5,maxTokens:1500,responseFormat:ChatResponseFormat.Text);
+                model, temperature:0.5,maxTokens:1500,responseFormat:ChatResponseFormat.Json);
             
 
             Console.ForegroundColor = ConsoleColor.Blue;
@@ -55,7 +56,9 @@ namespace DevGpt.OpenAI
 
             var completions = await client.GetCompletionAsync(chatRequest);
 
-            var messageContent = completions.FirstChoice.Message.Content;
+            var messageContent = completions.FirstChoice.Message.Content?.ToString();
+
+            var devGptToolCalls = GetDevGptToolCalls(completions);
 
             Console.ForegroundColor = ConsoleColor.Blue;
             var inputCost = (completions.Usage.PromptTokens * 0.01 / 1000) ;
@@ -64,10 +67,30 @@ namespace DevGpt.OpenAI
             Console.WriteLine($"** Usage {completions.Usage.TotalTokens} tokens **. Cost of prompt {inputCost+outputCost:C}");
             Console.WriteLine($"** Total costs {totalRunCosts:C}");
 
-            return System.Text.Json.JsonSerializer.Deserialize<string>(messageContent);
-            //return messageContent.ToString();
+            
+            return new DevGptChatResponse(messageContent,devGptToolCalls);
 
+        }
 
+        private static List<DevGptToolCall> GetDevGptToolCalls(ChatResponse completions)
+        {
+            var toolCalls = completions.FirstChoice.Message.ToolCalls;
+
+            var firstToolCall = toolCalls?.FirstOrDefault();
+            if (firstToolCall == null)
+            {
+                return new List<DevGptToolCall>();
+            }
+            
+            var functionName = firstToolCall?.Function?.Name;
+            var arguments = firstToolCall?.Function.Arguments.AsValue().ToString();
+            var jsonObject = JsonObject.Parse(arguments).AsObject();
+            var argumentValues = jsonObject.Select(x => x.Value.AsValue().ToString()).ToList();
+            var devGptToolCalls = new List<DevGptToolCall>
+            {
+                new DevGptToolCall(functionName, argumentValues,completions.FirstChoice.Message)
+            };
+            return devGptToolCalls;
         }
 
         private static ChatEndpoint GetOpenAiClient()
@@ -76,8 +99,6 @@ namespace DevGpt.OpenAI
 
             var openAIKey = Environment.GetEnvironmentVariable("DevGpt_OpenAIKey", EnvironmentVariableTarget.User); 
             return new OpenAIClient(openAIKey).ChatEndpoint;
-
-
         }
 
 

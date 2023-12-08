@@ -37,10 +37,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\DevGpt.Taskbased\DevGpt.Taskbased.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
     <Folder Include="Tasks\" />
   </ItemGroup>
 

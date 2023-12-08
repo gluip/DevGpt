@@ -60,6 +60,7 @@ public class DevGptToolCallResultMessage : DevGptChatMessage
     public string ToolName { get; }
     public string Result { get; set; }
     public Message ToolCallMessage { get; set; }
+    public string ToolCallId { get; set; }
 }
 
 
@@ -103,16 +104,18 @@ public class DevGptChatMessage
 public class DevGptToolCall
 {
     //TODO: remove this OpenAI Dotnet reference
-    public DevGptToolCall(string toolName, IList<string> arguments, Message toolcallMessage)
+    public DevGptToolCall(string toolName, IList<string> arguments, Message toolcallMessage, string toolCallId)
     {
         ToolName = toolName;
         Arguments = arguments;
         ToolcallMessage = toolcallMessage;
+        ToolCallId = toolCallId;
     }
 
     public string ToolName { get; }
     public IList<string> Arguments { get; }
     public Message ToolcallMessage { get; }
+    public string ToolCallId { get; }
 
     public override string ToString()
     {

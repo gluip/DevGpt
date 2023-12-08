@@ -7,14 +7,15 @@ public class DotnetChatMessageMapper
 {
     public static IList<Message> Map(DevGptToolCallResultMessage? toolCallResultMessage)
     {
-        
+        //incorrect
+        var correspondingToolCall = toolCallResultMessage.ToolCallMessage.ToolCalls.First(t=>t.Id == toolCallResultMessage.ToolCallId);
+
         return new[]
         {
             toolCallResultMessage.ToolCallMessage, 
             
-            new Message( toolCallResultMessage.ToolCallMessage.ToolCalls.First(),toolCallResultMessage.Result)
+            new Message( correspondingToolCall,toolCallResultMessage.Result)
         };
-
     }
     public static Message Map(DevGptChatMessage message)
     {

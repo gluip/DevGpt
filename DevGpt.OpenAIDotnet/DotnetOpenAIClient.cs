@@ -72,25 +72,30 @@ namespace DevGpt.OpenAI
 
         }
 
-        private static List<DevGptToolCall> GetDevGptToolCalls(ChatResponse completions)
+        private static IList<DevGptToolCall> GetDevGptToolCalls(ChatResponse completions)
         {
             var toolCalls = completions.FirstChoice.Message.ToolCalls;
-
-            var firstToolCall = toolCalls?.FirstOrDefault();
-            if (firstToolCall == null)
+            if (toolCalls == null || !toolCalls.Any())
             {
                 return new List<DevGptToolCall>();
             }
             
-            var functionName = firstToolCall?.Function?.Name;
-            var arguments = firstToolCall?.Function.Arguments.AsValue().ToString();
+
+            
+            
+            return toolCalls.Select(x => ConvertToDevGptToolCall(x, completions.FirstChoice.Message)).ToList();
+            
+        }
+
+        private static DevGptToolCall ConvertToDevGptToolCall(Tool toolCall, Message message)
+        {
+            var functionName = toolCall?.Function?.Name;
+            var arguments = toolCall?.Function.Arguments.AsValue().ToString();
             var jsonObject = JsonObject.Parse(arguments).AsObject();
             var argumentValues = jsonObject.Select(x => x.Value.AsValue().ToString()).ToList();
-            var devGptToolCalls = new List<DevGptToolCall>
-            {
-                new DevGptToolCall(functionName, argumentValues,completions.FirstChoice.Message)
-            };
-            return devGptToolCalls;
+
+            return new DevGptToolCall(functionName, argumentValues, message,toolCall.Id);
+
         }
 
         private static ChatEndpoint GetOpenAiClient()

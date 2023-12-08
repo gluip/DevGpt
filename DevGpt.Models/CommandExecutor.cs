@@ -31,6 +31,7 @@ public class CommandExecutor : ICommandExecutor
             if (message is DevGptToolCallResultMessage toolCallResultMessage)
             {
                 toolCallResultMessage.ToolCallMessage = toolCall.ToolcallMessage;
+                toolCallResultMessage.ToolCallId = toolCall.ToolCallId;
             }
         }
         

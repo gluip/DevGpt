@@ -71,7 +71,7 @@ namespace DevGpt.Console // Note: actual namespace depends on the project name.
                 //new ReadWebPageHtmlCommand(browser,simpleFunction)
             };
             //commands.AddRange(commandPromptCommands);
-            
+
             //var client = new AzureOpenAIClient();
             var chatHandler = new ChatHandler();
             var commandExecutor = new CommandExecutor(commands);
@@ -92,35 +92,35 @@ namespace DevGpt.Console // Note: actual namespace depends on the project name.
 
             while (true)
             {
-                var devGptChatResponse = await client.CompletePrompt(chatHandler.GetMessages(),commands);
+                var devGptChatResponse = await client.CompletePrompt(chatHandler.GetMessages(), commands);
 
-                
+
                 //TODO : ADD function calls here?
                 chatHandler.AddMessage(new DevGptChatMessage(DevGptChatRole.Assistant, devGptChatResponse.Message));
 
                 try
                 {
-                    
                     WriteReply(devGptChatResponse);
-                    var toolCall = devGptChatResponse.ToolCalls?.FirstOrDefault();
-
-                    if (toolCall != null)
+                    if (devGptChatResponse.ToolCalls.Any())
                     {
-                        //check if command exists
-                        if (commands.All(c => c.Name != toolCall.ToolName))
+                        foreach (var toolCall in devGptChatResponse.ToolCalls)
                         {
-                            chatHandler.AddMessage(new DevGptChatMessage(DevGptChatRole.User, $"Tool '{toolCall.ToolName}' not found. Proceed to formulate a concrete command."));
-                            continue;
-                        }
 
-                        //prompt user in a y/n question
-                        var resultMessages = await commandExecutor.ExecuteTool(toolCall);
+                            //check if command exists
+                            if (commands.All(c => c.Name != toolCall.ToolName))
+                            {
+                                chatHandler.AddMessage(new DevGptChatMessage(DevGptChatRole.User, $"Tool '{toolCall.ToolName}' not found. Proceed to formulate a concrete command."));
+                                continue;
+                            }
 
-                        foreach (var message in resultMessages)
-                        {
-                            chatHandler.AddMessage(message);
+                            //prompt user in a y/n question
+                            var resultMessages = await commandExecutor.ExecuteTool(toolCall);
+
+                            foreach (var message in resultMessages)
+                            {
+                                chatHandler.AddMessage(message);
+                            }
                         }
-                        
                     }
                     else
                     {
@@ -129,7 +129,7 @@ namespace DevGpt.Console // Note: actual namespace depends on the project name.
                 }
                 catch (Exception e)
                 {
-                    chatHandler.AddMessage(new DevGptChatMessage(DevGptChatRole.User, $"Unable to parse the response as json. Please provide a proper formatted respose.Error : "+e.Message));
+                    chatHandler.AddMessage(new DevGptChatMessage(DevGptChatRole.User, $"Unable to parse the response as json. Please provide a proper formatted respose.Error : " + e.Message));
 
                 }
 
@@ -158,13 +158,11 @@ namespace DevGpt.Console // Note: actual namespace depends on the project name.
 
                 }
             }
-
-
-            var devGptToolCall = devGptChatResponse.ToolCalls?.FirstOrDefault();
-            if (devGptToolCall  != null)
+            
+            foreach (var message in devGptChatResponse.ToolCalls)
             {
-                System.Console.WriteLine("Tool: " + devGptToolCall.ToolName);
-                System.Console.WriteLine("Args: " + string.Join(" ", devGptToolCall.Arguments));
+                System.Console.WriteLine("Tool: " + message.ToolName);
+                System.Console.WriteLine("Args: " + string.Join(" ", message.Arguments));
             }
 
         }

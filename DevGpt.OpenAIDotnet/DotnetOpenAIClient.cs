@@ -30,7 +30,9 @@ namespace DevGpt.OpenAI
             {
                 if (message is DevGptToolCallResultMessage toolMessage)
                 {
-                    messages.AddRange(DotnetChatMessageMapper.Map(toolMessage));
+                    var toolCallmessage = DotnetChatMessageMapper.Map(toolMessage);
+                    
+                    messages.AddRange(toolCallmessage);
                 }
                 else
                 {

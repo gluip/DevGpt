@@ -40,7 +40,6 @@ public class BrowserClickCommand : BrowserCommandBase, IAsyncMessageCommand
             {
                 new DevGptChatMessage(DevGptChatRole.User, $"No element found for selection")
             };
-
         }
         catch (Exception e)
         {

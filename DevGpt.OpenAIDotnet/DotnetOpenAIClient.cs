@@ -95,9 +95,7 @@ namespace DevGpt.OpenAI
             {
                 return new List<DevGptToolCall>();
             }
-            
             return toolCalls.Select(ConvertToDevGptToolCall).ToList();
-            
         }
 
         private static DevGptToolCall ConvertToDevGptToolCall(Tool toolCall)

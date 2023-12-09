@@ -33,8 +33,7 @@ public class CommandExecutor : ICommandExecutor
                 toolCallResultMessage.ToolCallId = toolCall.ToolCallId;
             }
         }
-        
-        
+
         return devGptChatMessages;
     }
 
@@ -73,17 +72,7 @@ public class CommandExecutor : ICommandExecutor
                     $"command {commandName} not found. Please make sure you use on the following commands.\r\n{commandsText}")
             };
         }
-
-        // TODO: return DevGptToolCallResultMessage below
-        //JsonObject argumentJson = new();
-        //int j = 0;
-        //foreach (var a in command.Arguments)
-        //{
-        //    argumentJson[a] = args[j++];
-        //}
-
-        // /var arguments = new { arguments = args };
-        //var argumentsJson = JsonSerializer.Serialize(argumentJson);
+        
         if (command is IAsyncMessageCommand messageCommand)
         {
             var devGptChatMessages = await messageCommand.ExecuteAsync(args);

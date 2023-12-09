@@ -96,7 +96,7 @@ namespace DevGpt.Console // Note: actual namespace depends on the project name.
 
 
                 //TODO : ADD function calls here?
-                chatHandler.AddMessage(new DevGptChatMessage(DevGptChatRole.Assistant, devGptChatResponse.Message));
+                chatHandler.AddMessage(devGptChatResponse);
 
                 try
                 {
@@ -136,11 +136,12 @@ namespace DevGpt.Console // Note: actual namespace depends on the project name.
             }
         }
 
-        private static void WriteReply(DevGptChatResponse devGptChatResponse)
+        private static void WriteReply(DevGptChatMessage devGptChatResponse)
         {
-            if (devGptChatResponse.Message != null)
+            var contentMessage = devGptChatResponse.Content.FirstOrDefault()?.Content;
+            if (contentMessage != null)
             {
-                var asistantReply = JsonSerializer.Deserialize<AssitantReply>(devGptChatResponse.Message);
+                var asistantReply = JsonSerializer.Deserialize<AssitantReply>(contentMessage);
                 //write reply using colors
                 if (asistantReply.thoughts != null)
                 {

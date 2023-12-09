@@ -22,6 +22,6 @@ public class SimpleFunction : ISimpleFunction
             $"{question} context: {context}";
 
         var devGptChatResponse = await _openAiClient.CompletePrompt(new List<DevGptChatMessage>{ new DevGptChatMessage(DevGptChatRole.User, prompt) });
-        return devGptChatResponse.Message;
+        return devGptChatResponse.Content.First().Content;
     }
 }

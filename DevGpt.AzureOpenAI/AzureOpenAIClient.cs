@@ -11,7 +11,7 @@ namespace DevGpt.OpenAI
     public class AzureOpenAIClient : IDevGptOpenAIClient
     {
         
-        public async Task<DevGptChatResponse> CompletePrompt(IList<DevGptChatMessage> allMessages,
+        public async Task<DevGptChatMessage> CompletePrompt(IList<DevGptChatMessage> allMessages,
             IList<ICommandBase> commands = null)
         {
             //mission statement..first message
@@ -55,7 +55,7 @@ namespace DevGpt.OpenAI
             Console.ForegroundColor = ConsoleColor.Blue;
             Console.WriteLine($"Usage {completions.Value.Usage.TotalTokens} tokens ");
 
-            return new DevGptChatResponse(messageContent,null);
+            return new DevGptChatMessage(DevGptChatRole.Assistant, messageContent,null);
 
 
         }

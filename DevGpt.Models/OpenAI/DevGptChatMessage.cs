@@ -59,7 +59,6 @@ public class DevGptToolCallResultMessage : DevGptChatMessage
 
     public string ToolName { get; }
     public string Result { get; set; }
-    public Message ToolCallMessage { get; set; }
     public string ToolCallId { get; set; }
 }
 
@@ -81,6 +80,14 @@ public class DevGptChatMessage
         Role = role;
         Content = content;
     }
+
+    public DevGptChatMessage(DevGptChatRole role, string messageContent,
+        IList<DevGptToolCall> devGptToolCalls) : this(role, messageContent)
+    {
+        ToolCalls = devGptToolCalls;
+    }
+
+    public IList<DevGptToolCall> ToolCalls { get; set; }
 
     public DevGptChatRole Role { get; set; }
     public IList<DevGptContent> Content { get; }
@@ -104,17 +111,15 @@ public class DevGptChatMessage
 public class DevGptToolCall
 {
     //TODO: remove this OpenAI Dotnet reference
-    public DevGptToolCall(string toolName, IList<string> arguments, Message toolcallMessage, string toolCallId)
+    public DevGptToolCall(string toolName, IList<string> arguments, string toolCallId)
     {
         ToolName = toolName;
         Arguments = arguments;
-        ToolcallMessage = toolcallMessage;
         ToolCallId = toolCallId;
     }
 
     public string ToolName { get; }
     public IList<string> Arguments { get; }
-    public Message ToolcallMessage { get; }
     public string ToolCallId { get; }
 
     public override string ToString()
@@ -122,20 +127,8 @@ public class DevGptToolCall
         return $"{ToolName}({string.Join(",", Arguments)})";
     }
 }
-public class DevGptChatResponse
-{
-    public DevGptChatResponse(string message, IList<DevGptToolCall> toolCalls)
-    {
-        Message = message;
-        ToolCalls = toolCalls;
-    }
-
-    public string Message { get; }
-    public IList<DevGptToolCall> ToolCalls { get; }
-}
-
 
 public interface IDevGptOpenAIClient
 {
-    Task<DevGptChatResponse> CompletePrompt(IList<DevGptChatMessage> allMessages, IList<ICommandBase> commands = null);
+    Task<DevGptChatMessage> CompletePrompt(IList<DevGptChatMessage> allMessages, IList<ICommandBase> commands = null);
 }

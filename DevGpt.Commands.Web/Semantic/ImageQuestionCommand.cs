@@ -42,7 +42,7 @@ namespace DevGpt.Commands.Web.Semantic
 
             return new[]
             {
-                new DevGptChatMessage(DevGptChatRole.User, answer.Message)
+                new DevGptChatMessage(DevGptChatRole.User, answer.Content.First().Content)
             };
         }
     }

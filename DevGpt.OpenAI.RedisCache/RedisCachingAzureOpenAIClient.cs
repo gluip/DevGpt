@@ -16,7 +16,7 @@ namespace DevGpt.OpenAI.RedisCache
             _client = client;
             _redisclient = redisclient;
         }
-        public async Task<DevGptChatResponse> CompletePrompt(IList<DevGptChatMessage> allMessages,
+        public async Task<DevGptChatMessage> CompletePrompt(IList<DevGptChatMessage> allMessages,
             IList<ICommandBase> commands = null)
         {
             // calculate a hash of all the messages 
@@ -31,7 +31,7 @@ namespace DevGpt.OpenAI.RedisCache
             {
                 System.Console.ForegroundColor = ConsoleColor.Blue;
                 System.Console.WriteLine("Using cached response");
-                return JsonSerializer.Deserialize<DevGptChatResponse>(cachedResult);
+                return JsonSerializer.Deserialize<DevGptChatMessage>(cachedResult);
             }
 
             var completePrompt = await _client.CompletePrompt(allMessages, commands);

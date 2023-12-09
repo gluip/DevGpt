@@ -1,4 +1,5 @@
-﻿using System.Net.Http.Json;
+﻿using System.ComponentModel.Design;
+using System.Net.Http.Json;
 using System.Text.Json.Nodes;
 using System.Text.Json.Serialization;
 using System.Transactions;
@@ -17,8 +18,9 @@ namespace DevGpt.OpenAI
     public class DotnetOpenAIClient : IDevGptOpenAIClient
     {
         private double? totalRunCosts = 0;
-        
-        public async Task<DevGptChatResponse> CompletePrompt(IList<DevGptChatMessage> allMessages,
+        private IDictionary<DevGptChatMessage, Message> messageLookup = new Dictionary<DevGptChatMessage, Message>();
+
+        public async Task<DevGptChatMessage> CompletePrompt(IList<DevGptChatMessage> allMessages,
             IList<ICommandBase> commands = null)
         {
             var client = GetOpenAiClient();
@@ -30,13 +32,24 @@ namespace DevGpt.OpenAI
             {
                 if (message is DevGptToolCallResultMessage toolMessage)
                 {
-                    var toolCallmessage = DotnetChatMessageMapper.Map(toolMessage);
+                    //find toolcall bases on ID
+                    var originalCall = messageLookup.Values.SelectMany(c => c.ToolCalls)
+                        .FirstOrDefault(m => m.Id == toolMessage.ToolCallId);
+
+                    //var correspondingToolCall = toolMessage.ToolCallMessage.ToolCalls.First(t=>t.Id == toolMessage.ToolCallId);
+                    var dotnetToolMessage = (IList<Message>)new[]
+                    {
+                        new Message( originalCall,toolMessage.Result)
+                    };
                     
-                    messages.AddRange(toolCallmessage);
+                    messages.AddRange(dotnetToolMessage);
                 }
                 else
                 {
-                    messages.Add(DotnetChatMessageMapper.Map(message));
+                    //assistant reply message are replaced with original message. User messages are mapped
+                    messages.Add(messageLookup.ContainsKey(message)
+                        ? messageLookup[message]
+                        : DotnetChatMessageMapper.Map(message));
                 }
             }
 
@@ -69,9 +82,10 @@ namespace DevGpt.OpenAI
             Console.WriteLine($"** Usage {completions.Usage.TotalTokens} tokens **. Cost of prompt {inputCost+outputCost:C}");
             Console.WriteLine($"** Total costs {totalRunCosts:C}");
 
+            var resultMessage = new DevGptChatMessage(DevGptChatRole.Assistant, messageContent, devGptToolCalls);
             
-            return new DevGptChatResponse(messageContent,devGptToolCalls);
-
+            messageLookup.Add(resultMessage, completions.FirstChoice.Message);
+            return resultMessage;
         }
 
         private static IList<DevGptToolCall> GetDevGptToolCalls(ChatResponse completions)
@@ -82,21 +96,18 @@ namespace DevGpt.OpenAI
                 return new List<DevGptToolCall>();
             }
             
-
-            
-            
-            return toolCalls.Select(x => ConvertToDevGptToolCall(x, completions.FirstChoice.Message)).ToList();
+            return toolCalls.Select(ConvertToDevGptToolCall).ToList();
             
         }
 
-        private static DevGptToolCall ConvertToDevGptToolCall(Tool toolCall, Message message)
+        private static DevGptToolCall ConvertToDevGptToolCall(Tool toolCall)
         {
             var functionName = toolCall?.Function?.Name;
             var arguments = toolCall?.Function.Arguments.AsValue().ToString();
             var jsonObject = JsonObject.Parse(arguments).AsObject();
             var argumentValues = jsonObject.Select(x => x.Value.AsValue().ToString()).ToList();
 
-            return new DevGptToolCall(functionName, argumentValues, message,toolCall.Id);
+            return new DevGptToolCall(functionName, argumentValues, toolCall.Id);
 
         }
 

@@ -9,7 +9,7 @@ namespace DevGpt.Console.Commands
 {
     public class DotnetAddReferenceCommand : ICommand
     {
-        public string Name => "dotnet add reference";
+        public string Name => "dotnet_add_reference";
         public string Description => "Adds a reference to a project. dotnet add [<PROJECT>] reference <REFERENCED_PROJECT_PATH>.";
 
         public string Execute(params string[] args)

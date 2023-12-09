@@ -21,6 +21,12 @@ public class WriteFileCommand : ICommand
                 path = "." + path;
             }
 
+            //check if the path exists
+            var directory = Path.GetDirectoryName(path);
+            if (!Directory.Exists(directory))
+            {
+                Directory.CreateDirectory(directory);
+            }
             File.WriteAllText(path, content);
             return $"{Name} of '{path}' succeeded";
         }

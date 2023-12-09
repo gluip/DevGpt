@@ -5,6 +5,7 @@ namespace DevGpt.OpenAIDotnet;
 
 public class DotnetChatMessageMapper
 {
+    
     public static Message Map(DevGptChatMessage message)
     {
         var role = Map(message.Role);
@@ -28,6 +29,7 @@ public class DotnetChatMessageMapper
     {
         return messageRole == DevGptChatRole.Assistant ? Role.Assistant :
             messageRole == DevGptChatRole.User ? Role.User : 
+            messageRole == DevGptChatRole.Tool? Role.Tool :
             Role.System;
     }
 }

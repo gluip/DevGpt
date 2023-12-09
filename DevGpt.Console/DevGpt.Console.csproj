@@ -14,14 +14,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Remove="Tasks\Examples\example1.json" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <EmbeddedResource Include="Tasks\Examples\example1.json" />
-  </ItemGroup>
-
-  <ItemGroup>
     <PackageReference Include="SharpToken" Version="1.2.8" />
   </ItemGroup>
 

@@ -22,6 +22,8 @@ public class SearchFilesCommand : ICommand
 
             var searchPattern = args[1];
             var files = Directory.GetFiles(path, searchPattern,SearchOption.AllDirectories).Select(f=>Path.GetFullPath(f));
+            //remove node_modules files
+            files = files.Where(f => !f.Contains("node_modules"));
 
             if (!files.Any())
             {

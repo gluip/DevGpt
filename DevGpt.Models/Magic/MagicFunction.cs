@@ -27,7 +27,7 @@ public class MagicFunction : IMagicFunction
         var response = await _openAiClient.CompletePrompt(new List<DevGptChatMessage> { new DevGptChatMessage(DevGptChatRole.User, prompt) });
         try
         {
-            return JsonSerializer.Deserialize<T>(response);
+            return JsonSerializer.Deserialize<T>(response.Content.First().Content);
 
         }
         catch (Exception e)

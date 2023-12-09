@@ -1,6 +1,10 @@
-﻿using System.Text.Json;
+﻿using System.Collections.Concurrent;
+using System.Text.Json;
 using System.Text.Json.Nodes;
 using System.Text.Json.Serialization;
+using DevGpt.Models.Commands;
+using DevGpt.Models.OpenAI;
+
 
 namespace DevGpt.Models.OpenAI;
 
@@ -8,7 +12,7 @@ namespace DevGpt.Models.OpenAI;
 
 public enum DevGptChatRole
 {
-    User, System, Assistant, ContextMessage
+    User, System, Assistant, ContextMessage,Tool
 }
 public enum DevGptContentType
 {
@@ -44,6 +48,22 @@ public class DevGptContextMessage : DevGptChatMessage
     }
 }
 
+public class DevGptToolCallResultMessage : DevGptChatMessage
+{
+    public DevGptToolCallResultMessage(string toolName, string result) : base(
+        DevGptChatRole.Tool, result)
+    {
+        ToolName = toolName;
+        Result = result;
+    }
+
+    public string ToolName { get; }
+    public string Result { get; set; }
+    public string ToolCallId { get; set; }
+}
+
+
+
 public class DevGptChatMessage
 {
     public DevGptChatMessage(DevGptChatRole role, string content)
@@ -60,6 +80,14 @@ public class DevGptChatMessage
         Role = role;
         Content = content;
     }
+
+    public DevGptChatMessage(DevGptChatRole role, string messageContent,
+        IList<DevGptToolCall> devGptToolCalls) : this(role, messageContent)
+    {
+        ToolCalls = devGptToolCalls;
+    }
+
+    public IList<DevGptToolCall> ToolCalls { get; set; }
 
     public DevGptChatRole Role { get; set; }
     public IList<DevGptContent> Content { get; }
@@ -79,7 +107,28 @@ public class DevGptChatMessage
 
     public bool IsContext { get; set; }
 }
+
+public class DevGptToolCall
+{
+    //TODO: remove this OpenAI Dotnet reference
+    public DevGptToolCall(string toolName, IList<string> arguments, string toolCallId)
+    {
+        ToolName = toolName;
+        Arguments = arguments;
+        ToolCallId = toolCallId;
+    }
+
+    public string ToolName { get; }
+    public IList<string> Arguments { get; }
+    public string ToolCallId { get; }
+
+    public override string ToString()
+    {
+        return $"{ToolName}({string.Join(",", Arguments)})";
+    }
+}
+
 public interface IDevGptOpenAIClient
 {
-    Task<string> CompletePrompt(IList<DevGptChatMessage> allMessages);
+    Task<DevGptChatMessage> CompletePrompt(IList<DevGptChatMessage> allMessages, IList<ICommandBase> commands = null);
 }

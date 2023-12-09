@@ -4,7 +4,7 @@ using System.Text.Json.Nodes;
 using System.Text.Json.Serialization;
 using DevGpt.Models.Commands;
 using DevGpt.Models.OpenAI;
-using OpenAI.Chat;
+
 
 namespace DevGpt.Models.OpenAI;
 

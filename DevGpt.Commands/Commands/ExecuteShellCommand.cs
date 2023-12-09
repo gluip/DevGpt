@@ -1,12 +1,17 @@
 ﻿using System.Diagnostics;
+using System.Runtime.CompilerServices;
 using DevGpt.Models.Commands;
 
 namespace DevGpt.Console.Commands;
 
 public class ExecuteShellCommand : ICommand
 {
+    private string? outputData;
+    private string? errorData;
+    private const int Timeout = 10000;
     public string Execute(params string[] args)
     {
+        
         if (args.Length < 1)
         {
             return $"{Name} requires at 1east 2 argument";
@@ -28,11 +33,23 @@ public class ExecuteShellCommand : ICommand
             process.StartInfo.UseShellExecute = false;
             process.StartInfo.RedirectStandardOutput = true;
             process.StartInfo.RedirectStandardError = true;
+            process.StartInfo.RedirectStandardInput = true;
             process.Start();
-            var output = process.StandardOutput.ReadToEnd();
-            var error = process.StandardError.ReadToEnd();
-            process.WaitForExit();
-            return $"the command {Name} of '{command} {arguments}' returned '{output}' and '{error}'";
+            process.OutputDataReceived += (sender, eventArgs) => outputData += eventArgs.Data;
+            process.ErrorDataReceived += (sender, eventArgs) => errorData += eventArgs.Data;
+            process.BeginOutputReadLine();
+            process.BeginErrorReadLine();
+            var startTime = DateTime.Now;
+            while (!process.HasExited)
+            {
+                if (DateTime.Now.Subtract(startTime).TotalMilliseconds > Timeout)
+                {
+                    //process.Kill();
+                    return $"{Name} still running. Output up and until now {outputData}";
+                }
+                Thread.Sleep(1000);
+            }
+            return $"the command {Name} of '{command} {arguments}' returned '{outputData}' and '{errorData}'";
         }
         catch (Exception ex)
         {

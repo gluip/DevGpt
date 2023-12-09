@@ -18,7 +18,7 @@ namespace DevGpt.Console.Prompts
             "1. modify the vue application in the folder 'age_calculator' according to the specifications below\r\n" +
             "2. inspect the current application state\r\n" +
             "3. write the needed code for the application\r\n" +
-            "4. run the application using the 'runserver.ps1' command in the 'age_calculator' folder. This will start a dev server after which you can make modifications\r\n" +
+            "4. run the application using the 'npm run dev' command in the 'age_calculator' folder. This will start a dev server after which you can make modifications\r\n" +
             "4. make sure the application functions correctly by using a browser and refine where needed\r\n" +
             "5. Shut down\r\n\r\n" +
             "Specifications of 'age calculator':\r\n" +

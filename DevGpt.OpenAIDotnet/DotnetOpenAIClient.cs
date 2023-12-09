@@ -33,7 +33,7 @@ namespace DevGpt.OpenAI
                 if (message is DevGptToolCallResultMessage toolMessage)
                 {
                     //find toolcall bases on ID
-                    var originalCall = messageLookup.Values.SelectMany(c => c.ToolCalls)
+                    var originalCall = messageLookup.Values.SelectMany(c => c.ToolCalls).Where(c=>c != null)
                         .FirstOrDefault(m => m.Id == toolMessage.ToolCallId);
 
                     //var correspondingToolCall = toolMessage.ToolCallMessage.ToolCalls.First(t=>t.Id == toolMessage.ToolCallId);

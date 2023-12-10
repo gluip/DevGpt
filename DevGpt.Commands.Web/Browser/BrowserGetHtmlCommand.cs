@@ -33,7 +33,6 @@ public class BrowserGetHtmlCommand : IAsyncMessageCommand
                 htmlContextMessage,
                 userMessage
             };
-
         }
         catch (Exception ex)
         {

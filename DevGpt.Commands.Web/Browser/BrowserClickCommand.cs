@@ -19,7 +19,7 @@ public class BrowserClickCommand : BrowserCommandBase, IAsyncMessageCommand
         {
             return new List<DevGptChatMessage>()
             {
-                new DevGptChatMessage(DevGptChatRole.User, $"{Name} requires 1 argument: playwright locator")
+                new DevGptToolCallResultMessage(Name, $"{Name} requires 1 argument: playwright locator")
             };
         }
 

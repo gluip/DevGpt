@@ -46,7 +46,7 @@ namespace DevGpt.OpenAI
                     //var correspondingToolCall = toolMessage.ToolCallMessage.ToolCalls.First(t=>t.Id == toolMessage.ToolCallId);
                     var dotnetToolMessage = (IList<Message>)new[]
                     {
-                        new Message( originalCall,toolMessage.Result)
+                        new Message( originalCall,message.Content.Select(DotnetChatMessageMapper.Map))
                     };
                     
                     messages.AddRange(dotnetToolMessage);
@@ -118,7 +118,7 @@ namespace DevGpt.OpenAI
 
         private static IDotnetOpenAiClientChatEndpoint GetOpenAiClient()
         {
-            var useCache = true;
+            var useCache = false;
 
             var openAIKey = Environment.GetEnvironmentVariable("DevGpt_OpenAIKey", EnvironmentVariableTarget.User);
 

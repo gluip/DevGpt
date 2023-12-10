@@ -13,7 +13,7 @@ public class DotnetChatMessageMapper
         return new Message(role, contents);
     }
 
-    private static Content Map(DevGptContent content)
+    public static Content Map(DevGptContent content)
     {
         return new Content(Map(content.ContentType),content.Content);
             

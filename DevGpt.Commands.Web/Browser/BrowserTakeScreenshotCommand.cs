@@ -1,5 +1,6 @@
 ﻿using DevGpt.Models.Commands;
 using DevGpt.Models.OpenAI;
+using System.Buffers.Text;
 
 namespace DevGpt.Commands.Web.Browser;
 
@@ -18,13 +19,15 @@ public class BrowserTakeScreenshotCommand : IAsyncMessageCommand
 
     public async Task<IList<DevGptChatMessage>> ExecuteAsync(string[] args)
     {
-        var path = await _browser.TakeScreenshot();
+        var base64 = await _browser.TakeBase64Screenshot();
+        var uri = $"data:image/jpeg;base64,{base64}";
+
 
         return new[]
         {
-            new DevGptChatMessage(DevGptChatRole.User, new List<DevGptContent>
+            new DevGptToolCallResultMessage(Name, new List<DevGptContent>
             {
-                new DevGptContent(DevGptContentType.Text, $"Screenshot saved to {path}`"),
+                new DevGptContent(DevGptContentType.ImageUrl, uri)
             })
         };
     }

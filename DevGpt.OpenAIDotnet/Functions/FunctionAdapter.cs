@@ -5,6 +5,7 @@ using System.Text;
 using System.Text.Json.Nodes;
 using System.Threading.Tasks;
 using DevGpt.Models.Commands;
+using OpenAI;
 using OpenAI.Chat;
 
 namespace DevGpt.Commands.Functions

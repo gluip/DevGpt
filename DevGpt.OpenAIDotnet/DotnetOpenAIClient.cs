@@ -18,8 +18,14 @@ namespace DevGpt.OpenAI
 
     public class DotnetOpenAIClient : IDevGptOpenAIClient
     {
+        public DotnetOpenAIClient(bool disableFunctionCalling= false)
+        {
+            _disableFunctionCalling = disableFunctionCalling;
+        }
+
         private double? totalRunCosts = 0;
         private IDictionary<DevGptChatMessage, Message> messageLookup = new Dictionary<DevGptChatMessage, Message>();
+        private readonly bool _disableFunctionCalling;
 
         public async Task<DevGptChatMessage> CompletePrompt(IList<DevGptChatMessage> allMessages,
             IList<ICommandBase> commands = null)
@@ -66,12 +72,8 @@ namespace DevGpt.OpenAI
             
             var adapters = commands?.Select(c => new FunctionAdapter(c)).ToList();
             IEnumerable<Tool>? tools = adapters?.Select(a => (Tool)a.GetFunction()).ToList();
-            
 
-            var chatRequest = new ChatRequest(messages,tools: tools ?? Enumerable.Empty<Tool>(),toolChoice:"auto"
-                ,model:
-                model, temperature:0.5,maxTokens:1500,responseFormat:ChatResponseFormat.Json);
-            
+            var chatRequest = CreateChatRequest(tools, messages, model);
 
             Console.ForegroundColor = ConsoleColor.Blue;
 
@@ -93,6 +95,19 @@ namespace DevGpt.OpenAI
             
             messageLookup.Add(resultMessage, completions.FirstChoice.Message);
             return resultMessage;
+        }
+
+        private ChatRequest CreateChatRequest(IEnumerable<Tool>? tools, List<Message> messages, string model)
+        {
+            if (_disableFunctionCalling)
+            {
+                return new ChatRequest(messages
+                    , model: model, temperature: 0.5, maxTokens: 1500);
+            }
+
+            return new ChatRequest(messages, tools: tools ?? Enumerable.Empty<Tool>(), toolChoice: "auto"
+                , model:
+                model, temperature: 0.5, maxTokens: 1500, responseFormat: ChatResponseFormat.Json);
         }
 
         private static IList<DevGptToolCall> GetDevGptToolCalls(ChatResponse completions)

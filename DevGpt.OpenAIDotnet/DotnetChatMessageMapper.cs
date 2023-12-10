@@ -1,4 +1,5 @@
 ﻿using DevGpt.Models.OpenAI;
+using OpenAI;
 using OpenAI.Chat;
 
 namespace DevGpt.OpenAIDotnet;

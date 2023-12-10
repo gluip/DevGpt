@@ -19,14 +19,14 @@ public class BrowserGetHtmlCommand : IAsyncMessageCommand
         {
             return new List<DevGptChatMessage>
             {
-                new DevGptChatMessage(DevGptChatRole.User, $"{Name} requires no arguments")
+                new DevGptToolCallResultMessage(Name, $"{Name} requires no arguments")
             };
         }
 
         try
         {
             var htmlContextMessage = new DevGptContextMessage("browser_html", "html of page:" + await _browser.GetPageHtml());
-            var userMessage = new DevGptChatMessage(DevGptChatRole.User, "html set in context");
+            var userMessage = new DevGptToolCallResultMessage(Name, "html set in context");
 
             return new List<DevGptChatMessage>
             {
@@ -39,7 +39,7 @@ public class BrowserGetHtmlCommand : IAsyncMessageCommand
         {
             return new List<DevGptChatMessage>()
             {
-                new DevGptChatMessage(DevGptChatRole.User, $"{Name} failed with the following error: {ex.Message}")
+                new DevGptToolCallResultMessage(Name, $"{Name} failed with the following error: {ex.Message}")
             };
         }
     }

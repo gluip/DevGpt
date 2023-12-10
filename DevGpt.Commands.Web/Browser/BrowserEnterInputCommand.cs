@@ -19,7 +19,7 @@ public class BrowserEnterInputCommand :BrowserCommandBase, IAsyncMessageCommand
         {
             return new List<DevGptChatMessage>()
             {
-                new DevGptChatMessage(DevGptChatRole.User, $"{Name} requires 2 arguments: css selector and value")
+                new DevGptToolCallResultMessage(Name, $"{Name} requires 2 arguments: css selector and value")
             };
         }
 
@@ -27,8 +27,8 @@ public class BrowserEnterInputCommand :BrowserCommandBase, IAsyncMessageCommand
         {
             await _browser.FillAsync(args[0], args[1]);
             var contextMessage = await GetHtmlContextMessage();
-            var userMessage = new DevGptChatMessage(DevGptChatRole.User, $"Input '{args[1]}' entered at selector '{args[0]}'");
-            return new[]
+            var userMessage = new DevGptToolCallResultMessage(Name, $"Input '{args[1]}' entered at selector '{args[0]}'");
+            return new DevGptChatMessage[]
             {
                 contextMessage,
                 userMessage
@@ -38,14 +38,14 @@ public class BrowserEnterInputCommand :BrowserCommandBase, IAsyncMessageCommand
         {
             return new List<DevGptChatMessage>()
             {
-                new DevGptChatMessage(DevGptChatRole.User, $"No element found for selection")
+                new DevGptToolCallResultMessage(Name, $"No element found for selection")
             };
         }
         catch (Exception ex)
         {
             return new List<DevGptChatMessage>()
             {
-                new DevGptChatMessage(DevGptChatRole.User, $"{Name} failed with the following error: {ex.Message}")
+                new DevGptToolCallResultMessage(Name, $"{Name} failed with the following error: {ex.Message}")
             };
         }
     }

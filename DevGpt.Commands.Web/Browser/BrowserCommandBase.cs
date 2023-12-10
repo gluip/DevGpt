@@ -13,7 +13,6 @@ public class BrowserCommandBase
 
     protected async Task<DevGptContextMessage> GetHtmlContextMessage()
     {
-        var htmlContextMessage = new DevGptContextMessage("browser_html", "html of page:" + await _browser.GetPageHtml());
-        return htmlContextMessage;
+        return new DevGptContextMessage("browser_html", "html of page:" + await _browser.GetPageHtml());
     }
 }

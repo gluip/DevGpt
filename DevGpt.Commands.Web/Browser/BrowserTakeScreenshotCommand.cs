@@ -22,10 +22,7 @@ public class BrowserTakeScreenshotCommand : IAsyncMessageCommand
 
         return new[]
         {
-            new DevGptChatMessage(DevGptChatRole.User, new List<DevGptContent>
-            {
-                new DevGptContent(DevGptContentType.Text, $"Screenshot saved to {path}`"),
-            })
+            new DevGptToolCallResultMessage(Name,$"Screenshot saved to {path}`")
         };
     }
 }

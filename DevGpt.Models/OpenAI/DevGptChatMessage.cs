@@ -54,11 +54,14 @@ public class DevGptToolCallResultMessage : DevGptChatMessage
         DevGptChatRole.Tool, result)
     {
         ToolName = toolName;
-        Result = result;
+    }
+    public DevGptToolCallResultMessage(string toolName, IList<DevGptContent> content) : base(
+        DevGptChatRole.Tool, content)
+    {
+        ToolName = toolName;
     }
 
     public string ToolName { get; }
-    public string Result { get; set; }
     public string ToolCallId { get; set; }
 }
 

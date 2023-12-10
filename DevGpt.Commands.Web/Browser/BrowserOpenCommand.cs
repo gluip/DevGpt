@@ -28,17 +28,8 @@ public class BrowserOpenCommand : BrowserCommandBase, IAsyncMessageCommand
         {
             await _browser.OpenPage(args[0]);
             var toolMessage = new DevGptToolCallResultMessage(Name, $"{Name} of '{args[0]}' succeeded. Html set in contextmessage");
-            
-            
             var htmlContextMessage = await GetHtmlContextMessage();
 
-            //var base64Image = await _browser.TakeBase64Screenshot();
-            //var pictureMessage = new DevGptContextMessage("browser_screenshot", new List<DevGptContent>
-            //{
-            //    new DevGptContent(DevGptContentType.Text, "screenshot of page"),
-            //    new DevGptContent(DevGptContentType.ImageUrl, $"data:image/jpeg;base64,{base64Image}")
-
-            //});
             return new DevGptChatMessage[]
             {
                 toolMessage,

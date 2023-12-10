@@ -24,6 +24,7 @@ namespace DevGpt.Console.Prompts
             "Specifications of 'age calculator':\r\n" +
             "1. the application shows an input field for birthdate\r\n" +
             "2. the component shows the current age of the person in years\r\n" +
+            "3. the application looks nice (check with a screenshot) and is easy to use\r\n" +
             GetGenericPromt();
 
     }

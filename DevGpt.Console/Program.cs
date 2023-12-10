@@ -33,6 +33,7 @@ namespace DevGpt.Console // Note: actual namespace depends on the project name.
             var browser = new PlaywrightBrowser();
             //var client = new RedisCachingAzureOpenAIClient(new DotnetOpenAIClient(), new RedisClient());
             var client = new DotnetOpenAIClient();
+            var imageClient = new DotnetOpenAIClient(true);
             var simpleFunction = new SimpleFunction(client);
             var commandPrompt = new CommandPrompt();
             //var commandPromptCommands = new ICommandBase[]
@@ -65,7 +66,7 @@ namespace DevGpt.Console // Note: actual namespace depends on the project name.
                 new BrowserEnterInputCommand(browser),
                 new BrowserClickCommand(browser),
                 new BrowserTakeScreenshotCommand(browser),
-                new ImageQuestionCommand(client)
+                new ImageQuestionCommand(imageClient)
 
                 
                 //new ReadWebPageCommand(browser,simpleFunction),
@@ -82,6 +83,7 @@ namespace DevGpt.Console // Note: actual namespace depends on the project name.
             //var promptGenerator = new PromptGenerator_Browse();
             //IPromptGenerator promptGenerator = new PromptGeneratorGeneratorBDD();
             var promptGenerator = new PromptGenerator_VueDeveloper();
+            //var promptGenerator = new PromptGenerator_VueDesigner();
             //var promptGenerator = new PromptGenerator_Biography();
             //var promptGenerator = new PromptGenerator_UnitTestWriter();
             //var promptGenerator = new PromptGenerator_Quiz();

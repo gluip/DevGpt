@@ -15,6 +15,7 @@ using DevGpt.Console.Prompts;
 using DevGpt.Console.Services;
 using DevGpt.Models.Commands;
 using DevGpt.Models.OpenAI;
+using DevGpt.Models.Utils;
 using DevGpt.OpenAI;
 using DevGpt.OpenAI.RedisCache;
 using MyApp;
@@ -84,6 +85,7 @@ namespace DevGpt.Console // Note: actual namespace depends on the project name.
             //var promptGenerator = new PromptGenerator_Biography();
             //var promptGenerator = new PromptGenerator_UnitTestWriter();
             //var promptGenerator = new PromptGenerator_Quiz();
+            //var promptGenerator = new PromptGeneratorGeneratorWebTesterORV();
             var fullPrompt = promptGenerator.GetFullPrompt(commands);
 
             Logger.ConfigurePrompName(promptGenerator.GetType().Name);
@@ -103,6 +105,8 @@ namespace DevGpt.Console // Note: actual namespace depends on the project name.
                     WriteReply(devGptChatResponse);
                     if (devGptChatResponse.ToolCalls.Any())
                     {
+                        
+
                         foreach (var toolCall in devGptChatResponse.ToolCalls)
                         {
 

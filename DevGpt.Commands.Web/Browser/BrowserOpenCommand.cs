@@ -27,7 +27,8 @@ public class BrowserOpenCommand : BrowserCommandBase, IAsyncMessageCommand
         try
         {
             await _browser.OpenPage(args[0]);
-            var userMessage = new DevGptChatMessage(DevGptChatRole.User, $"{Name} of '{args[0]}' succeeded. Html set in contextmessage");
+            var toolMessage = new DevGptToolCallResultMessage(Name, $"{Name} of '{args[0]}' succeeded. Html set in contextmessage");
+            
             
             var htmlContextMessage = await GetHtmlContextMessage();
 
@@ -38,9 +39,9 @@ public class BrowserOpenCommand : BrowserCommandBase, IAsyncMessageCommand
             //    new DevGptContent(DevGptContentType.ImageUrl, $"data:image/jpeg;base64,{base64Image}")
 
             //});
-            return new[]
+            return new DevGptChatMessage[]
             {
-                userMessage,
+                toolMessage,
                 htmlContextMessage
             };
         }

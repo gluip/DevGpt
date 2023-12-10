@@ -26,9 +26,9 @@ public class BrowserClickCommand : BrowserCommandBase, IAsyncMessageCommand
         try
         {
             await _browser.ClickAsync(args[0]);
-            var userMessage = new DevGptChatMessage(DevGptChatRole.User, $"Element {args[0]} clicked. browser_html updated");
+            var userMessage = new DevGptToolCallResultMessage(Name, $"Element {args[0]} clicked. browser_html updated");
 
-            return new[]
+            return new DevGptChatMessage[]
             {
                 await GetHtmlContextMessage(),
                 userMessage
@@ -38,14 +38,14 @@ public class BrowserClickCommand : BrowserCommandBase, IAsyncMessageCommand
         {
             return new List<DevGptChatMessage>()
             {
-                new DevGptChatMessage(DevGptChatRole.User, $"No element found for selection")
+                new DevGptToolCallResultMessage(Name, $"No element found for selection")
             };
         }
         catch (Exception e)
         {
             return new List<DevGptChatMessage>()
             {
-                new DevGptChatMessage(DevGptChatRole.User, $"{Name} failed with the following error: {e.Message}")
+                new DevGptToolCallResultMessage(Name, $"{Name} failed with the following error: {e.Message}")
             };
         }
     }

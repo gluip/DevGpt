@@ -6,6 +6,7 @@ using System.Transactions;
 using DevGpt.Commands.Functions;
 using DevGpt.Models.Commands;
 using DevGpt.Models.OpenAI;
+using DevGpt.OpenAI.RedisCache;
 using DevGpt.OpenAIDotnet;
 using OpenAI;
 using OpenAI.Chat;
@@ -23,6 +24,12 @@ namespace DevGpt.OpenAI
         public async Task<DevGptChatMessage> CompletePrompt(IList<DevGptChatMessage> allMessages,
             IList<ICommandBase> commands = null)
         {
+            //make sure the context messages are at the end of the list
+            var contextMessages = allMessages.Where(m => m.Role == DevGptChatRole.ContextMessage).ToList();
+            var otherMessages = allMessages.Where(m => m.Role != DevGptChatRole.ContextMessage).ToList();
+            allMessages = otherMessages.Concat(contextMessages).ToList();
+
+
             var client = GetOpenAiClient();
             double? temp = 0.5;
             // ### If streaming is selected
@@ -33,7 +40,7 @@ namespace DevGpt.OpenAI
                 if (message is DevGptToolCallResultMessage toolMessage)
                 {
                     //find toolcall bases on ID
-                    var originalCall = messageLookup.Values.SelectMany(c => c.ToolCalls).Where(c=>c != null)
+                    var originalCall = messageLookup.Values.Where(c=>c.ToolCalls !=null).SelectMany(c => c.ToolCalls)
                         .FirstOrDefault(m => m.Id == toolMessage.ToolCallId);
 
                     //var correspondingToolCall = toolMessage.ToolCallMessage.ToolCalls.First(t=>t.Id == toolMessage.ToolCallId);
@@ -109,12 +116,19 @@ namespace DevGpt.OpenAI
 
         }
 
-        private static ChatEndpoint GetOpenAiClient()
+        private static IDotnetOpenAiClientChatEndpoint GetOpenAiClient()
         {
-            var useAzure = false;
+            var useCache = true;
 
-            var openAIKey = Environment.GetEnvironmentVariable("DevGpt_OpenAIKey", EnvironmentVariableTarget.User); 
-            return new OpenAIClient(openAIKey).ChatEndpoint;
+            var openAIKey = Environment.GetEnvironmentVariable("DevGpt_OpenAIKey", EnvironmentVariableTarget.User);
+
+            var innerChatEndpoint = new OpenAIClient(openAIKey).ChatEndpoint;
+            if (useCache)
+            {
+                return new RedisCachingDotnetOpenAiClient(innerChatEndpoint, new RedisClient());
+            }
+
+            return new NonCachingDotOpenAiClientWrapper(innerChatEndpoint);
         }
 
 

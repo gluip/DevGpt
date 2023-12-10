@@ -60,7 +60,6 @@ public class CommandExecutor : ICommandExecutor
             args[i] = args[i].Replace("\\n", "\n").Replace("\\r", "\r");
         }
 
-
         var command = _commands.FirstOrDefault(c => c.Name == commandName);
         if (command == null)
         {
@@ -68,29 +67,22 @@ public class CommandExecutor : ICommandExecutor
             commandsText += "\n\n";
             return new[]
             {
-                new DevGptChatMessage(DevGptChatRole.User,
+                new DevGptToolCallResultMessage(commandName,
                     $"command {commandName} not found. Please make sure you use on the following commands.\r\n{commandsText}")
             };
         }
         
         if (command is IAsyncMessageCommand messageCommand)
         {
-            var devGptChatMessages = await messageCommand.ExecuteAsync(args);
-            return new[]
-            {
-                new DevGptToolCallResultMessage(commandName,
-                    devGptChatMessages.First(c => c is not DevGptContextMessage).Content.FirstOrDefault().Content),
-            };
-
+            return await messageCommand.ExecuteAsync(args);
         }
 
         if (command is IAsyncCommand asyncCommand)
         {
-            var stringResult = await asyncCommand.ExecuteAsync(args);
             return new[]
             {
 
-                new DevGptToolCallResultMessage(commandName, stringResult)
+                new DevGptToolCallResultMessage(commandName, await asyncCommand.ExecuteAsync(args))
             };
         }
 

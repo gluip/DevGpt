@@ -16,9 +16,11 @@
   <ItemGroup>
     <None Remove="Prompts\IQTest.txt" />
     <None Remove="Prompts\Vue_Developer.txt" />
+    <None Remove="Prompts\Web_TesterORV.txt" />
   </ItemGroup>
 
   <ItemGroup>
+    <EmbeddedResource Include="Prompts\Web_TesterORV.txt" />
     <EmbeddedResource Include="Prompts\Vue_Developer.txt" />
     <EmbeddedResource Include="Prompts\IQTest.txt" />
   </ItemGroup>

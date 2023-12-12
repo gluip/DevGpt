@@ -3,6 +3,7 @@ using System.Text.Json;
 using DevGpt.Commands.Magic;
 using DevGpt.Commands.Web.Browser;
 using DevGpt.Models;
+using DevGpt.Models.Browser;
 using DevGpt.Models.Commands;
 using HtmlAgilityPack;
 

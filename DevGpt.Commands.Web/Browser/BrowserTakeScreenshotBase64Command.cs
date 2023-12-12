@@ -1,6 +1,7 @@
 ﻿using DevGpt.Models.Commands;
 using DevGpt.Models.OpenAI;
 using System.Buffers.Text;
+using DevGpt.Models.Browser;
 
 namespace DevGpt.Commands.Web.Browser;
 

@@ -48,7 +48,7 @@ public class CommandExecutor : ICommandExecutor
                 args);
         }
 
-        return new[] { new DevGptChatMessage(DevGptChatRole.User, "User refused to execute command. Please try something else") };
+        return new[] { new DevGptToolCallResultMessage(commandName, "User refused to execute command. Please try something else") };
 
     }
 

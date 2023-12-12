@@ -2,6 +2,7 @@
 using DevGpt.Models.OpenAI;
 using Microsoft.Playwright;
 using static System.Net.Mime.MediaTypeNames;
+using IBrowser = DevGpt.Models.Browser.IBrowser;
 
 namespace DevGpt.Commands.Web.Browser;
 

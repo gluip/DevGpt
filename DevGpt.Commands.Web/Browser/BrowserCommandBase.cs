@@ -1,4 +1,5 @@
-﻿using DevGpt.Models.OpenAI;
+﻿using DevGpt.Models.Browser;
+using DevGpt.Models.OpenAI;
 
 namespace DevGpt.Commands.Web.Browser;
 

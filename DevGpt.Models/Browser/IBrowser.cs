@@ -1,4 +1,4 @@
-﻿namespace DevGpt.Commands.Web.Browser;
+﻿namespace DevGpt.Models.Browser;
 
 public interface IBrowser
 {

@@ -1,4 +1,5 @@
 ﻿using System.Diagnostics.CodeAnalysis;
+using DevGpt.Models.Browser;
 using DevGpt.Models.Commands;
 using DevGpt.Models.OpenAI;
 using HtmlAgilityPack;

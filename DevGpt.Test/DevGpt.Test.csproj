@@ -1,23 +1,13 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net6.0</TargetFramework>
+    <TargetFramework>net8.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
 
     <IsPackable>false</IsPackable>
     <IsTestProject>true</IsTestProject>
   </PropertyGroup>
-
-  <ItemGroup>
-    <Compile Remove="Services\TextFile.cs" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Remove="Services\apologies.txt" />
-    <None Remove="Services\BadResponse.json" />
-    <None Remove="Services\Sample.json" />
-  </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.5.0" />
@@ -35,16 +25,6 @@
   <ItemGroup>
     <ProjectReference Include="..\DevGpt.Console\DevGpt.Console.csproj" />
     <ProjectReference Include="..\DevGpt.Models\DevGpt.Models.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <EmbeddedResource Include="Services\apologies.txt" />
-    <EmbeddedResource Include="Services\BadResponse.json" />
-    <EmbeddedResource Include="Services\Sample.json" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <EmbeddedResource Include="Services\TextFile.cs" />
   </ItemGroup>
 
   <ItemGroup>

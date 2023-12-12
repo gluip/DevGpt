@@ -6,13 +6,13 @@ using DevGpt.Commands.Magic;
 using DevGpt.Commands.Pdf;
 using DevGpt.Commands.Web.Browser;
 using DevGpt.Commands.Web.Google;
+using DevGpt.Commands.Web.Selenium;
 using DevGpt.Commands.Web.Semantic;
 using DevGpt.Console.Chatmodel;
 using DevGpt.Console.Commands;
 using DevGpt.Console.Commands.Semantic;
 using DevGpt.Console.Logging;
 using DevGpt.Console.Prompts;
-using DevGpt.Console.Services;
 using DevGpt.Models.Commands;
 using DevGpt.Models.OpenAI;
 using DevGpt.Models.Utils;
@@ -24,13 +24,13 @@ namespace DevGpt.Console // Note: actual namespace depends on the project name.
 {
     internal class Program
     {
-        private static ResponseCleaner _responseCleaner = new ResponseCleaner();
 
         static async Task Main(string[] args)
         {
 
 
-            var browser = new PlaywrightBrowser();
+           // var browser = new PlaywrightBrowser();
+            var browser = new SeleniumBrowser();
             //var client = new RedisCachingAzureOpenAIClient(new DotnetOpenAIClient(), new RedisClient());
             var client = new DotnetOpenAIClient();
             var imageClient = new DotnetOpenAIClient(true);

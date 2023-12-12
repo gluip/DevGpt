@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <OutputType>Exe</OutputType>
-    <TargetFramework>net6.0</TargetFramework>
+    <TargetFramework>net8.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
   </PropertyGroup>
@@ -20,6 +20,7 @@
   <ItemGroup>
     <ProjectReference Include="..\DevGpt.AzureOpenAI\DevGpt.AzureOpenAI.csproj" />
     <ProjectReference Include="..\DevGpt.Commands.Pdf\DevGpt.Commands.Pdf.csproj" />
+    <ProjectReference Include="..\DevGpt.Commands.Web.Selenium\DevGpt.Commands.Web.Selenium.csproj" />
     <ProjectReference Include="..\DevGpt.Commands.Web\DevGpt.Commands.Web.csproj" />
     <ProjectReference Include="..\DevGpt.Commands\DevGpt.Commands.csproj" />
     <ProjectReference Include="..\DevGpt.Models\DevGpt.Models.csproj" />

@@ -2,10 +2,14 @@
 using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
 using System;
+using System.Reflection;
 using System.Threading.Tasks;
 using DevGpt.Commands.Web.Services;
+using DevGpt.Models.Utils;
 using OpenQA.Selenium.DevTools;
 using OpenQA.Selenium.DevTools.V120.Network;
+using OpenQA.Selenium.Support.UI;
+using SeleniumExtras.WaitHelpers;
 using WebDriverManager.DriverConfigs.Impl;
 using WebDriverManager;
 
@@ -17,18 +21,23 @@ namespace DevGpt.Commands.Web.Selenium
 
            
 
-        public async Task<string> OpenPage(string url)
+        public async Task OpenPage(string url)
         {
             new DriverManager().SetUpDriver(new ChromeConfig()); 
             _driver = new ChromeDriver();
            await ConfigureBlockedUrls();
 
            _driver.Navigate().GoToUrl(url);
+           //make sure the page is fully loaded
 
+           Thread.Sleep(2000);
+        }
 
-
-
-            return await Task.FromResult(_driver.PageSource);
+        private void UpdateDataVisible()
+        {
+            var script = DevGptResourceReader.GetEmbeddedResource(Assembly.GetExecutingAssembly(),
+                "DevGpt.Commands.Web.Selenium.AnnotateInvisble.js");
+            _driver.ExecuteScript(script);
         }
 
         private async Task ConfigureBlockedUrls()
@@ -46,9 +55,15 @@ namespace DevGpt.Commands.Web.Selenium
 
         public async Task<string> GetPageHtml()
         {
-            return await Task.FromResult(BrowserHelper.CleanHtml(_driver.PageSource));
-        }
+            UpdateDataVisible();
+            Thread.Sleep(2000);
+            var driverPageSource = _driver.PageSource;
 
+            var visibleHtml = BrowserHelper.StripInvisibleElements(driverPageSource);
+            var cleanHtml = BrowserHelper.CleanHtml(visibleHtml);
+            return await Task.FromResult(cleanHtml);
+        }
+        
         public async Task<string> GetPageText()
         {
             return await Task.FromResult(_driver.FindElement(By.TagName("body")).Text);
@@ -56,17 +71,33 @@ namespace DevGpt.Commands.Web.Selenium
 
         public async Task FillAsync(string selector, string value)
         {
-            var element = _driver.FindElement(By.CssSelector(selector));
+            var element = _driver.FindElement(GetVisibleLocator(selector));
             element.Clear();
             element.SendKeys(value);
             await Task.CompletedTask;
         }
 
-        public async Task ClickAsync(string locator)
+        public async Task ClickAsync(string selector)
         {
-            var element = _driver.FindElement(By.CssSelector(locator));
+            //modify locator so only data-visible elements are selected
+            var locator = GetVisibleLocator(selector);
+
+
+            //wait for the element to be clickable
+            //var wait = new WebDriverWait(_driver, TimeSpan.FromSeconds(10));
+            //wait.Until(ExpectedConditions.ElementToBeClickable(By.CssSelector(locator)));
+
+          
+
+            var element = _driver.FindElement(locator);
             element.Click();
             await Task.CompletedTask;
+        }
+
+        private static By GetVisibleLocator(string locator)
+        {
+            locator = $"{locator}[data-visible=\"true\"]";
+            return By.CssSelector(locator);
         }
 
         public async Task<string> TakeScreenshot()

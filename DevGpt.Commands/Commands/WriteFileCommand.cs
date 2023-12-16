@@ -23,7 +23,7 @@ public class WriteFileCommand : ICommand
 
             //check if the path exists
             var directory = Path.GetDirectoryName(path);
-            if (!Directory.Exists(directory))
+            if (!string.IsNullOrWhiteSpace(directory) && !Directory.Exists(directory))
             {
                 Directory.CreateDirectory(directory);
             }

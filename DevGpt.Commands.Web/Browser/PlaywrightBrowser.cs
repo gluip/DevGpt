@@ -15,7 +15,7 @@ public class PlaywrightBrowser : IBrowser,IDisposable
     private Microsoft.Playwright.IBrowser _browser;
 
     
-    public async Task<string> OpenPage(string url)
+    public async Task OpenPage(string url)
     {
         _playwright = await Playwright.CreateAsync();
         //non headless browser
@@ -40,9 +40,6 @@ public class PlaywrightBrowser : IBrowser,IDisposable
 
         _page.Context.SetDefaultTimeout(DefaultTimeout);
         
-        await _page.GotoAsync(url);
-
-        return "Page opened";
     }
 
     public async Task<string> GetPageHtml()

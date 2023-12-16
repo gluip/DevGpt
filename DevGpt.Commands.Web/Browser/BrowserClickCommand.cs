@@ -52,6 +52,6 @@ public class BrowserClickCommand : BrowserCommandBase, IAsyncMessageCommand
     }
     public string Name => "browser_click";
     public string Description => "clicks on a element on a page";
-    public string[] Arguments => new[] { "playwright element selector" };
+    public string[] Arguments => new[] { "css selector" };
 
 }

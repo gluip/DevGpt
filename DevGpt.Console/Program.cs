@@ -91,7 +91,7 @@ namespace DevGpt.Console // Note: actual namespace depends on the project name.
             //var promptGenerator = new PromptGenerator_Biography();
             //var promptGenerator = new PromptGenerator_UnitTestWriter();
             //var promptGenerator = new PromptGenerator_Quiz();
-            //var promptGenerator = new PromptGeneratorGeneratorWebTesterORV();
+           // var promptGenerator = new PromptGeneratorGeneratorWebTesterORV();
             var fullPrompt = promptGenerator.GetFullPrompt(commands);
 
             Logger.ConfigurePrompName(promptGenerator.GetType().Name);

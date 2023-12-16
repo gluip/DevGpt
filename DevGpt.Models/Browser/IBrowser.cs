@@ -2,7 +2,7 @@
 
 public interface IBrowser
 {
-    Task<string> OpenPage(string url);
+    Task OpenPage(string url);
     Task<string> GetPageHtml();
 
     Task<string> GetPageText();

@@ -1,11 +1,14 @@
-﻿using System.Text.RegularExpressions;
+﻿using System.Reflection;
+using System.Text.RegularExpressions;
 using DevGpt.Commands.Web.Services;
 using DevGpt.Models.OpenAI;
+using DevGpt.Models.Utils;
 using Microsoft.Playwright;
 using static System.Net.Mime.MediaTypeNames;
 using IBrowser = DevGpt.Models.Browser.IBrowser;
 
 namespace DevGpt.Commands.Web.Browser;
+
 
 public class PlaywrightBrowser : IBrowser,IDisposable
 {
@@ -14,7 +17,15 @@ public class PlaywrightBrowser : IBrowser,IDisposable
     private IPlaywright _playwright;
     private Microsoft.Playwright.IBrowser _browser;
 
-    
+    private async Task UpdateDataVisible()
+    {
+        var script = DevGptResourceReader.GetEmbeddedResource(Assembly.GetExecutingAssembly(),
+            "DevGpt.Commands.Web.AnnotateInvisble.js");
+        script = "async () => {" + Environment.NewLine+ script + Environment.NewLine + "}";
+        await _page.EvaluateAsync(script);
+        //execute the script using playwright and wait for 2 seconds
+    }
+
     public async Task OpenPage(string url)
     {
         _playwright = await Playwright.CreateAsync();
@@ -39,17 +50,19 @@ public class PlaywrightBrowser : IBrowser,IDisposable
         });
 
         _page.Context.SetDefaultTimeout(DefaultTimeout);
-        
+        await _page.GotoAsync(url);
     }
 
     public async Task<string> GetPageHtml()
     {
-        var html = await _page.ContentAsync();//InnerHTMLAsync("body");
+        await UpdateDataVisible();
+        var driverPageSource = await _page.ContentAsync();//InnerHTMLAsync("body");
 
-        return BrowserHelper.CleanHtml(html);
+
+        var visibleHtml = BrowserHelper.StripInvisibleElements(driverPageSource);
+        var cleanHtml = BrowserHelper.CleanHtml(visibleHtml);
+        return await Task.FromResult(cleanHtml);
     }
-
-    
 
     public Task<string> GetPageText()
     {
@@ -58,14 +71,19 @@ public class PlaywrightBrowser : IBrowser,IDisposable
 
     public async Task FillAsync(string selector, string value)
     {
-        await _page.Locator(selector).FillAsync(value);
+        await GetVisibleLocator(selector).FillAsync(value);
     }
 
     public async Task ClickAsync(string locator)
     {
-        await _page.Locator(locator).ClickAsync();
+
+        await GetVisibleLocator(locator).ClickAsync();
     }
 
+    private ILocator GetVisibleLocator(string locator)
+    {
+        return _page.Locator($"{locator}:visible");
+    }
 
     byte[] ResizeImage(byte[] data, double ratio)
     {

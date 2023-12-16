@@ -24,7 +24,7 @@ namespace DevGpt.Commands.Web.Selenium
         public async Task OpenPage(string url)
         {
             new DriverManager().SetUpDriver(new ChromeConfig()); 
-            _driver = new ChromeDriver();
+            _driver = new ChromeDriver(new ChromeOptions{AcceptInsecureCertificates = true});
            await ConfigureBlockedUrls();
 
            _driver.Navigate().GoToUrl(url);
@@ -35,9 +35,12 @@ namespace DevGpt.Commands.Web.Selenium
 
         private void UpdateDataVisible()
         {
-            var script = DevGptResourceReader.GetEmbeddedResource(Assembly.GetExecutingAssembly(),
-                "DevGpt.Commands.Web.Selenium.AnnotateInvisble.js");
+            var script = DevGptResourceReader.GetEmbeddedResource(typeof(BrowserHelper).Assembly,
+                "DevGpt.Commands.Web.AnnotateInvisble.js");
+
+           
             _driver.ExecuteScript(script);
+            Thread.Sleep(2000);
         }
 
         private async Task ConfigureBlockedUrls()
@@ -56,7 +59,6 @@ namespace DevGpt.Commands.Web.Selenium
         public async Task<string> GetPageHtml()
         {
             UpdateDataVisible();
-            Thread.Sleep(2000);
             var driverPageSource = _driver.PageSource;
 
             var visibleHtml = BrowserHelper.StripInvisibleElements(driverPageSource);
@@ -81,13 +83,6 @@ namespace DevGpt.Commands.Web.Selenium
         {
             //modify locator so only data-visible elements are selected
             var locator = GetVisibleLocator(selector);
-
-
-            //wait for the element to be clickable
-            //var wait = new WebDriverWait(_driver, TimeSpan.FromSeconds(10));
-            //wait.Until(ExpectedConditions.ElementToBeClickable(By.CssSelector(locator)));
-
-          
 
             var element = _driver.FindElement(locator);
             element.Click();

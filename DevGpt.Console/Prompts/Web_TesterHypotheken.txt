@@ -6,11 +6,11 @@ You want to test a form hosted at https://www.asr.nl/hypotheek/welthuis-starters
 GOALS:
 1. open the page 
 2. close the cookiebanner
-3. fill in the dutch form for the insurance with the following data
+3. fill in the dutch form for the mortgage with the following data
 single buyer
 anual income: 50000
 no expenses
 
-4. verify the maximum mortgegeis E213567
+4. verify the maximum mortgege is E213567
 NOTE: use the data-uitest attributes where available in the html to access or click elements.
 NOTE: always click on the text next to radio buttons to make a radio button selection.

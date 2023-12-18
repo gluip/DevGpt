@@ -12,5 +12,6 @@ anual income: 50000
 no expenses
 
 4. verify the maximum mortgege is E213567
+5. shut down when done
 NOTE: use the data-uitest attributes where available in the html to access or click elements.
 NOTE: always click on the text next to radio buttons to make a radio button selection.

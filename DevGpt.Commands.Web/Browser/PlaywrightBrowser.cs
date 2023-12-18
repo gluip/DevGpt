@@ -51,6 +51,7 @@ public class PlaywrightBrowser : IBrowser,IDisposable
 
         _page.Context.SetDefaultTimeout(DefaultTimeout);
         await _page.GotoAsync(url);
+        Thread.Sleep(2000);
     }
 
     public async Task<string> GetPageHtml()

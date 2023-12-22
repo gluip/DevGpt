@@ -35,7 +35,7 @@ namespace DevGpt.Console // Note: actual namespace depends on the project name.
             var browser = new SeleniumBrowser();
             //var client = new RedisCachingAzureOpenAIClient(new DotnetOpenAIClient(), new RedisClient());
             //var client = new DotnetOpenAIClient();
-            var client = new GeminiClient();
+            var client = new DotnetOpenAIClient();
             var imageClient = new DotnetOpenAIClient(true);
             var simpleFunction = new SimpleFunction(client);
             var commandPrompt = new CommandPrompt();

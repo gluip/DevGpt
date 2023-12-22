@@ -180,11 +180,7 @@ namespace DevGpt.Console // Note: actual namespace depends on the project name.
                     System.Console.WriteLine("********** INVALID RESPONSE *********");
 
                     System.Console.WriteLine(contentMessage);
-
                 }
-
-
-
             }
             
             foreach (var message in devGptChatResponse.ToolCalls)

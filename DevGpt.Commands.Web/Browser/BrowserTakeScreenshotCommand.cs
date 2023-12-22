@@ -13,7 +13,7 @@ public class BrowserTakeScreenshotCommand : IAsyncMessageCommand
         _browser = browser;
     }
 
-    public string[] Arguments => new[] { "" };
+    public string[] Arguments => Array.Empty<string>() ;
     public string Description => "Gets a screenshot of the current page in the browser";
     public string Name => "browser_take_screenshot";
 

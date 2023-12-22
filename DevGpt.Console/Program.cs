@@ -14,6 +14,7 @@ using DevGpt.Console.Commands;
 using DevGpt.Console.Commands.Semantic;
 using DevGpt.Console.Logging;
 using DevGpt.Console.Prompts;
+using DevGpt.Gemini;
 using DevGpt.Models.Commands;
 using DevGpt.Models.OpenAI;
 using DevGpt.Models.Utils;
@@ -33,6 +34,7 @@ namespace DevGpt.Console // Note: actual namespace depends on the project name.
             //var browser = new PlaywrightBrowser();
             var browser = new SeleniumBrowser();
             //var client = new RedisCachingAzureOpenAIClient(new DotnetOpenAIClient(), new RedisClient());
+            //var client = new DotnetOpenAIClient();
             var client = new DotnetOpenAIClient();
             var imageClient = new DotnetOpenAIClient(true);
             var simpleFunction = new SimpleFunction(client);
@@ -151,22 +153,33 @@ namespace DevGpt.Console // Note: actual namespace depends on the project name.
             var contentMessage = devGptChatResponse.Content.FirstOrDefault()?.Content;
             if (contentMessage != null)
             {
-                var asistantReply = JsonSerializer.Deserialize<AssitantReply>(contentMessage);
-                //write reply using colors
-                if (asistantReply.thoughts != null)
-                {
-                    System.Console.ForegroundColor = ConsoleColor.White;
-                    System.Console.WriteLine(asistantReply.thoughts.text);
-                    System.Console.ForegroundColor = ConsoleColor.White;
-                    System.Console.WriteLine(asistantReply.thoughts.reasoning);
-                    System.Console.ForegroundColor = ConsoleColor.Yellow;
-                    System.Console.WriteLine(asistantReply.thoughts.plan);
-                    System.Console.ForegroundColor = ConsoleColor.Red;
-                    System.Console.WriteLine(asistantReply.thoughts.criticism);
-                    System.Console.ForegroundColor = ConsoleColor.White;
-                    System.Console.WriteLine(asistantReply.thoughts.speak);
-                    System.Console.ForegroundColor = ConsoleColor.White;
 
+                try
+                {
+                    var asistantReply = JsonSerializer.Deserialize<AssitantReply>(contentMessage);
+                    //write reply using colors
+                    if (asistantReply.thoughts != null)
+                    {
+                        System.Console.ForegroundColor = ConsoleColor.White;
+                        System.Console.WriteLine(asistantReply.thoughts.text);
+                        System.Console.ForegroundColor = ConsoleColor.White;
+                        System.Console.WriteLine(asistantReply.thoughts.reasoning);
+                        System.Console.ForegroundColor = ConsoleColor.Yellow;
+                        System.Console.WriteLine(asistantReply.thoughts.plan);
+                        System.Console.ForegroundColor = ConsoleColor.Red;
+                        System.Console.WriteLine(asistantReply.thoughts.criticism);
+                        System.Console.ForegroundColor = ConsoleColor.White;
+                        System.Console.WriteLine(asistantReply.thoughts.speak);
+                        System.Console.ForegroundColor = ConsoleColor.White;
+
+                    }
+                }
+                catch (Exception e)
+                {
+                    System.Console.ForegroundColor = ConsoleColor.Red;
+                    System.Console.WriteLine("********** INVALID RESPONSE *********");
+
+                    System.Console.WriteLine(contentMessage);
                 }
             }
             

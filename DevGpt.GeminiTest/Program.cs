@@ -6,7 +6,10 @@ using GenerativeAI.Types;
 
 Console.WriteLine("Hello, World!");
 
-var apiKey = "AIzaSyCtDNNQUoK5faapQid6aLAEDtl9GDaKIxI";
+//get api key from environment variable
+var apiKey = System.Environment.GetEnvironmentVariable("DevGpt_GeminiKey");
+
+
 
 var httpClient = new HttpClient(new HttpClientHandler()
 {

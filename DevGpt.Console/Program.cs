@@ -87,7 +87,7 @@ namespace DevGpt.Console // Note: actual namespace depends on the project name.
             //var promptGenerator = new PromptGenerator_Browse();
             //IPromptGenerator promptGenerator = new PromptGeneratorGeneratorBDD();
             //var promptGenerator = new EmbeddedResourcePromptGenerator("DevGpt.Console.Prompts.Web_TesterHypotheken.txt");
-            var promptGenerator = new EmbeddedResourcePromptGenerator("DevGpt.Console.Prompts.Vue_LoanCalculator.txt");
+            var promptGenerator = new EmbeddedResourcePromptGenerator("DevGpt.Console.Prompts.UnitTestWriter_Email.txt");
 
 
             //var promptGenerator = new PromptGenerator_VueDesigner();

@@ -134,10 +134,30 @@ namespace DevGpt.OpenAI
         private static IDotnetOpenAiClientChatEndpoint GetOpenAiClient()
         {
             var useCache = false;
+            var useAzureOpenAi = true;
 
-            var openAIKey = Environment.GetEnvironmentVariable("DevGpt_OpenAIKey", EnvironmentVariableTarget.User);
+            ChatEndpoint innerChatEndpoint;
+            if (useAzureOpenAi)
+            {
+                                // azure version
+                var azureKey = Environment.GetEnvironmentVariable("DevGpt_AzureKey", EnvironmentVariableTarget.User);
+               //var uri = Environment.GetEnvironmentVariable("DevGpt_AzureUri", EnvironmentVariableTarget.User);
 
-            var innerChatEndpoint = new OpenAIClient(openAIKey).ChatEndpoint;
+                var auth = new OpenAIAuthentication(azureKey);
+                var settings = new OpenAIClientSettings(resourceName: "eastus2vanmartijn", deploymentId: "gpt-4-1106-preview", apiVersion: "2023-07-01-preview");
+
+                innerChatEndpoint = new OpenAIClient(auth, settings).ChatEndpoint;
+            }
+            else
+            {
+                var openAIKey = Environment.GetEnvironmentVariable("DevGpt_OpenAIKey", EnvironmentVariableTarget.User);
+                innerChatEndpoint = new OpenAIClient(openAIKey).ChatEndpoint;
+            }
+
+           
+            
+            
+            
             if (useCache)
             {
                 return new RedisCachingDotnetOpenAiClient(innerChatEndpoint, new RedisClient());

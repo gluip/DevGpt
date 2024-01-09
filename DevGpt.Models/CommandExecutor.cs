@@ -55,10 +55,10 @@ public class CommandExecutor : ICommandExecutor
     private async Task<IEnumerable<DevGptChatMessage>> DoExecute(string commandName, string[] args)
     {
         // remove double encoding from args
-        for (int i = 0; i < args.Length; i++)
-        {
-            args[i] = args[i].Replace("\\n", "\n").Replace("\\r", "\r");
-        }
+        //for (int i = 0; i < args.Length; i++)
+        //{
+        //    args[i] = args[i].Replace("\\n", "\n").Replace("\\r", "\r");
+        //}
 
         var command = _commands.FirstOrDefault(c => c.Name == commandName);
         if (command == null)

@@ -41,14 +41,23 @@ public class CommandExecutor : ICommandExecutor
 
     {
         DevConsole.WriteLine($"Do you want to execute {commandName} ? (y/n)");
-        var response = System.Console.ReadLine();
-        if (response.ToLower() == "y")
+        var response = System.Console.ReadLine().ToLower();
+        if (response == "y")
         {
             return await DoExecute(commandName,
                 args);
         }
-
-        return new[] { new DevGptToolCallResultMessage(commandName, "User refused to execute command. Please try something else") };
+        if (response == "n")
+        {
+            return new[]
+            {
+                new DevGptToolCallResultMessage(commandName, "User refused to execute command. Please try something else")
+            };
+        }
+        return new[]
+        {
+            new DevGptToolCallResultMessage(commandName, $"User responsed with: {response}")
+        };
 
     }
 

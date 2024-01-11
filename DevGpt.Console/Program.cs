@@ -62,7 +62,7 @@ namespace DevGpt.Console // Note: actual namespace depends on the project name.
                 new ExecuteShellCommand(),
                 new DotnetAddReferenceCommand(),
                 new ReadPdfCommand(),
-                new AppendFileCommand(),
+                //new AppendFileCommand(),
                 new GoogleSearchCommand(),
                 //new BrowseWebsiteCommand(),
                 new BrowserOpenCommand(browser),

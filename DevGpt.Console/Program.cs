@@ -65,7 +65,7 @@ namespace DevGpt.Console // Note: actual namespace depends on the project name.
             var commandExecutor = new CommandExecutor(commands);
 
             System.Console.WriteLine("Hello welcome to DevGpt!");
-            var promptGenerator = new EmbeddedResourcePromptGenerator("Backend_UnitTestWriter.txt");
+            var promptGenerator = new EmbeddedResourcePromptGenerator("Backend_MapsProject.txt");
 
 
             //var promptGenerator = new PromptGenerator_VueDesigner();

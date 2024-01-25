@@ -14,8 +14,8 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Remove="Prompts\Backend_UnitTestWriter.txt" />
     <None Remove="Prompts\IQTest.txt" />
-    <None Remove="Prompts\UnitTestWriter_Email.txt" />
     <None Remove="Prompts\Vue_Developer.txt" />
     <None Remove="Prompts\Vue_LoanCalculator.txt" />
     <None Remove="Prompts\Web_TesterHypotheken.txt" />
@@ -24,7 +24,7 @@
   <ItemGroup>
     <EmbeddedResource Include="Prompts\Vue_LoanCalculator.txt" />
     <EmbeddedResource Include="Prompts\Web_TesterHypotheken.txt" />
-    <EmbeddedResource Include="Prompts\UnitTestWriter_Email.txt" />
+    <EmbeddedResource Include="Prompts\Backend_UnitTestWriter.txt" />
     <EmbeddedResource Include="Prompts\Vue_Developer.txt" />
     <EmbeddedResource Include="Prompts\IQTest.txt" />
   </ItemGroup>

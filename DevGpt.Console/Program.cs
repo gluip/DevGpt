@@ -14,7 +14,6 @@ using DevGpt.Console.Commands;
 using DevGpt.Console.Commands.Semantic;
 using DevGpt.Console.Logging;
 using DevGpt.Console.Prompts;
-using DevGpt.Gemini;
 using DevGpt.Models.Commands;
 using DevGpt.Models.OpenAI;
 using DevGpt.Models.Utils;

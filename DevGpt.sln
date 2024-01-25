@@ -21,15 +21,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DevGpt.OpenAI.RedisCache", 
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DevGpt.OpenAI.RedisCache.Test", "DevGpt.OpenAI.RedisCache.Test\DevGpt.OpenAI.RedisCache.Test.csproj", "{2C7AFF1C-A4A4-452D-BEB4-8398821F4284}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DevGpt.SemanticKernel", "DevGpt.SemanticKernel\DevGpt.SemanticKernel.csproj", "{A8626AA1-D0B6-4C34-8782-A44DD088BD8E}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DevGpt.Commands.Web.Test", "DevGpt.Commands.Web.Test\DevGpt.Commands.Web.Test.csproj", "{039FE5FB-13CE-4B03-98B6-B76F75E70148}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DevGpt.OpenAI.Test", "DevGpt.OpenAI.Test\DevGpt.OpenAI.Test.csproj", "{3125A694-DFC1-42F6-9F9D-D1E5322F14EB}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DevGpt.Images", "DevGpt.Images\DevGpt.Images.csproj", "{CE056E6C-980A-4672-B025-FE236DC18C61}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DevGpt.AzureOpenAI", "DevGpt.AzureOpenAI\DevGpt.AzureOpenAI.csproj", "{8F09A676-79BD-4009-95B0-CCDFA62747EE}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DevGpt.OpenAIDotnet", "DevGpt.OpenAIDotnet\DevGpt.OpenAIDotnet.csproj", "{2C2813E8-BE92-44CB-87FC-5A55374932E8}"
 EndProject
@@ -38,12 +34,6 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DevGpt.Commands.Web.Selenium", "DevGpt.Commands.Web.Selenium\DevGpt.Commands.Web.Selenium.csproj", "{3ECB4511-6DFD-4C73-B4CA-5CDE3145050D}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DevGpt.Commands.Web.Selenium.Test", "DevGpt.Commands.Web.Selenium.Test\DevGpt.Commands.Web.Selenium.Test.csproj", "{AEC2C47D-41F7-4BBD-BC7C-6923ABF9C2D0}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DevGpt.GeminiTest", "DevGpt.GeminiTest\DevGpt.GeminiTest.csproj", "{E2DE7ADD-CFC3-478C-B00F-B21803EB53D9}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DevGpt.Gemini", "DevGpt.Gemini\DevGpt.Gemini.csproj", "{18344E50-9288-46AE-8125-A8272548C464}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DevGpt.Gemini.Test", "DevGpt.Gemini.Test\DevGpt.Gemini.Test.csproj", "{D933D63F-AE1C-4388-BBD2-F09897DF8F83}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -87,10 +77,6 @@ Global
 		{2C7AFF1C-A4A4-452D-BEB4-8398821F4284}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2C7AFF1C-A4A4-452D-BEB4-8398821F4284}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2C7AFF1C-A4A4-452D-BEB4-8398821F4284}.Release|Any CPU.Build.0 = Release|Any CPU
-		{A8626AA1-D0B6-4C34-8782-A44DD088BD8E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{A8626AA1-D0B6-4C34-8782-A44DD088BD8E}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{A8626AA1-D0B6-4C34-8782-A44DD088BD8E}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{A8626AA1-D0B6-4C34-8782-A44DD088BD8E}.Release|Any CPU.Build.0 = Release|Any CPU
 		{039FE5FB-13CE-4B03-98B6-B76F75E70148}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{039FE5FB-13CE-4B03-98B6-B76F75E70148}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{039FE5FB-13CE-4B03-98B6-B76F75E70148}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -103,10 +89,6 @@ Global
 		{CE056E6C-980A-4672-B025-FE236DC18C61}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CE056E6C-980A-4672-B025-FE236DC18C61}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CE056E6C-980A-4672-B025-FE236DC18C61}.Release|Any CPU.Build.0 = Release|Any CPU
-		{8F09A676-79BD-4009-95B0-CCDFA62747EE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{8F09A676-79BD-4009-95B0-CCDFA62747EE}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{8F09A676-79BD-4009-95B0-CCDFA62747EE}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{8F09A676-79BD-4009-95B0-CCDFA62747EE}.Release|Any CPU.Build.0 = Release|Any CPU
 		{2C2813E8-BE92-44CB-87FC-5A55374932E8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{2C2813E8-BE92-44CB-87FC-5A55374932E8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2C2813E8-BE92-44CB-87FC-5A55374932E8}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -123,18 +105,6 @@ Global
 		{AEC2C47D-41F7-4BBD-BC7C-6923ABF9C2D0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{AEC2C47D-41F7-4BBD-BC7C-6923ABF9C2D0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{AEC2C47D-41F7-4BBD-BC7C-6923ABF9C2D0}.Release|Any CPU.Build.0 = Release|Any CPU
-		{E2DE7ADD-CFC3-478C-B00F-B21803EB53D9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{E2DE7ADD-CFC3-478C-B00F-B21803EB53D9}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{E2DE7ADD-CFC3-478C-B00F-B21803EB53D9}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{E2DE7ADD-CFC3-478C-B00F-B21803EB53D9}.Release|Any CPU.Build.0 = Release|Any CPU
-		{18344E50-9288-46AE-8125-A8272548C464}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{18344E50-9288-46AE-8125-A8272548C464}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{18344E50-9288-46AE-8125-A8272548C464}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{18344E50-9288-46AE-8125-A8272548C464}.Release|Any CPU.Build.0 = Release|Any CPU
-		{D933D63F-AE1C-4388-BBD2-F09897DF8F83}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{D933D63F-AE1C-4388-BBD2-F09897DF8F83}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{D933D63F-AE1C-4388-BBD2-F09897DF8F83}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{D933D63F-AE1C-4388-BBD2-F09897DF8F83}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -56,7 +56,7 @@ public class CommandExecutor : ICommandExecutor
         }
         return new[]
         {
-            new DevGptToolCallResultMessage(commandName, $"User responsed with: {response}")
+            new DevGptToolCallResultMessage(commandName, $"User responded with: {response}")
         };
 
     }

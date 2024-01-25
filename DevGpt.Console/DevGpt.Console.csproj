@@ -14,8 +14,8 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Remove="Prompts\Backend_UnitTestWriter.txt" />
     <None Remove="Prompts\IQTest.txt" />
-    <None Remove="Prompts\UnitTestWriter_Email.txt" />
     <None Remove="Prompts\Vue_Developer.txt" />
     <None Remove="Prompts\Vue_LoanCalculator.txt" />
     <None Remove="Prompts\Web_TesterHypotheken.txt" />
@@ -24,7 +24,7 @@
   <ItemGroup>
     <EmbeddedResource Include="Prompts\Vue_LoanCalculator.txt" />
     <EmbeddedResource Include="Prompts\Web_TesterHypotheken.txt" />
-    <EmbeddedResource Include="Prompts\UnitTestWriter_Email.txt" />
+    <EmbeddedResource Include="Prompts\Backend_UnitTestWriter.txt" />
     <EmbeddedResource Include="Prompts\Vue_Developer.txt" />
     <EmbeddedResource Include="Prompts\IQTest.txt" />
   </ItemGroup>
@@ -34,12 +34,10 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\DevGpt.AzureOpenAI\DevGpt.AzureOpenAI.csproj" />
     <ProjectReference Include="..\DevGpt.Commands.Pdf\DevGpt.Commands.Pdf.csproj" />
     <ProjectReference Include="..\DevGpt.Commands.Web.Selenium\DevGpt.Commands.Web.Selenium.csproj" />
     <ProjectReference Include="..\DevGpt.Commands.Web\DevGpt.Commands.Web.csproj" />
     <ProjectReference Include="..\DevGpt.Commands\DevGpt.Commands.csproj" />
-    <ProjectReference Include="..\DevGpt.Gemini\DevGpt.Gemini.csproj" />
     <ProjectReference Include="..\DevGpt.Models\DevGpt.Models.csproj" />
     <ProjectReference Include="..\DevGpt.OpenAI.RedisCache\DevGpt.OpenAI.RedisCache.csproj" />
     <ProjectReference Include="..\DevGpt.OpenAIDotnet\DevGpt.OpenAIDotnet.csproj" />

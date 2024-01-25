@@ -8,27 +8,26 @@ public class ExecuteShellCommand : ICommand
 {
     private string? outputData;
     private string? errorData;
-    private const int Timeout = 10000;
+    private const int Timeout = 60000;
     public string Execute(params string[] args)
     {
         
         if (args.Length < 1)
         {
-            return $"{Name} requires at 1east 2 argument";
+            return $"{Name} requires at 1east 1 argument";
         }
 
         string arguments = "";
-        if (args.Length >2)
+        if (args.Length >1)
         {
-            arguments = args.Skip(2).Aggregate((a, b) => $"{a} {b}");
+            arguments = args.Skip(1).Aggregate((a, b) => $"{a} {b}");
         }
 
         try
         {
-            var command = args[1];
+            var command = args[0];
             var process = new Process();
             process.StartInfo.FileName = "cmd.exe";
-            process.StartInfo.WorkingDirectory = args[0];
             process.StartInfo.Arguments = $"/c {command} {arguments}";
             process.StartInfo.UseShellExecute = false;
             process.StartInfo.RedirectStandardOutput = true;
@@ -58,5 +57,5 @@ public class ExecuteShellCommand : ICommand
     }
     public string Name => "execute_shell";
     public string Description => "executes a shell command";
-    public string[] Arguments => new[] { "workingdirectory","command","command arguments"};
+    public string[] Arguments => new[] { "command","command arguments"};
 }

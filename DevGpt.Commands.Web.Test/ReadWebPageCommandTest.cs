@@ -17,7 +17,7 @@ namespace DevGpt.Commands.Web.Test
         public async Task ReadWebPageCommand_GetsTheFacts()
         {
             var browser = new PlaywrightBrowser();
-            var magicFunction = new SimpleFunction(new AzureOpenAIClient());
+            var magicFunction = new SimpleFunction(new DotnetOpenAIClient());
             var command = new ReadWebPageCommand(browser, magicFunction);
             var result = await command.ExecuteAsync(new[] { "https://nl.wikipedia.org/wiki/Erwin_Olaf" ,"Get Erwin Olaf facts"});
 

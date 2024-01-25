@@ -23,8 +23,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\DevGpt.AzureOpenAI\DevGpt.AzureOpenAI.csproj" />
     <ProjectReference Include="..\DevGpt.Commands.Web\DevGpt.Commands.Web.csproj" />
+    <ProjectReference Include="..\DevGpt.OpenAIDotnet\DevGpt.OpenAIDotnet.csproj" />
   </ItemGroup>
 
   <ItemGroup>

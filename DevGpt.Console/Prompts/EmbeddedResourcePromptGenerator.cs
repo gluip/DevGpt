@@ -6,7 +6,7 @@ internal class EmbeddedResourcePromptGenerator : PromptGeneratorBase
 
     public EmbeddedResourcePromptGenerator(string embeddedResourceName)
     {
-        _embeddedResourceName = embeddedResourceName;
+        _embeddedResourceName = $"DevGpt.Console.Prompts.{embeddedResourceName}";
     }
 
     public override string GetUserPrompt(string commandsText)

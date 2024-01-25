@@ -14,6 +14,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Remove="Prompts\Backend_MapsProject.txt" />
     <None Remove="Prompts\Backend_UnitTestWriter.txt" />
     <None Remove="Prompts\IQTest.txt" />
     <None Remove="Prompts\Vue_Developer.txt" />
@@ -22,6 +23,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <EmbeddedResource Include="Prompts\Backend_MapsProject.txt" />
     <EmbeddedResource Include="Prompts\Vue_LoanCalculator.txt" />
     <EmbeddedResource Include="Prompts\Web_TesterHypotheken.txt" />
     <EmbeddedResource Include="Prompts\Backend_UnitTestWriter.txt" />

@@ -35,7 +35,7 @@ public class BrowserClickCommand : BrowserCommandBase, IAsyncMessageCommand
                 userMessage
             };
         }
-        catch (TimeoutException e)
+        catch (TimeoutException)
         {
             return new List<DevGptChatMessage>()
             {

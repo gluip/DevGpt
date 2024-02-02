@@ -1,7 +1,7 @@
 ﻿using DevGpt.OpenAI.RedisCache;
 using OpenAI.Chat;
 
-namespace DevGpt.OpenAI;
+namespace DevGpt.OpenAIDotnet;
 
 public class NonCachingDotOpenAiClientWrapper : IDotnetOpenAiClientChatEndpoint
 {

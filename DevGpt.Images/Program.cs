@@ -19,7 +19,7 @@ namespace DevGpt.Images // Note: actual namespace depends on the project name.
             var openAIKey = Environment.GetEnvironmentVariable("DevGpt_OpenAIKey", EnvironmentVariableTarget.User);
 
 
-            var client = new DotnetOpenAIClient(true);
+            var client = new DotnetOpenAIClient(disableFunctionCalling:true);
             //read png from file into bas64 string
             var base64 = Convert.ToBase64String(File.ReadAllBytes("orv.png"));
 

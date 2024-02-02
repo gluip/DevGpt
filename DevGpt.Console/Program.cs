@@ -28,15 +28,10 @@ namespace DevGpt.Console // Note: actual namespace depends on the project name.
 
         static async Task Main(string[] args)
         {
-            //var browser = new PlaywrightBrowser();
             var browser = new SeleniumBrowser();
-            //var client = new RedisCachingAzureOpenAIClient(new DotnetOpenAIClient(), new RedisClient());
-            //var client = new DotnetOpenAIClient();
-            var client = new DotnetOpenAIClient();
-            var imageClient = new DotnetOpenAIClient(true);
-            var simpleFunction = new SimpleFunction(client);
-            var commandPrompt = new CommandPrompt();
-
+            var client = new DotnetOpenAIClient(OpenAiClientType.AzureOpenAI);
+            var imageClient = new DotnetOpenAIClient(disableFunctionCalling:true);
+            
 
             var commands = new List<ICommandBase>
             {
@@ -48,9 +43,7 @@ namespace DevGpt.Console // Note: actual namespace depends on the project name.
                 new ExecuteShellCommand(),
                 new DotnetAddReferenceCommand(),
                 new ReadPdfCommand(),
-                //new AppendFileCommand(),
                 new GoogleSearchCommand(),
-                //new BrowseWebsiteCommand(),
                 new BrowserOpenCommand(browser),
                 new BrowserGetHtmlCommand(browser),
                 new BrowserEnterInputCommand(browser),
@@ -65,13 +58,13 @@ namespace DevGpt.Console // Note: actual namespace depends on the project name.
             var commandExecutor = new CommandExecutor(commands);
 
             System.Console.WriteLine("Hello welcome to DevGpt!");
-            var promptGenerator = new EmbeddedResourcePromptGenerator("Backend_MapsProject.txt");
+            //var promptGenerator = new EmbeddedResourcePromptGenerator("Vue_Developer.txt");
 
 
             //var promptGenerator = new PromptGenerator_VueDesigner();
             //var promptGenerator = new PromptGenerator_Biography();
             //var promptGenerator = new PromptGenerator_UnitTestWriter();
-            //var promptGenerator = new PromptGenerator_Quiz();
+            var promptGenerator = new PromptGenerator_Quiz();
             // var promptGenerator = new PromptGeneratorGeneratorWebTesterORV();
             var fullPrompt = promptGenerator.GetFullPrompt(commands);
 
@@ -83,7 +76,6 @@ namespace DevGpt.Console // Note: actual namespace depends on the project name.
                 var devGptChatResponse = await client.CompletePrompt(chatHandler.GetMessages(), commands);
 
 
-                //TODO : ADD function calls here?
                 chatHandler.AddMessage(devGptChatResponse);
 
                 try

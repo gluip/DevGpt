@@ -11,14 +11,8 @@ internal class EmbeddedResourcePromptGenerator : PromptGeneratorBase
 
     public override string GetUserPrompt(string commandsText)
     {
-        return GetEmbeddedResourceText() + GetGenericPromt();
+        return EmbeddedResourceReader.GetEmbeddedResourceText(_embeddedResourceName) + GetGenericPromt();
     }
 
-    private string GetEmbeddedResourceText()
-    {
-        var embeddedResource = System.Reflection.Assembly.GetExecutingAssembly()
-            .GetManifestResourceStream(_embeddedResourceName);
-        using var reader = new System.IO.StreamReader(embeddedResource);
-        return reader.ReadToEnd();
-    }
+   
 }

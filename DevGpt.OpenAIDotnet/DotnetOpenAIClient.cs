@@ -14,18 +14,26 @@ using OpenAI.Models;
 
 namespace DevGpt.OpenAI
 {
-   
 
+    public enum OpenAiClientType
+    {
+        OpenAI,
+        AzureOpenAI
+    }
     public class DotnetOpenAIClient : IDevGptOpenAIClient
     {
-        public DotnetOpenAIClient(bool disableFunctionCalling= false)
+        public DotnetOpenAIClient(OpenAiClientType clientType = OpenAiClientType.AzureOpenAI,bool disableFunctionCalling= false)
         {
+            _clientType = clientType;
             _disableFunctionCalling = disableFunctionCalling;
         }
 
         private double? totalRunCosts = 0;
         private IDictionary<DevGptChatMessage, Message> messageLookup = new Dictionary<DevGptChatMessage, Message>();
+        private readonly OpenAiClientType _clientType;
         private readonly bool _disableFunctionCalling;
+
+       
 
         public async Task<DevGptChatMessage> CompletePrompt(IList<DevGptChatMessage> allMessages,
             IList<ICommandBase> commands = null)
@@ -68,8 +76,7 @@ namespace DevGpt.OpenAI
 
             var model = allMessages.Any(m => m.Content.Any(c => c.ContentType == DevGptContentType.ImageUrl))
                 ? "gpt-4-vision-preview"
-                : "gpt-4-1106-preview";
-            
+                : "gpt-4-0125-preview";
             var adapters = commands?.Select(c => new FunctionAdapter(c)).ToList();
             IEnumerable<Tool>? tools = adapters?.Select(a => (Tool)a.GetFunction()).ToList();
 
@@ -131,20 +138,20 @@ namespace DevGpt.OpenAI
 
         }
 
-        private static IDotnetOpenAiClientChatEndpoint GetOpenAiClient()
+        private IDotnetOpenAiClientChatEndpoint GetOpenAiClient()
         {
             var useCache = false;
-            var useAzureOpenAi = true;
 
             ChatEndpoint innerChatEndpoint;
-            if (useAzureOpenAi)
+            if (_clientType == OpenAiClientType.AzureOpenAI)
             {
                                 // azure version
                 var azureKey = Environment.GetEnvironmentVariable("DevGpt_AzureKey", EnvironmentVariableTarget.User);
+                var azureOpenAIResource = Environment.GetEnvironmentVariable("DevGpt_AzureResource", EnvironmentVariableTarget.User);
                //var uri = Environment.GetEnvironmentVariable("DevGpt_AzureUri", EnvironmentVariableTarget.User);
 
                 var auth = new OpenAIAuthentication(azureKey);
-                var settings = new OpenAIClientSettings(resourceName: "eastus2vanmartijn", deploymentId: "gpt-4-1106-preview", apiVersion: "2023-07-01-preview");
+                var settings = new OpenAIClientSettings(resourceName: azureOpenAIResource, deploymentId: "gpt-4-1106-preview", apiVersion: "2023-07-01-preview");
 
                 innerChatEndpoint = new OpenAIClient(auth, settings).ChatEndpoint;
             }
@@ -153,10 +160,6 @@ namespace DevGpt.OpenAI
                 var openAIKey = Environment.GetEnvironmentVariable("DevGpt_OpenAIKey", EnvironmentVariableTarget.User);
                 innerChatEndpoint = new OpenAIClient(openAIKey).ChatEndpoint;
             }
-
-           
-            
-            
             
             if (useCache)
             {

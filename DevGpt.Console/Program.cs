@@ -29,7 +29,7 @@ namespace DevGpt.Console // Note: actual namespace depends on the project name.
         static async Task Main(string[] args)
         {
             var browser = new SeleniumBrowser();
-            var client = new DotnetOpenAIClient(OpenAiClientType.OpenAI);
+            var client = new DotnetOpenAIClient();
             var imageClient = new DotnetOpenAIClient(disableFunctionCalling:true);
             
 

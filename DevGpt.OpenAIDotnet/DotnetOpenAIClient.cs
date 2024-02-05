@@ -14,12 +14,6 @@ using OpenAI.Models;
 
 namespace DevGpt.OpenAI
 {
-
-    public enum OpenAiClientType
-    {
-        OpenAI,
-        AzureOpenAI
-    }
     public class DotnetOpenAIClient : IDevGptOpenAIClient
     {
         public DotnetOpenAIClient(OpenAiClientType clientType = OpenAiClientType.AzureOpenAI,bool disableFunctionCalling= false)
@@ -45,8 +39,6 @@ namespace DevGpt.OpenAI
 
 
             var client = GetOpenAiClient();
-            double? temp = 0.5;
-            // ### If streaming is selected
 
             var messages = new List<Message>();
             foreach (var message in allMessages)
@@ -57,7 +49,6 @@ namespace DevGpt.OpenAI
                     var originalCall = messageLookup.Values.Where(c=>c.ToolCalls !=null).SelectMany(c => c.ToolCalls)
                         .FirstOrDefault(m => m.Id == toolMessage.ToolCallId);
 
-                    //var correspondingToolCall = toolMessage.ToolCallMessage.ToolCalls.First(t=>t.Id == toolMessage.ToolCallId);
                     var dotnetToolMessage = (IList<Message>)new[]
                     {
                         new Message( originalCall,message.Content.Select(DotnetChatMessageMapper.Map))
@@ -109,12 +100,12 @@ namespace DevGpt.OpenAI
             if (_disableFunctionCalling)
             {
                 return new ChatRequest(messages
-                    , model: model, temperature: 0.5, maxTokens: 1500);
+                    , model: model, temperature: 0.7, maxTokens: 1500);
             }
 
             return new ChatRequest(messages, tools: tools ?? Enumerable.Empty<Tool>(), toolChoice: "auto"
                 , model:
-                model, temperature: 0.5, maxTokens: 1500, responseFormat: ChatResponseFormat.Json);
+                model, temperature: 0.7, maxTokens: 1500, responseFormat: ChatResponseFormat.Json);
         }
 
         private static IList<DevGptToolCall> GetDevGptToolCalls(ChatResponse completions)
@@ -135,7 +126,6 @@ namespace DevGpt.OpenAI
             var argumentValues = jsonObject.Select(x => x.Value.AsValue().ToString()).ToList();
 
             return new DevGptToolCall(functionName, argumentValues, toolCall.Id);
-
         }
 
         private IDotnetOpenAiClientChatEndpoint GetOpenAiClient()
@@ -145,10 +135,8 @@ namespace DevGpt.OpenAI
             ChatEndpoint innerChatEndpoint;
             if (_clientType == OpenAiClientType.AzureOpenAI)
             {
-                                // azure version
                 var azureKey = Environment.GetEnvironmentVariable("DevGpt_AzureKey", EnvironmentVariableTarget.User);
                 var azureOpenAIResource = Environment.GetEnvironmentVariable("DevGpt_AzureResource", EnvironmentVariableTarget.User);
-               //var uri = Environment.GetEnvironmentVariable("DevGpt_AzureUri", EnvironmentVariableTarget.User);
 
                 var auth = new OpenAIAuthentication(azureKey);
                 var settings = new OpenAIClientSettings(resourceName: azureOpenAIResource, deploymentId: "gpt-4-1106-preview", apiVersion: "2023-07-01-preview");
@@ -168,8 +156,5 @@ namespace DevGpt.OpenAI
 
             return new NonCachingDotOpenAiClientWrapper(innerChatEndpoint);
         }
-
-
-       
     }
 }

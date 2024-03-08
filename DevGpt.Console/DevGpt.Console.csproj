@@ -18,6 +18,7 @@
     <None Remove="Prompts\Backend_UnitTestWriter.txt" />
     <None Remove="Prompts\Generic\MainPrompt.txt" />
     <None Remove="Prompts\IQTest.txt" />
+    <None Remove="Prompts\Quiz_Answers.txt" />
     <None Remove="Prompts\Vue_Developer.txt" />
     <None Remove="Prompts\Vue_LoanCalculator.txt" />
     <None Remove="Prompts\Web_TesterHypotheken.txt" />
@@ -32,6 +33,7 @@
     <EmbeddedResource Include="Prompts\Backend_UnitTestWriter.txt" />
     <EmbeddedResource Include="Prompts\Vue_Developer.txt" />
     <EmbeddedResource Include="Prompts\IQTest.txt" />
+    <EmbeddedResource Include="Prompts\Quiz_Answers.txt" />
     <EmbeddedResource Include="Prompts\Web_TesterORV.txt" />
   </ItemGroup>
 

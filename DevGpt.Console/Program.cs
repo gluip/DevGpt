@@ -29,7 +29,7 @@ namespace DevGpt.Console // Note: actual namespace depends on the project name.
         static async Task Main(string[] args)
         {
             var browser = new SeleniumBrowser();
-            var client = new DotnetOpenAIClient();
+            var client = new DotnetOpenAIClient(OpenAiClientType.OpenAI);
             var imageClient = new DotnetOpenAIClient(disableFunctionCalling:true);
             
 
@@ -43,7 +43,7 @@ namespace DevGpt.Console // Note: actual namespace depends on the project name.
                 new ExecuteShellCommand(),
                 new DotnetAddReferenceCommand(),
                 new ReadPdfCommand(),
-                new GoogleSearchCommand(),
+                //new GoogleSearchCommand(),
                 new BrowserOpenCommand(browser),
                 new BrowserGetHtmlCommand(browser),
                 new BrowserEnterInputCommand(browser),
@@ -58,13 +58,13 @@ namespace DevGpt.Console // Note: actual namespace depends on the project name.
             var commandExecutor = new CommandExecutor(commands);
 
             System.Console.WriteLine("Hello welcome to DevGpt!");
-            //var promptGenerator = new EmbeddedResourcePromptGenerator("Vue_Developer.txt");
+            //var promptGenerator = new EmbeddedResourcePromptGenerator("Web_TesterHypotheken.txt");
 
 
             //var promptGenerator = new PromptGenerator_VueDesigner();
             //var promptGenerator = new PromptGenerator_Biography();
             //var promptGenerator = new PromptGenerator_UnitTestWriter();
-            var promptGenerator = new PromptGenerator_Quiz();
+            var promptGenerator = new EmbeddedResourcePromptGenerator("Quiz_Answers.txt");
             // var promptGenerator = new PromptGeneratorGeneratorWebTesterORV();
             var fullPrompt = promptGenerator.GetFullPrompt(commands);
 

@@ -5,4 +5,4 @@ GOALS:
 1. read the questions in quiz.txt file in the Quiz folder
 2. write the answers to all the questions in a answers.txt file in the Quiz folder
 3. Make sure all answers are correct
-5. Shut down
+4. Shut down

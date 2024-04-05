@@ -23,12 +23,14 @@
     <None Remove="Prompts\Vue_LoanCalculator.txt" />
     <None Remove="Prompts\Web_TesterHypotheken.txt" />
     <None Remove="Prompts\Web_TesterORV.txt" />
+    <None Remove="Prompts\Web_TesterWeekdays.txt" />
   </ItemGroup>
 
   <ItemGroup>
     <EmbeddedResource Include="Prompts\Backend_MapsProject.txt" />
     <EmbeddedResource Include="Prompts\Generic\MainPrompt.txt" />
     <EmbeddedResource Include="Prompts\Vue_LoanCalculator.txt" />
+    <EmbeddedResource Include="Prompts\Web_TesterWeekdays.txt" />
     <EmbeddedResource Include="Prompts\Web_TesterHypotheken.txt" />
     <EmbeddedResource Include="Prompts\Backend_UnitTestWriter.txt" />
     <EmbeddedResource Include="Prompts\Vue_Developer.txt" />

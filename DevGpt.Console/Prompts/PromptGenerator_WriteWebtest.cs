@@ -15,7 +15,7 @@ namespace DevGpt.Console.Prompts
             "You want write a test using xunit and Playwright." +
             "You test should do test the form hosted at https://www.berekenhet.nl/kalender/weekdag-datum.html \r\n" +
             "GOALS:\\n\\n\r\n\r\n" +
-            "0. detemine the functionality of the page" + Environment.NewLine +
+            "0. determine the functionality of the page" + Environment.NewLine +
             "1. create a xunit project called berekenTest\r\n" +
             "2. install playwright nuget  into the project\r\n" +
             "3. check the page and determine the css selectors to use later in the test for both the input fields and the result page\r\n" +

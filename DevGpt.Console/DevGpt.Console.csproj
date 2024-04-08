@@ -19,6 +19,7 @@
     <None Remove="Prompts\Generic\MainPrompt.txt" />
     <None Remove="Prompts\IQTest.txt" />
     <None Remove="Prompts\Quiz_Answers.txt" />
+    <None Remove="Prompts\Simple_Days_UntilXmas.txt" />
     <None Remove="Prompts\Vue_Developer.txt" />
     <None Remove="Prompts\Vue_LoanCalculator.txt" />
     <None Remove="Prompts\Web_TesterHypotheken.txt" />
@@ -29,6 +30,7 @@
   <ItemGroup>
     <EmbeddedResource Include="Prompts\Backend_MapsProject.txt" />
     <EmbeddedResource Include="Prompts\Generic\MainPrompt.txt" />
+    <EmbeddedResource Include="Prompts\Simple_Days_UntilXmas.txt" />
     <EmbeddedResource Include="Prompts\Vue_LoanCalculator.txt" />
     <EmbeddedResource Include="Prompts\Web_TesterWeekdays.txt" />
     <EmbeddedResource Include="Prompts\Web_TesterHypotheken.txt" />
@@ -44,6 +46,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\DevGpt.Anthropic\DevGpt.Anthropic.csproj" />
     <ProjectReference Include="..\DevGpt.Commands.Pdf\DevGpt.Commands.Pdf.csproj" />
     <ProjectReference Include="..\DevGpt.Commands.Web.Selenium\DevGpt.Commands.Web.Selenium.csproj" />
     <ProjectReference Include="..\DevGpt.Commands.Web\DevGpt.Commands.Web.csproj" />

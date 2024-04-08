@@ -1,6 +1,7 @@
 ﻿// See https://aka.ms/new-console-template for more information
 
 using System.Text.Json;
+using DevGpt.Anthropic;
 using DevGpt.Commands;
 using DevGpt.Commands.Commands;
 using DevGpt.Commands.Magic;
@@ -29,7 +30,8 @@ namespace DevGpt.Console // Note: actual namespace depends on the project name.
         static async Task Main(string[] args)
         {
             var browser = new SeleniumBrowser();
-            var client = new DotnetOpenAIClient(OpenAiClientType.OpenAI);
+            //var client = new DotnetOpenAIClient(OpenAiClientType.OpenAI);
+            var client = new AnthropicDevGptClient();
             var imageClient = new DotnetOpenAIClient(disableFunctionCalling:true);
             
 
@@ -64,7 +66,7 @@ namespace DevGpt.Console // Note: actual namespace depends on the project name.
             //var promptGenerator = new PromptGenerator_VueDesigner();
             //var promptGenerator = new PromptGenerator_Biography();
             //var promptGenerator = new PromptGenerator_UnitTestWriter();
-            var promptGenerator = new EmbeddedResourcePromptGenerator("Web_TesterWeekdays.txt");
+            var promptGenerator = new EmbeddedResourcePromptGenerator("Simple_Days_UntilXmas.txt");
             // var promptGenerator = new PromptGeneratorGeneratorWebTesterORV();
             //var promptGenerator = new PromptGeneratorGeneratorWriteWebTest();
             var fullPrompt = promptGenerator.GetFullPrompt(commands);

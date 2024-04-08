@@ -90,7 +90,7 @@ public class DevGptChatMessage
         ToolCalls = devGptToolCalls;
     }
 
-    public IList<DevGptToolCall> ToolCalls { get; set; }
+    public IList<DevGptToolCall> ToolCalls { get; set; } = new List<DevGptToolCall>();
 
     public DevGptChatRole Role { get; set; }
     public IList<DevGptContent> Content { get; }

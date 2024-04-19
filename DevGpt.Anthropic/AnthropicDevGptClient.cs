@@ -7,24 +7,21 @@ using DevGpt.Models.OpenAI;
 
 namespace DevGpt.Anthropic
 {
-    public class FiddlerHttpClientFactory : IHttpClientFactory
-    {
-        public HttpClient CreateClient(string name)
-        {
-            return new HttpClient(new HttpClientHandler()
-            {
-                Proxy = new WebProxy("http://127.0.0.1:8888"),
-            });
-        }
-    }
+ 
     public class AnthropicDevGptClient : IDevGptOpenAIClient
     {
         private readonly AnthropicClient _client;
 
         public AnthropicDevGptClient()
         {
-            _client = new AnthropicClient();
-            _client.HttpClientFactory = new FiddlerHttpClientFactory();
+            _client = new AnthropicClient
+            {
+                HttpClient = new HttpClient(new HttpClientHandler()
+                {
+                    Proxy = new WebProxy("http://127.0.0.1:8888")
+                })
+            };
+            //_client.HttpClientFactory = new FiddlerHttpClientFactory();
         }
 
         public async Task<DevGptChatMessage> CompletePrompt(IList<DevGptChatMessage> allMessages, IList<ICommandBase> commands = null)
@@ -46,15 +43,15 @@ namespace DevGpt.Anthropic
                 Temperature = 1.0m,
             });
 
-            var devGptToolCalls = res.Content.Where(c=>c.Type == ContentType.tool_use).Select(MapToDevGptToolCall).ToList();
-            var messageContent = res.Content.FirstOrDefault(c=>c.Type == ContentType.text)?.Text;
+            var devGptToolCalls = res.Content.Where(c=>c.Type == ContentType.tool_use).Select(c=>MapToDevGptToolCall(c as ToolUseContent)).ToList();
+            var messageContent = (res.Content.FirstOrDefault(c=>c .Type == ContentType.text) as TextContent)?.Text;
             return new DevGptChatMessage(DevGptChatRole.Assistant, messageContent,devGptToolCalls);
 
         }
 
-        private DevGptToolCall MapToDevGptToolCall(ContentRespone arg)
+        private DevGptToolCall MapToDevGptToolCall(ToolUseContent arg)
         {
-            return new DevGptToolCall(arg.Name, arg.Input.Values.ToList(), arg.Id);
+            return new DevGptToolCall(arg.Name, arg.Input.Values.Select(v=>v as string).ToList(), arg.Id);
         }
     }
 
@@ -103,7 +100,7 @@ namespace DevGpt.Anthropic
                             Id = c.ToolCallId,
                             Name = c.ToolName,
                             //TODO figure out
-                            Input = new Dictionary<string, string>()//c.Arguments
+                            Input = new Dictionary<string, dynamic>()//c.Arguments
                         }).First()
                     } ,
                     Role = RoleType.Assistant
@@ -130,16 +127,16 @@ namespace DevGpt.Anthropic
             var tool = new Tool
             {
                 Name = command.Name,
-                Arguments = new InputSchema(),
+                InputSchema = new InputSchema(),
                 Description = command.Description,
             };
 
             if (command.Arguments.Any())
             {
-                tool.Arguments.required = command.Arguments;
-                tool.Arguments.properties = command.Arguments.ToDictionary(a => a.Replace(" ","_").Replace(".","_"), a => new Property
+                tool.InputSchema.Required  = command.Arguments;
+                tool.InputSchema.Properties = command.Arguments.ToDictionary(a => a.Replace(" ","_").Replace(".","_"), a => new Property
                 {
-                    type = "string", description = a
+                    Type = "string", Description = a
                 });
             }
 

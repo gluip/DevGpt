@@ -114,7 +114,7 @@ public class DevGptChatMessage
 public class DevGptToolCall
 {
     //TODO: remove this OpenAI Dotnet reference
-    public DevGptToolCall(string toolName, IList<string> arguments, string toolCallId)
+    public DevGptToolCall(string toolName, List<string?> arguments, string toolCallId)
     {
         ToolName = toolName;
         Arguments = arguments;

@@ -39,7 +39,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DevGpt.Anthropic", "DevGpt.
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DevGpt.Anthropic.Test", "DevGpt.Anthropic.Test\DevGpt.Anthropic.Test.csproj", "{0E027849-FBE5-4B72-A828-7975C55D9C16}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Anthropic.SDK", "..\Anthropic.SDK\Anthropic.SDK\Anthropic.SDK.csproj", "{CE22497E-AEBC-47AA-97D0-900151F8DCB2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Anthropic.SDK", "..\AntropicOriginal\Anthropic.SDK\Anthropic.SDK.csproj", "{20357F5C-DE40-4F6D-BDC2-999E766F0918}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -119,10 +119,10 @@ Global
 		{0E027849-FBE5-4B72-A828-7975C55D9C16}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0E027849-FBE5-4B72-A828-7975C55D9C16}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0E027849-FBE5-4B72-A828-7975C55D9C16}.Release|Any CPU.Build.0 = Release|Any CPU
-		{CE22497E-AEBC-47AA-97D0-900151F8DCB2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{CE22497E-AEBC-47AA-97D0-900151F8DCB2}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{CE22497E-AEBC-47AA-97D0-900151F8DCB2}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{CE22497E-AEBC-47AA-97D0-900151F8DCB2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{20357F5C-DE40-4F6D-BDC2-999E766F0918}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{20357F5C-DE40-4F6D-BDC2-999E766F0918}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{20357F5C-DE40-4F6D-BDC2-999E766F0918}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{20357F5C-DE40-4F6D-BDC2-999E766F0918}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

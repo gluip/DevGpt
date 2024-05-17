@@ -30,7 +30,7 @@ namespace DevGpt.Console // Note: actual namespace depends on the project name.
         {
             var browser = new SeleniumBrowser();
             var client = new DotnetOpenAIClient(OpenAiClientType.OpenAI);
-            var imageClient = new DotnetOpenAIClient(disableFunctionCalling:true);
+            //var imageClient = new DotnetOpenAIClient(disableFunctionCalling:true);
             
 
             var commands = new List<ICommandBase>
@@ -49,7 +49,7 @@ namespace DevGpt.Console // Note: actual namespace depends on the project name.
                 new BrowserEnterInputCommand(browser),
                 new BrowserClickCommand(browser),
                 new BrowserTakeScreenshotCommand(browser),
-                new ImageQuestionCommand(imageClient),
+                new ImageQuestionCommand(client),
                 //new ReadWebPageCommand(browser,simpleFunction),
                 //new ReadWebPageHtmlCommand(browser,simpleFunction)
             };
@@ -64,7 +64,7 @@ namespace DevGpt.Console // Note: actual namespace depends on the project name.
             //var promptGenerator = new PromptGenerator_VueDesigner();
             //var promptGenerator = new PromptGenerator_Biography();
             //var promptGenerator = new PromptGenerator_UnitTestWriter();
-            var promptGenerator = new EmbeddedResourcePromptGenerator("Web_TesterWeekdays.txt");
+            var promptGenerator = new EmbeddedResourcePromptGenerator("Web_TesterORV.txt");
             // var promptGenerator = new PromptGeneratorGeneratorWebTesterORV();
             //var promptGenerator = new PromptGeneratorGeneratorWriteWebTest();
             var fullPrompt = promptGenerator.GetFullPrompt(commands);

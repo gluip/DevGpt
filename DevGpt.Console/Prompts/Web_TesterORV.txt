@@ -18,3 +18,4 @@ payment period: month
 4. verify the premium is E15.75
 NOTE: use very specific selectors to find the elements to access elements.
 NOTE: always click on the text next to radio buttons to make a radio button selection.
+NOTE: do not execute multiple tools calls at once

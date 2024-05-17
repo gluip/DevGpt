@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.Design;
+using System.Net;
 using System.Net.Http.Json;
 using System.Text.Json.Nodes;
 using System.Text.Json.Serialization;
@@ -11,6 +12,7 @@ using DevGpt.OpenAIDotnet;
 using OpenAI;
 using OpenAI.Chat;
 using OpenAI.Models;
+using HttpClientHandler = System.Net.Http.HttpClientHandler;
 
 namespace DevGpt.OpenAI
 {
@@ -65,9 +67,10 @@ namespace DevGpt.OpenAI
                 }
             }
 
-            var model = allMessages.Any(m => m.Content.Any(c => c.ContentType == DevGptContentType.ImageUrl))
-                ? "gpt-4-vision-preview"
-                : "gpt-4-1106-preview";
+            var model = "gpt-4o";
+            //var model = allMessages.Any(m => m.Content.Any(c => c.ContentType == DevGptContentType.ImageUrl))
+            //    ? "gpt-4-vision-preview"
+            //    : "gpt-4-1106-preview";
             var adapters = commands?.Select(c => new FunctionAdapter(c)).ToList();
             IEnumerable<Tool>? tools = adapters?.Select(a => (Tool)a.GetFunction()).ToList();
 
@@ -146,7 +149,12 @@ namespace DevGpt.OpenAI
             else
             {
                 var openAIKey = Environment.GetEnvironmentVariable("DevGpt_OpenAIKey", EnvironmentVariableTarget.User);
-                innerChatEndpoint = new OpenAIClient(openAIKey).ChatEndpoint;
+                var openAiClient = new OpenAIClient(openAIKey,null,new HttpClient(new HttpClientHandler
+                {
+                    Proxy = new WebProxy(new Uri("http://127.0.0.1:8888"))
+                }));
+                
+                innerChatEndpoint = openAiClient.ChatEndpoint;
             }
             
             if (useCache)

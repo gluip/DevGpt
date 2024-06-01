@@ -65,9 +65,7 @@ namespace DevGpt.OpenAI
                 }
             }
 
-            var model = allMessages.Any(m => m.Content.Any(c => c.ContentType == DevGptContentType.ImageUrl))
-                ? "gpt-4-vision-preview"
-                : "gpt-4-1106-preview";
+            var model = "gpt-4o";
             var adapters = commands?.Select(c => new FunctionAdapter(c)).ToList();
             IEnumerable<Tool>? tools = adapters?.Select(a => (Tool)a.GetFunction()).ToList();
 

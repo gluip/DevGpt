@@ -4,6 +4,8 @@ using DevGpt.Commands.Web.Services;
 using DevGpt.Models.OpenAI;
 using DevGpt.Models.Utils;
 using Microsoft.Playwright;
+using SixLabors.ImageSharp;
+using SixLabors.ImageSharp.Processing;
 using static System.Net.Mime.MediaTypeNames;
 using IBrowser = DevGpt.Models.Browser.IBrowser;
 

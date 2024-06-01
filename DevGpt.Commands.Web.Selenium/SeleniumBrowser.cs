@@ -1,15 +1,10 @@
 ﻿using DevGpt.Models.Browser;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
-using System;
-using System.Reflection;
-using System.Threading.Tasks;
 using DevGpt.Commands.Web.Services;
 using DevGpt.Models.Utils;
-using OpenQA.Selenium.DevTools;
-using OpenQA.Selenium.DevTools.V120.Network;
-using OpenQA.Selenium.Support.UI;
-using SeleniumExtras.WaitHelpers;
+using OpenQA.Selenium.DevTools.V125;
+using OpenQA.Selenium.DevTools.V125.Network;
 using WebDriverManager.DriverConfigs.Impl;
 using WebDriverManager;
 
@@ -46,7 +41,7 @@ namespace DevGpt.Commands.Web.Selenium
         private async Task ConfigureBlockedUrls()
         {
             var devTools = _driver.GetDevToolsSession();
-            var domains = devTools.GetVersionSpecificDomains<OpenQA.Selenium.DevTools.V120.DevToolsSessionDomains>();
+            var domains = devTools.GetVersionSpecificDomains<DevToolsSessionDomains>();
             await domains.Network.Enable(new EnableCommandSettings());
             
             var blockedURLs = BrowserHelper.GetBlockedUrls().Select(url => $"{url}*").ToArray();

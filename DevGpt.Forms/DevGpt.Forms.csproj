@@ -1,0 +1,26 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net8.0-windows</TargetFramework>
+    <Nullable>enable</Nullable>
+    <UseWindowsForms>true</UseWindowsForms>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="MainPrompt.txt" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="MainPrompt.txt" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\DevGpt.Commands.Windows\DevGpt.Commands.Windows.csproj" />
+    <ProjectReference Include="..\DevGpt.Commands\DevGpt.Commands.csproj" />
+    <ProjectReference Include="..\DevGpt.Models\DevGpt.Models.csproj" />
+    <ProjectReference Include="..\DevGpt.OpenAIDotnet\DevGpt.OpenAIDotnet.csproj" />
+  </ItemGroup>
+
+</Project>

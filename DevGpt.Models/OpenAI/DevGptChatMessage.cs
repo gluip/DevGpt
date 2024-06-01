@@ -45,6 +45,7 @@ public class DevGptContextMessage : DevGptChatMessage
     {
         ContextKey = contextKey;
         Role = DevGptChatRole.ContextMessage;
+        IsContext = true;
     }
 }
 

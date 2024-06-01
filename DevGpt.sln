@@ -35,6 +35,10 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DevGpt.Commands.Web.Seleniu
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DevGpt.Commands.Web.Selenium.Test", "DevGpt.Commands.Web.Selenium.Test\DevGpt.Commands.Web.Selenium.Test.csproj", "{AEC2C47D-41F7-4BBD-BC7C-6923ABF9C2D0}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DevGpt.Forms", "DevGpt.Forms\DevGpt.Forms.csproj", "{36E0A293-7C1B-423E-A31C-9B295E55EE19}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DevGpt.Commands.Windows", "DevGpt.Commands.Windows\DevGpt.Commands.Windows.csproj", "{85B01355-37E2-4558-B649-CF1A4BE23E30}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -105,6 +109,14 @@ Global
 		{AEC2C47D-41F7-4BBD-BC7C-6923ABF9C2D0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{AEC2C47D-41F7-4BBD-BC7C-6923ABF9C2D0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{AEC2C47D-41F7-4BBD-BC7C-6923ABF9C2D0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{36E0A293-7C1B-423E-A31C-9B295E55EE19}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{36E0A293-7C1B-423E-A31C-9B295E55EE19}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{36E0A293-7C1B-423E-A31C-9B295E55EE19}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{36E0A293-7C1B-423E-A31C-9B295E55EE19}.Release|Any CPU.Build.0 = Release|Any CPU
+		{85B01355-37E2-4558-B649-CF1A4BE23E30}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{85B01355-37E2-4558-B649-CF1A4BE23E30}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{85B01355-37E2-4558-B649-CF1A4BE23E30}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{85B01355-37E2-4558-B649-CF1A4BE23E30}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

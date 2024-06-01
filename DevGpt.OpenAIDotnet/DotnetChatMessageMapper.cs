@@ -31,6 +31,7 @@ public class DotnetChatMessageMapper
         return messageRole == DevGptChatRole.Assistant ? Role.Assistant :
             messageRole == DevGptChatRole.User ? Role.User : 
             messageRole == DevGptChatRole.Tool? Role.Tool :
+            messageRole == DevGptChatRole.ContextMessage ? Role.User:
             Role.System;
     }
 }

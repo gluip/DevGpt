@@ -40,24 +40,27 @@ public class CommandExecutor : ICommandExecutor
     public async Task<IEnumerable<DevGptChatMessage>> Execute(string commandName, string[] args)
 
     {
-        DevConsole.WriteLine($"Do you want to execute {commandName} ? (y/n)");
-        var response = System.Console.ReadLine().ToLower();
-        if (response == "y")
-        {
-            return await DoExecute(commandName,
-                args);
-        }
-        if (response == "n")
-        {
-            return new[]
-            {
-                new DevGptToolCallResultMessage(commandName, "User refused to execute command. Please try something else")
-            };
-        }
-        return new[]
-        {
-            new DevGptToolCallResultMessage(commandName, $"User responded with: {response}")
-        };
+
+        return await DoExecute(commandName,
+            args);
+        //DevConsole.WriteLine($"Do you want to execute {commandName} ? (y/n)");
+        //var response = System.Console.ReadLine().ToLower();
+        //if (response == "y")
+        //{
+        //    return await DoExecute(commandName,
+        //        args);
+        //}
+        //if (response == "n")
+        //{
+        //    return new[]
+        //    {
+        //        new DevGptToolCallResultMessage(commandName, "User refused to execute command. Please try something else")
+        //    };
+        //}
+        //return new[]
+        //{
+        //    new DevGptToolCallResultMessage(commandName, $"User responded with: {response}")
+        //};
 
     }
 

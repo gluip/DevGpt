@@ -1,4 +1,6 @@
-﻿namespace DevGpt.Console.Prompts;
+﻿using DevGpt.Models;
+
+namespace DevGpt.Console.Prompts;
 
 internal class EmbeddedResourcePromptGenerator : PromptGeneratorBase
 {

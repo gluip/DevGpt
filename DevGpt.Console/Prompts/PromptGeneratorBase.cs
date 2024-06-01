@@ -1,4 +1,5 @@
-﻿using DevGpt.Models.Commands;
+﻿using DevGpt.Models;
+using DevGpt.Models.Commands;
 
 namespace DevGpt.Console.Prompts;
 

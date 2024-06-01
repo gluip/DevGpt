@@ -1,6 +1,7 @@
 ﻿using System.ComponentModel.Design;
 using System.Net;
 using System.Net.Http.Json;
+using System.Text.Json;
 using System.Text.Json.Nodes;
 using System.Text.Json.Serialization;
 using System.Transactions;
@@ -73,6 +74,9 @@ namespace DevGpt.OpenAI
             //    : "gpt-4-1106-preview";
             var adapters = commands?.Select(c => new FunctionAdapter(c)).ToList();
             IEnumerable<Tool>? tools = adapters?.Select(a => (Tool)a.GetFunction()).ToList();
+
+
+            File.WriteAllText($"C:\\devgpt\\logs\\messages\\chat-{DateTime.Now.ToString("HH-mm-ss")}.json", JsonSerializer.Serialize(messages));
 
             var chatRequest = CreateChatRequest(tools, messages, model);
 
@@ -151,7 +155,7 @@ namespace DevGpt.OpenAI
                 var openAIKey = Environment.GetEnvironmentVariable("DevGpt_OpenAIKey", EnvironmentVariableTarget.User);
                 var openAiClient = new OpenAIClient(openAIKey,null,new HttpClient(new HttpClientHandler
                 {
-                    Proxy = new WebProxy(new Uri("http://127.0.0.1:8888"))
+                    //Proxy = new WebProxy(new Uri("http://127.0.0.1:8888"))
                 }));
                 
                 innerChatEndpoint = openAiClient.ChatEndpoint;

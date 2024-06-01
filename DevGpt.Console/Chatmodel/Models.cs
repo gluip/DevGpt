@@ -38,7 +38,7 @@ namespace DevGpt.Console.Chatmodel
         {
             public string text { get; set; }
             public string reasoning { get; set; }
-            public string plan { get; set; }
+            public dynamic plan { get; set; }
             public string criticism { get; set; }
             public string speak { get; set; }
         }

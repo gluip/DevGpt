@@ -31,7 +31,7 @@ namespace DevGpt.Console // Note: actual namespace depends on the project name.
             var browser = new SeleniumBrowser();
             var client = new DotnetOpenAIClient(OpenAiClientType.OpenAI);
             var imageClient = new DotnetOpenAIClient(disableFunctionCalling:true);
-            
+            var simpleFunction =new SimpleFunction(client);
 
             var commands = new List<ICommandBase>
             {
@@ -43,15 +43,15 @@ namespace DevGpt.Console // Note: actual namespace depends on the project name.
                 new ExecuteShellCommand(),
                 new DotnetAddReferenceCommand(),
                 new ReadPdfCommand(),
-                //new GoogleSearchCommand(),
-                new BrowserOpenCommand(browser),
-                new BrowserGetHtmlCommand(browser),
-                new BrowserEnterInputCommand(browser),
-                new BrowserClickCommand(browser),
-                new BrowserTakeScreenshotCommand(browser),
-                new ImageQuestionCommand(imageClient),
+                new GoogleSearchCommand(),
+                //new BrowserOpenCommand(browser),
+                //new BrowserGetHtmlCommand(browser),
+                //new BrowserEnterInputCommand(browser),
+                //new BrowserClickCommand(browser),
+                //new BrowserTakeScreenshotCommand(browser),
+                //new ImageQuestionCommand(imageClient),
                 //new ReadWebPageCommand(browser,simpleFunction),
-                //new ReadWebPageHtmlCommand(browser,simpleFunction)
+                new ReadWebPageHtmlCommand(browser,simpleFunction)
             };
 
             var chatHandler = new ChatHandler();
@@ -64,7 +64,7 @@ namespace DevGpt.Console // Note: actual namespace depends on the project name.
             //var promptGenerator = new PromptGenerator_VueDesigner();
             //var promptGenerator = new PromptGenerator_Biography();
             //var promptGenerator = new PromptGenerator_UnitTestWriter();
-            var promptGenerator = new EmbeddedResourcePromptGenerator("Web_TesterWeekdays.txt");
+            var promptGenerator = new EmbeddedResourcePromptGenerator("Stock_Analyst.txt");
             // var promptGenerator = new PromptGeneratorGeneratorWebTesterORV();
             //var promptGenerator = new PromptGeneratorGeneratorWriteWebTest();
             var fullPrompt = promptGenerator.GetFullPrompt(commands);

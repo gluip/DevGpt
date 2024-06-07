@@ -109,8 +109,8 @@ public class PlaywrightBrowser : IBrowser,IDisposable
         bytes = ResizeImage(bytes, 0.5);
 
         return Convert.ToBase64String(bytes);
-
     }
+
     public async Task<string> TakeScreenshot()
     {
         var bytes = await _page.ScreenshotAsync(new()

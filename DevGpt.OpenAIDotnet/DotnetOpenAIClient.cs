@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.Design;
+using System.Net;
 using System.Net.Http.Json;
 using System.Text.Json.Nodes;
 using System.Text.Json.Serialization;
@@ -95,7 +96,7 @@ namespace DevGpt.OpenAI
 
         private ChatRequest CreateChatRequest(IEnumerable<Tool>? tools, List<Message> messages, string model)
         {
-            if (_disableFunctionCalling)
+            if (_disableFunctionCalling || tools == null || !tools.Any())
             {
                 return new ChatRequest(messages
                     , model: model, temperature: 0.7, maxTokens: 1500);
@@ -144,7 +145,10 @@ namespace DevGpt.OpenAI
             else
             {
                 var openAIKey = Environment.GetEnvironmentVariable("DevGpt_OpenAIKey", EnvironmentVariableTarget.User);
-                innerChatEndpoint = new OpenAIClient(openAIKey).ChatEndpoint;
+                innerChatEndpoint = new OpenAIClient(openAIKey,null,new HttpClient(new HttpClientHandler
+                {
+                    Proxy = new WebProxy("http://127.0.0.1:8888")
+                })).ChatEndpoint;
             }
             
             if (useCache)

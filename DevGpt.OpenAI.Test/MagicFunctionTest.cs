@@ -1,4 +1,5 @@
 using System.Reflection;
+using DevGpt.Commands.Magic;
 using DevGpt.Models.Magic;
 
 
@@ -6,6 +7,18 @@ namespace DevGpt.OpenAI.Test
 {
     public class MagicFunctionTest
     {
+        [Fact]
+        public async Task SimpleFunctionTest()
+        {
+            var client = new DotnetOpenAIClient();
+
+            var magicFunction = new SimpleFunction(client);
+            var result = await magicFunction.GetResults("What is the capital of France?", "France is a country in Europe");
+
+            Assert.Equal("Paris", result);
+        }
+        
+
         [Fact]
         public async Task MagicFunctions_CanGeneratePrimeNumbers()
         {

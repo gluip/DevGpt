@@ -51,7 +51,7 @@ namespace DevGpt.Console // Note: actual namespace depends on the project name.
                 new BrowserTakeScreenshotCommand(browser),
                 //new ImageQuestionCommand(imageClient),
                 //new ReadWebPageCommand(browser,simpleFunction),
-                new ReadWebPageHtmlCommand(browser,simpleFunction)
+                //new ReadWebPageHtmlCommand(browser,simpleFunction)
             };
 
             var chatHandler = new ChatHandler();

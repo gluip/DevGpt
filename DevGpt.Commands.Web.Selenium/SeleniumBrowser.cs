@@ -7,6 +7,7 @@ using OpenQA.Selenium.DevTools.V125;
 using OpenQA.Selenium.DevTools.V125.Network;
 using WebDriverManager.DriverConfigs.Impl;
 using WebDriverManager;
+using System.Text.RegularExpressions;
 
 namespace DevGpt.Commands.Web.Selenium
 {
@@ -68,16 +69,40 @@ namespace DevGpt.Commands.Web.Selenium
 
         public async Task FillAsync(string selector, string value)
         {
-            var element = _driver.FindElement(GetVisibleLocator(selector));
+            var convertIdToAttributeSelector = ConvertIdToAttributeSelector(selector);
+
+            var element = _driver.FindElement(GetVisibleLocator(convertIdToAttributeSelector));
             element.Clear();
             element.SendKeys(value);
             await Task.CompletedTask;
         }
 
+        public static string ConvertIdToAttributeSelector(string css)
+        {
+            // Regular expression pattern to match ID selectors
+            string pattern = @"#(\d[\w-]*)";
+
+            // Replacement pattern to convert to attribute selector
+            string replacement = @"[id=""$1""]";
+
+            // Perform the replacement
+            string convertedCss = Regex.Replace(css, pattern, replacement);
+
+            return convertedCss;
+        }
+
+       
+
         public async Task ClickAsync(string selector)
         {
+            // if the selector contains a # following a number make sure we escape the number with a \3
+
+            var escapedSelector = ConvertIdToAttributeSelector(selector);
+
+
+
             //modify locator so only data-visible elements are selected
-            var locator = GetVisibleLocator(selector);
+            var locator = GetVisibleLocator(escapedSelector);
 
             var element = _driver.FindElement(locator);
             element.Click();

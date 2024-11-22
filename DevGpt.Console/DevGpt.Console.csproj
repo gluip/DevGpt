@@ -19,9 +19,11 @@
     <None Remove="Prompts\Generic\MainPrompt.txt" />
     <None Remove="Prompts\IQTest.txt" />
     <None Remove="Prompts\Quiz_Answers.txt" />
+    <None Remove="Prompts\Stock_Analyst Download.txt" />
     <None Remove="Prompts\Stock_Analyst.txt" />
     <None Remove="Prompts\Vue_Developer.txt" />
     <None Remove="Prompts\Vue_LoanCalculator.txt" />
+    <None Remove="Prompts\WCAG_Headers.txt" />
     <None Remove="Prompts\Web_TesterHypotheken.txt" />
     <None Remove="Prompts\Web_TesterORV.txt" />
     <None Remove="Prompts\Web_TesterWeekdays.txt" />
@@ -30,8 +32,10 @@
   <ItemGroup>
     <EmbeddedResource Include="Prompts\Backend_MapsProject.txt" />
     <EmbeddedResource Include="Prompts\Generic\MainPrompt.txt" />
+    <EmbeddedResource Include="Prompts\Stock_Analyst Download.txt" />
     <EmbeddedResource Include="Prompts\Stock_Analyst.txt" />
     <EmbeddedResource Include="Prompts\Vue_LoanCalculator.txt" />
+    <EmbeddedResource Include="Prompts\WCAG_Headers.txt" />
     <EmbeddedResource Include="Prompts\Web_TesterWeekdays.txt" />
     <EmbeddedResource Include="Prompts\Web_TesterHypotheken.txt" />
     <EmbeddedResource Include="Prompts\Backend_UnitTestWriter.txt" />

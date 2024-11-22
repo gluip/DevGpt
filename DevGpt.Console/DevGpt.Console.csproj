@@ -50,6 +50,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\DevGpt.Command.WritePdf\DevGpt.Command.WritePdf.csproj" />
     <ProjectReference Include="..\DevGpt.Commands.Pdf\DevGpt.Commands.Pdf.csproj" />
     <ProjectReference Include="..\DevGpt.Commands.Web.Selenium\DevGpt.Commands.Web.Selenium.csproj" />
     <ProjectReference Include="..\DevGpt.Commands.Web\DevGpt.Commands.Web.csproj" />

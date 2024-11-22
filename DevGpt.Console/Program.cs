@@ -1,6 +1,7 @@
 ﻿// See https://aka.ms/new-console-template for more information
 
 using System.Text.Json;
+using DevGpt.Command.WritePdf;
 using DevGpt.Commands;
 using DevGpt.Commands.Commands;
 using DevGpt.Commands.Magic;
@@ -49,6 +50,7 @@ namespace DevGpt.Console // Note: actual namespace depends on the project name.
                 new BrowserEnterInputCommand(browser),
                 new BrowserClickCommand(browser),
                 new BrowserTakeScreenshotCommand(browser),
+                new WritePdfFromMarkDownCommand()
                 //new ImageQuestionCommand(imageClient),
                 //new ReadWebPageCommand(browser,simpleFunction),
                 //new ReadWebPageHtmlCommand(browser,simpleFunction)

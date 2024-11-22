@@ -35,6 +35,10 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DevGpt.Commands.Web.Seleniu
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DevGpt.Commands.Web.Selenium.Test", "DevGpt.Commands.Web.Selenium.Test\DevGpt.Commands.Web.Selenium.Test.csproj", "{AEC2C47D-41F7-4BBD-BC7C-6923ABF9C2D0}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DevGpt.Command.WritePdf", "DevGpt.Command.WritePdf\DevGpt.Command.WritePdf.csproj", "{FE1A5107-315F-466E-86EF-88274D4CDB96}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DevGpt.Command.WritePdf.Test", "DevGpt.Command.WritePdf.Test\DevGpt.Command.WritePdf.Test.csproj", "{86E836E0-B57D-4E9D-AB47-CDAEEF100C98}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -105,6 +109,14 @@ Global
 		{AEC2C47D-41F7-4BBD-BC7C-6923ABF9C2D0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{AEC2C47D-41F7-4BBD-BC7C-6923ABF9C2D0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{AEC2C47D-41F7-4BBD-BC7C-6923ABF9C2D0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FE1A5107-315F-466E-86EF-88274D4CDB96}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FE1A5107-315F-466E-86EF-88274D4CDB96}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FE1A5107-315F-466E-86EF-88274D4CDB96}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FE1A5107-315F-466E-86EF-88274D4CDB96}.Release|Any CPU.Build.0 = Release|Any CPU
+		{86E836E0-B57D-4E9D-AB47-CDAEEF100C98}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{86E836E0-B57D-4E9D-AB47-CDAEEF100C98}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{86E836E0-B57D-4E9D-AB47-CDAEEF100C98}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{86E836E0-B57D-4E9D-AB47-CDAEEF100C98}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

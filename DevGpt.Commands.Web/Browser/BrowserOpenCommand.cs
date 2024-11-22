@@ -41,7 +41,7 @@ public class BrowserOpenCommand : BrowserCommandBase, IAsyncMessageCommand
         {
             return new[]
             {
-                new DevGptChatMessage(DevGptChatRole.User, $"{Name} failed with the following error: {ex.Message}")
+                new DevGptToolCallResultMessage(Name, $"{Name} failed with the following error: {ex.Message}")
             };
         }
     }
